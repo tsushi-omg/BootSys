@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <title>BootSys</title>
+</head>
+<body>
+  <!-- 左：メニュー -->
+  <div class="menu">
+    <div class="menu-header">
+      <input type="text" placeholder="プロジェクト名..." id="PNameBox" autocomplete="off" spellcheck="off"/>
+    </div>
+    <div class="menu-items" id="menuItemsContainer">
+      <!-- <button>ダッシュボード</button>
+      <button>リソース</button>
+      <button>ワーク</button>
+      <button>設定</button> -->
+    </div>
+  </div>
+
+    <!-- 独立：ログ -->
+    <div class="log-area">
+        <label for="appLog" style="cursor: pointer;" onclick="toggleLogsVisible()">ログ</label>
+        <textarea id="appLog" class="log-textarea" readonly hidden></textarea>
+    </div>
+
+
+  <!-- 右：ワーク -->
+  <div class="work">
+    <div class="tabs" id="tabContainer">
+      <!-- <button class="active">タブ1</button>
+      <button>タブ2</button>
+      <button>タブ3</button> -->
+    </div>
+    <div class="tab-content">
+      <!-- <div id="tab1" class="tab-panel active">
+        <h2>タブ1の内容</h2>
+        <p>ここにタブ1のコンテンツが表示されます。</p>
+      </div>
+      <div id="tab2" class="tab-panel">
+        <h2>タブ2の内容</h2>
+        <p>ここにタブ2のコンテンツが表示されます。</p>
+      </div>
+      <div id="tab3" class="tab-panel">
+        <h2>タブ3の内容</h2>
+        <p>ここにタブ3のコンテンツが表示されます。</p>
+      </div> -->
+
+        <!-- プログラム階層 start--------------------------------------------------------------------------------------------------------------->
+        <div id="MASTER_PGCATEGORY_PANEL" class="tab-panel">
+            <h2 class="page-title">プログラム階層</h2>
+
+            <!-- 階層数 -->
+            <div class="form-section like-card-white">
+                <label for="level-count">階層数</label>
+                <input type="number" id="level-count" min="0" max="5" value="2" class="small-input">
+            </div>
+
+            <!-- 階層名入力 -->
+            <div class="form-section like-card-white" id="kaiso-register-formWrpper">
+                <label>階層登録</label>
+                <div class="level-inputs" id="kaiso-register-form">
+
+
+                    <!-- <div class="level-row">
+                        <input type="text" placeholder="階層1 名称" class="medium-input">
+                        <button class="mini-btn">登録</button>
+                    </div>
+
+                    <div class="level-row">
+                        <select class="medium-input">
+                            <option value="1">（階層1選択）</option>
+                            <option value="2">会計業務</option>
+                            <option value="3">経費管理</option>
+                        </select>
+                        <input type="text" placeholder="階層2 名称" class="medium-input">
+                        <button class="mini-btn">登録</button>
+                    </div>
+
+                    <div class="level-row">
+                        <select class="medium-input">
+                            <option value="1">（階層1選択）</option>
+                            <option value="2">会計業務</option>
+                            <option value="3">経費管理</option>
+                        </select>
+                        <select class="medium-input">
+                            <option value="1">（階層2選択）</option>
+                            <option value="2">決済業務</option>
+                            <option value="3">管理帳票</option>
+                        </select>
+                        <input type="text" placeholder="階層3 名称" class="medium-input">
+                        <button class="mini-btn">登録</button>
+                    </div> -->
+
+                    
+                </div>
+            </div>
+
+            <div class="like-card-white"  id="kaiso-table-formWrpper">
+                <!-- 階層選択ドロップダウン -->
+                <div class="form-section">
+                    <label>階層照会</label>
+                    <select class="medium-input">
+                    <option value="1">階層1</option>
+                    <option value="2">階層2</option>
+                    <option value="3">階層3</option>
+                    </select>
+                </div>
+
+                <!-- 照会・編集テーブル -->
+                <div class="pg-category-table-wrapper"  id="kaiso-table-form">
+                    <table class="pg-category-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%">No</th>
+                                <th style="width: 80%">階層名称</th>
+                                <th style="width: 10%">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" value="1"></td>
+                                <td><input type="text" value="支出予算"></td>
+                                <td>
+                                    <!-- <button class="medium-button-green">停止</button> -->
+                                    <button class="medium-button-red" style="width:100%">削除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" value="2"></td>
+                                <td><input type="text" value="会計業務"></td>
+                                <td>
+                                    <!-- <button class="medium-button-green">停止</button> -->
+                                    <button class="medium-button-red" style="width:100%">削除</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- プログラム情報 start--------------------------------------------------------------------------------------------------------------->
+        <div id="MASTER_PGINFO_PANEL" class="tab-panel">
+            <h2 class="page-title">プログラム情報</h2>
+            <!-- 登録フォーム -->
+            <div class="pg-info-form like-card-white">
+                <h3 class="page-title">PG登録</h3>
+                <div id="pg-info-kaiso-container">
+                <!-- <div class="form-row" style="width: 30%;">
+                    <label>階層1</label>
+                    <select class="medium-input">
+                        <option>選択してください</option>
+                        <option>会計業務</option>
+                        <option>経費管理</option>
+                    </select>
+                </div>
+                <div class="form-row" style="width: 30%;">
+                    <label>階層2</label>
+                    <select class="medium-input">
+                        <option>選択してください</option>
+                        <option>決済業務</option>
+                        <option>管理帳票</option>
+                    </select>
+                </div>
+                <div class="form-row" style="width: 30%;">
+                    <label>階層3</label>
+                    <select class="medium-input">
+                        <option>選択してください</option>
+                    </select>
+                </div> -->
+                </div>
+                <div class="form-row" style="width: 30%;">
+                    <label>PG名称</label>
+                    <input type="text" placeholder="プログラム名を入力" id="name-input-pginfo" autocomplete="off">
+                </div>
+                <div class="form-row" style="width: 30%;">
+                    <label>PGID</label>
+                    <input type="text" placeholder="PGIDを入力" id="id-input-pginfo" autocomplete="off">
+                </div>
+                <div class="form-row" style="width: 50%;">
+                    <label>備考</label>
+                    <input type="text" placeholder="備考を入力" id="remark-input-pginfo" autocomplete="off">
+                    <button class="mini-btn" id="register-button-pginfo">登録</button>
+                </div>
+                <!-- <div class="form-row">
+                    <button class="mini-btn">登録</button>
+                </div> -->
+            </div>
+
+            <!-- 照会テーブル -->
+            <div class="like-card-white">
+                <h3 class="page-title">PG照会</h3>
+                <div class="pg-info-table-wrapper">
+                <table class="pg-info-table">
+                    <thead>
+                    <tr>
+                        <th style="width:5%;">No</th>
+                        <th style="width:15%;">階層1</th>
+                        <th style="width:15%;">階層2</th>
+                        <th style="width:15%;">階層3</th>
+                        <th style="width:16%;">PG名称</th>
+                        <th style="width:12%;">PGID</th>
+                        <th style="width:17%;">備考</th>
+                        <th style="width:5%;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <select class="medium-input">
+                                <option>選択してください</option>
+                                <option>会計業務</option>
+                                <option>経費管理</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="medium-input">
+                                <option>選択してください</option>
+                                <option>決済業務</option>
+                                <option>管理帳票</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="medium-input">
+                                <option>選択してください</option>
+                            </select>
+                        </td>
+                        <td><input type="text" value="仕訳入力"></td>
+                        <td><input type="text" value="PG001"></td>
+                        <td><input type="text" value="サンプル備考"></td>
+                        <td><button class="medium-button-red" style="width:100%">削除</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 作業カテゴリ start --------------------------------------------------------------------------------------------------------------->
+        <div id="MASTER_WORKCATEGORY_PANEL" class="tab-panel">
+            <h2 class="page-title">作業カテゴリ</h2>
+
+            <!-- 登録フォーム -->
+            <div class="task-category-form like-card-white">
+                <h3 class="page-title">カテゴリ登録</h3>
+                <div class="form-row" style="width: 30%;">
+                    <label>カテゴリ名</label>
+                    <input type="text" placeholder="カテゴリ名を入力" id="workCategpryNameBox">
+                    <button class="mini-btn" id="insWorkCategoryButton">登録</button>
+                </div>
+                <!-- <div class="form-row" style="width: 50%;">
+                    <label>説明</label>
+                    <input type="text" placeholder="説明を入力">
+                    <button class="mini-btn">登録</button>
+                </div> -->
+            </div>
+
+            <!-- 照会テーブル -->
+            <div class="like-card-white">
+                <h3 class="page-title">カテゴリ照会</h3>
+                <div class="task-category-table-wrapper" id="task-category-table-wrapper">
+                    <table class="task-category-table">
+                        <thead>
+                            <tr>
+                                <th style="width:10%;">No</th>
+                                <th style="width:80%;">カテゴリ名</th>
+                                <th style="width:10%;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="workCategory-table-tbody">
+                            <!-- <tr>
+                                <td>1</td>
+                                <td><input type="text" value="開発"></td>
+                                <td><button class="medium-button-red" style="width:100%">削除</button></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><input type="text" value="テスト"></td>
+                                <td><button class="medium-button-red" style="width:100%">削除</button></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- タグ管理 start --------------------------------------------------------------------------------------------------------------->
+        <div id="MASTER_TAGMANAGER_PANEL" class="tab-panel">
+            <h2 class="page-title">タグ管理</h2>
+
+            <!-- 登録フォーム -->
+            <div class="tag-form like-card-white">
+                <h3 class="page-title">タグ登録</h3>
+                <div class="form-row" style="width: 30%;">
+                    <label style="width: 20px;">#</label>
+                    <input type="text" placeholder="タグ名を入力" id="tagNameBox" autocomplete="off">
+                    <button class="mini-btn" id="insTagButton">登録</button>
+                </div>
+            </div>
+
+            <!-- 照会テーブル -->
+            <div class="like-card-white">
+                <h3 class="page-title">タグ一覧</h3>
+                <div class="tag-table-wrapper" id="tag-table-wrapper">
+                    <table class="tag-table">
+                        <thead>
+                            <tr>
+                                <th style="width:10%;">No</th>
+                                <th style="width:80%;">タグ名</th>
+                                <th style="width:10%;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tag-table-tbody">
+                            <!-- <tr>
+                                <td>1</td>
+                                <td>
+                                    <input type="text" value="#開発">
+                                </td>
+                                <td><button class="medium-button-red" style="width:100%">削除</button></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <input type="text" value="#テスト">
+                                </td>
+                                <td><button class="medium-button-red" style="width:100%">削除</button></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- タスク管理 start --------------------------------------------------------------------------------------------------------------->  
+        <div id="WORK_TASK_PANEL" class="tab-panel">
+            <h2 class="page-title">タスク管理</h2>
+
+            <!-- 登録フォーム -->
+            <div class="task-category-form like-card-white">
+                <h3 class="page-title" style="cursor: pointer;" onclick="toggleVisible_TaskManager()">タスク登録</h3>
+                <div id="register-form-taskManager">
+                    <div class="form-row" style="width: 20%;">
+                        <label>追加日</label>
+                        <input type="date" id="added_date_taskManager">
+                    </div>
+                    <div class="form-row" style="width: 20%;">
+                        <label>作業カテゴリ</label>
+                        <select class="medium-input" id="work_category_select_taskManager">
+                            <!-- <option>新規</option>
+                            <option>改修</option> -->
+                        </select>
+                    </div>
+                    <div class="form-row" style="width: 40%;">
+                        <label>対象PG</label>
+                        <input type="text" placeholder="PG情報" style="background-color: rgb(211, 213, 219);" id="pgInfo_input_taskManager"readonly>
+                        <input type="hidden" id="pgid_hidden_taskManager"hidden>
+                        <button class="mini-btn" style="margin-left: 0;" id="refButton_viewr_taskManager">ビューアーを参照</button>
+                        <button class="mini-btn" style="margin-left: 0;" id="clearButton_pginfo_taskManager">クリア</button>
+                    </div>
+                    <div class="form-row" style="width: 50%;">
+                        <label>内容</label>
+                        <input type="text" placeholder="内容を入力" id="content_input_taskManager" autocomplete="off">
+                    </div>
+                    <div class="form-row" style="width: 24%;">
+                        <label>期日</label>
+                        <input type="date" id="due_date_taskManager"><button class="mini-btn" style="margin-left: 0;" id="register_button_taskManager">登録</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 照会テーブル -->
+            <div class="like-card-white" style="height: 40vh;" id="table-container-task-manager">
+                <h3 class="page-title">タスク一覧</h3>
+                <div class="task-category-table-wrapper" style="width: 100% !important; max-height: 85%;" id="task-Manager-table-wrapper">
+                    <table class="task-category-table" style="width: 100% !important;">
+                        <thead>
+                            <tr>
+                                <th style="width:4%;" rowspan="2" id="sample-th-taskManager">No</th>
+                                <th style="width:7%;">追加日</th>
+                                <th style="width:38%;">進捗</th>
+                                <th style="width:39%;">期日</th>
+                                <th style="width:5%;">実績工数</th>
+                                <th style="width:7%;">完了日</th>
+                            </tr>
+                            <tr id="second-th-row-taskManager">
+                                <!-- <th style="width:4%;"></th> -->
+                                <th style="width:7%;">作業カテゴリ</th>
+                                <th style="width:38%;">対象PG</th>
+                                <th style="width:39%;">内容</th>
+                                <th style="width:5%;">作業メモ </th>
+                                <th style="width:7%;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody_taskTable">
+                            <!-- <tr>
+                                <td>1</td>
+                                <td><input type="date" value="2025-09-03"></td>
+                                <td>
+                                    <select class="medium-input">
+                                        <option>新規</option>
+                                        <option>改修</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="medium-input">
+                                        <option>会計業務</option>
+                                        <option>経費管理</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="medium-input">
+                                        <option>決済業務</option>
+                                        <option>管理帳票</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" value="仕訳入力"></td>
+                                <td><input type="text" value="PG001"></td>
+                                <td><input type="text" value="サンプルタスク内容"></td>
+                                <td><input type="date" value="2025-09-10"></td>
+                                <td><button class="medium-button-red" style="width:100%">削除</button></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PGビューアー start --------------------------------------------------------------------------------------------------------------->  
+        <div id="WORK_PGVIEWR_PANEL" class="tab-panel">
+            <h2 class="page-title">PGビューアー</h2>
+            <div class="pg-viewer-menu like-card-white" style="height: 70vh;">
+                <div id="pg-viewer-tree" style="height: 99%; overflow: auto; width: 35%;"></div>
+            </div>
+        </div>
+
+        <!-- 設定 start --------------------------------------------------------------------------------------------------------------->  
+        <div id="MASTER_SETTING_PANEL" class="tab-panel">
+            <h2 class="page-title">設定</h2>
+            <!-- ** -->
+            <div class="like-card-white setting-form">
+                <h3 class="page-title" style="user-select: none;">データ</h3>
+                <!-- ** -->
+                <table style="width: 100%; user-select: none;">
+                    <thead class="form-row">
+                        <th style="width: 17%;"></th>
+                        <th style="width: auto;"></th>
+                    </thead>
+                    <tbody>
+                        <tr class="form-row">
+                            <td><label>JSONファイル読込</label></td>
+                            <td><input type="file" id="JSONReader" accept=".json" class="mini-btn" style="min-width: 300px;"></td>
+                        </tr>
+                        <tr class="form-row">
+                            <td><label>JSONファイルダウンロード</label></td>
+                            <td><button class="mini-btn" onclick="downLoadJSON()">ダウンロード</button></td>
+                        </tr>
+                        <tr class="form-row">
+                            <td><label for="localStorageToggle">ローカルストレージ使用</label></td>
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox" id="localStorageToggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- ** -->
+            </div>
+            <!-- * -->
+        </div>
+
+
+
+
+        
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    Init();
+  </script>
+</body>
+</html>

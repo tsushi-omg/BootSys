@@ -1,0 +1,783 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    height: 100vh;
+    display: flex;
+}
+
+/* 共通スタイル */
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none; /* デフォルトの青枠を消す */
+    /* border-color: #2c3e50;  */
+    box-shadow: 0 0 4px #d7dcec(44, 62, 80, 0.4); /* 柔らかい影 */
+    background-color: #e7edff; /* ほんのり明るく */
+}
+
+button{
+  user-select: none;
+}
+
+
+.flex{
+    display: flex;
+}
+
+
+/* 左：メニューエリア */
+.menu {
+    width: 250px;
+    background-color: #2c3e50;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-header {
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #1a252f;
+    border-bottom: 1px solid #444;
+}
+
+.menu-header input {
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 4px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #fff;
+}
+
+.menu-items {
+    flex: 1;
+    padding: 10px;
+}
+
+.menu-items button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    background: #34495e;
+    color: #fff;
+    cursor: pointer;
+    text-align: left;
+}
+
+.menu-items button:hover {
+    background: #3d566e;
+}
+
+/* 右：ワークエリア */
+.work {
+    flex: 1;
+    padding: 0;
+    background-color: #ecf0f1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* タブエリア */
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #ccc;
+    background: #fff;
+}
+
+.tabs button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: #f4f4f4;
+    cursor: pointer;
+    font-weight: bold;
+    max-width: 170px;
+    user-select: none;
+}
+
+.tabs button.active {
+    background: #fff;
+    border-bottom: 2px solid #2c3e50;
+    color: #2c3e50;
+}
+
+/* コンテンツエリア */
+.tab-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+
+.iconButton {
+    display: flex;
+    align-items: center; /* 垂直中央 */
+    gap: 4px;           /* テキストとアイコンの間隔 */
+}
+
+.iconButton span {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.iconButton svg {
+    width: 16px;  /* サイズを明示 */
+    height: 16px;
+}
+
+.tabCloseButton {
+    margin-left: 8px;        /* テキストとの間隔 */
+    background: transparent; /* 背景なし */
+    border: none;            /* 枠なし */
+    cursor: pointer;         /* ホバーでカーソル変化 */
+    font-size: 14px;         /* アイコンサイズ */
+    color: #666;             /* 初期色 */
+    line-height: 1;          /* 高さを詰める */
+    user-select: none;
+}
+
+.tabCloseButton:hover {
+    color: #e74c3c;          /* ホバー時は赤系 */
+}
+
+
+.medium-button-green {
+    width: 50px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: rgb(90, 192, 90);
+    color: white;
+    cursor: pointer;
+}
+.medium-button-green:hover {
+    background-color: rgb(56, 214, 56);
+}
+.medium-button-red {
+    width: 50px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: rgb(224, 24, 24);
+    color: white;
+    cursor: pointer;
+}
+.medium-button-red:hover {
+    background-color: rgb(255, 28, 28);
+}
+
+.midashi-label{
+    border-bottom: 3px solid #85a0bb;
+    width: 20%;
+    /* color: rgb(15, 110, 206)!important; */
+    font-weight: bold !important;
+}
+
+.like-card-white {
+    background-color: #fff;          /* 白ベース */
+    border: 1px solid #ddd;          /* 薄い境界線 */
+    border-radius: 8px;              /* 角丸 */
+    padding: 16px;                   /* 内側余白 */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* 軽い影 */
+}
+
+
+/* ログエリア */
+.log-area {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #1a252f;        /* ダーク基調 */
+  border-top: 2px solid #2c3e50;
+  padding: 6px 10px;
+  z-index: 50;
+}
+
+/* ログラベル */
+.log-area label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ecf0f1;
+  margin-bottom: 4px;
+}
+
+/* ログ用テキストエリア */
+.log-textarea {
+  width: 100%;
+  height: 90px;              /* 高さは調整可能 */
+  resize: none;              /* ユーザーによるサイズ変更不可 */
+  background: #000 !important;
+  /* color: #0f0;                */
+  color: rgb(245, 248, 255);               /* グリーン文字でログ感 */
+  font-family: monospace;    /* ログっぽい等幅フォント */
+  font-size: 13px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 6px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* Firefox 用 */
+* {
+  scrollbar-width: thin;              /* 細め */
+  scrollbar-color: #888 #f1f1f1;      /* つまみ色 背景色 */
+}
+
+/* Chrome, Edge, Safari 用 */
+*::-webkit-scrollbar {
+  width: 8px;                         /* 縦スクロールバーの幅 */
+  height: 8px;                        /* 横スクロールバーの高さ */
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f1f1;                /* トラック背景 */
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #888;                   /* スクロールつまみ */
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #555;                   /* ホバー時 */
+}
+
+/* modal */
+.modal{
+  position: absolute;
+  top: 0vh;
+  left: 0vw;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+
+
+/* プログラム分類 ******************************************************/
+.page-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  user-select: none;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+.form-section label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #2c3e50;
+}
+
+/* 入力サイズ調整 */
+.small-input {
+  width: 80px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.medium-input {
+  width: 200px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* 階層名入力ボックスの行 */
+.level-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.level-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ミニボタン */
+.mini-btn {
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.mini-btn:hover {
+  background: #34495e;
+}
+
+/* テーブル */
+.pg-category-table-wrapper{
+    max-height: 40vh;
+    overflow-y: auto;
+    width: 41%;
+}
+.pg-category-table {
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 14px;
+}
+
+.pg-category-table th {
+  background: #2c3e50;
+  color: #fff;
+  padding: 8px;
+  text-align: left;
+  z-index: 2;
+  position: sticky;
+  top: 0;
+}
+
+.pg-category-table td input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+
+.pg-category-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.pg-category-table tr:hover {
+  /* background: #eaf2f8; */
+}
+
+/* 操作ボタン */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.action-buttons .primary {
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.action-buttons .secondary {
+  background: #bdc3c7;
+  color: #2c3e50;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.action-buttons .danger {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+/* プログラム分類 end ******************************************************/
+
+
+
+
+/* プログラム情報 ******************************************************/
+.pg-info-form {
+  margin-bottom: 20px;
+}
+
+.pg-info-form .form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.pg-info-form label {
+  min-width: 100px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.pg-info-form input,
+.pg-info-form select,
+.pg-info-form textarea {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+}
+
+.pg-info-form textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.pg-info-form .mini-btn {
+  margin-left: auto;
+}
+
+/* テーブル */
+.pg-info-table-wrapper {
+  max-height: 40vh;
+  overflow-y: auto;
+  width: 85%;
+}
+
+.pg-info-table {
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 14px;
+  width: 100%;
+}
+
+.pg-info-table th {
+  background: #2c3e50;
+  color: #fff;
+  padding: 8px;
+  text-align: left;
+  z-index: 2;
+  position: sticky;
+  top: 0;
+}
+
+.pg-info-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+.pg-info-table td input,
+.pg-info-table td select,
+.pg-info-table td textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.pg-info-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.pg-info-table tr:hover {
+  /* background: #eaf2f8; */
+}
+/* プログラム情報 end ******************************************************/
+
+
+/* 作業カテゴリ ******************************************************/
+.task-category-form {
+  margin-bottom: 20px;
+}
+
+.task-category-form .form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.task-category-form label {
+  min-width: 100px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.task-category-form input,
+.task-category-form select,
+.task-category-form textarea {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+}
+
+.task-category-form textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.task-category-form .mini-btn {
+  margin-left: auto;
+}
+
+/* テーブル */
+.task-category-table-wrapper {
+  max-height: 40vh;
+  overflow-y: auto;
+  width: 35%;
+}
+
+.task-category-table {
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 14px;
+  width: 100%;
+}
+
+.task-category-table th {
+  background: #2c3e50;
+  color: #fff;
+  padding: 8px;
+  text-align: left;
+  z-index: 2;
+  position: sticky;
+  top: 0;
+}
+
+.task-category-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+.task-category-table td input,
+.task-category-table td select,
+.task-category-table td textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.task-category-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.task-category-table tr:hover {
+  /* background: #eaf2f8; */
+}
+/* 作業カテゴリ end ******************************************************/
+
+
+/* タグ管理 ******************************************************/
+.tag-form {
+  margin-bottom: 20px;
+}
+
+.tag-form .form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tag-form label {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.tag-form input,
+.tag-form select,
+.tag-form textarea {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+}
+
+.tag-form textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.tag-form .mini-btn {
+  margin-left: auto;
+}
+
+/* テーブル */
+.tag-table-wrapper {
+  max-height: 40vh;
+  overflow-y: auto;
+  width: 35%;
+}
+
+.tag-table {
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 14px;
+  width: 100%;
+}
+
+.tag-table th {
+  background: #2c3e50;
+  color: #fff;
+  padding: 8px;
+  text-align: left;
+  z-index: 2;
+  position: sticky;
+  top: 0;
+}
+
+.tag-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tag-table td input,
+.tag-table td select,
+.tag-table td textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.tag-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.tag-table tr:hover {
+  /* background: #eaf2f8; */
+}
+/* タグ管理 end ******************************************************/
+
+/* 設定  ********************************************************************* */
+/* トグルスイッチ ******************************************************/
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 22px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 22px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2c3e50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+
+
+/* pg viewer *******************************************************************/
+.pgviewer-kaisofolder{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    background: #546e88;
+    color: #fff;
+    cursor: pointer;
+    text-align: left;
+    border-left: #b0bac7 solid 5px;
+    border-radius: 2px;
+}
+
+.pgviewer-kaisofolder:hover {
+    background: #6b87a3;
+}
+
+.pgviewer-kaisofolder-container{
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-left: #1a252f solid 1px;
+  border-color: rgb(205, 211, 218);
+}
+
+.pgviewer-pgelement {
+    width: 100%;
+    background-color: #6f87a5; /* 階層より少し明るめ */
+    color: white;
+    padding: 6px 10px;
+    margin: 2px 0 2px 0px; /* 階層より少し右に寄せる */
+    border-radius: 2px;
+    border: none;
+    font-weight: normal;
+    cursor: pointer;
+    text-align: left;
+}
+.pgviewer-pgelement:hover {
+    background: #809cbe;
+}
+
+.setting-form {
+  margin-bottom: 20px;
+}
+
+.settingform .form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.setting-form label {
+  /* min-width: 100px; */
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.setting-form select,
+.setting-form textarea {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+}
+
+
+
