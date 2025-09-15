@@ -15,6 +15,9 @@ const MASTER_TAGMANAGER = "MASTER_TAGMANAGER";      // タグ管理
 const MASTER_TOOLMANAGER = "MASTER_TOOLMANAGER";    // ツール管理
 const MASTER_SETTING = "MASTER_SETTING";            // 設定
 
+// 開発用
+let debug = false;
+// debug = true;
 
 //tmp
 // Ctrl+S を押したらコピー
@@ -618,8 +621,9 @@ function toggleVisible_TaskManager(){
     }
 }
 
-//終了時に確認
+// 終了時に確認
 window.addEventListener('beforeunload', function(event) {
+    if(!debug)
     event.preventDefault(); // デフォルト動作を防ぐ（必須）
     event.returnValue = ""; // これを設定しないと動かない（固定メッセージ）
 });
@@ -684,7 +688,7 @@ function bootEvents(){
 function Init(){
 
     // 開発用
-    // mainData = mainData_TEST;
+    if(debug) mainData = mainData_TEST;
 
     // メニューソース（２階層まで。別メニューの名前がまるごと入るのはNG。名前をキーにindexOf検索してフォーカスしているため）
     menuData = 
@@ -1721,6 +1725,7 @@ function bootSys_WORK_TASK(isFirst){
                             const input = createDOM("input");
                             input.type = "date";
                             input.value = obj["dueDate"];
+                            input.style.width = "40%";
                             if(!(index%2==0)) input.style.backgroundColor = "#e7edff";
                             td.appendChild(input)
                             {
@@ -1796,7 +1801,7 @@ function bootSys_WORK_TASK(isFirst){
                         }
                         // 対象PG
                         case 3:{
-                            td.textContent = obj["pgInfo"];
+                            td.textContent = obj["pgInfo"] ? obj["pgInfo"] : "ー";
                             break;
                         }
                         // 内容
