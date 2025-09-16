@@ -19,6 +19,13 @@ button{
   user-select: none;
 }
 
+.hoverStyle{}
+
+.hoverStyle:hover {
+    box-shadow: 0 0 4px #d7dcec(44, 62, 80, 0.4); /* 柔らかい影 */
+    background-color: #e7edff; /* ほんのり明るく */
+}
+
 
 .flex{
     display: flex;

@@ -17,7 +17,7 @@ const MASTER_SETTING = "MASTER_SETTING";            // 設定
 
 // 開発用
 let debug = false;
-// debug = true;
+debug = true;
 
 //tmp
 // Ctrl+S を押したらコピー
@@ -47,10 +47,10 @@ var mainData_TEST =
           "pgObjId": "BkoEifYZCmVGTPCCLlXo",
           "content": "特になし",
           "dueDate": "2025-09-15",
-          "progress":0,
-          "actHours":0,
-          "compDate":"",
-          "memos":[],
+          "progress": "64",
+          "actHours": 0,
+          "compDate": "",
+          "memos": []
         },
         {
           "id": "k1Aowp15tM0gm8CJsqao",
@@ -60,10 +60,10 @@ var mainData_TEST =
           "pgObjId": "tI05ExkjNKA8wG7tHGVJ",
           "content": "DSIMPができないバグ対応",
           "dueDate": "2025-09-17",
-          "progress":0,
-          "actHours":0,
-          "compDate":"",
-          "memos":[],
+          "progress": 0,
+          "actHours": 0,
+          "compDate": "",
+          "memos": []
         },
         {
           "id": "VVxKmT3JQhjJD10ZJpMc",
@@ -73,10 +73,10 @@ var mainData_TEST =
           "pgObjId": "BkoEifYZCmVGTPCCLlXo",
           "content": "テスト仕様書以下パスにあり",
           "dueDate": "2025-09-15",
-          "progress":0,
-          "actHours":0,
-          "compDate":"",
-          "memos":[],
+          "progress": 0,
+          "actHours": 0,
+          "compDate": "",
+          "memos": []
         },
         {
           "id": "M56ADBZa581Z0Azp8ibe",
@@ -86,10 +86,10 @@ var mainData_TEST =
           "pgObjId": "1UmD7NQoAAXzHATnOQ6N",
           "content": "色々と曖昧",
           "dueDate": "2025-09-15",
-          "progress":0,
-          "actHours":0,
-          "compDate":"",
-          "memos":[],
+          "progress": 0,
+          "actHours": 0,
+          "compDate": "",
+          "memos": []
         }
       ]
     }
@@ -230,6 +230,62 @@ var mainData_TEST =
           "name": "入札データ取込",
           "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
           "remark": ""
+        },
+        {
+          "id": "rAewwnOpDUQRIjVPxk7D",
+          "pgid": "1",
+          "name": "1",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "K9AfnNjBO9Yq0JIoIZDf",
+          "pgid": "2",
+          "name": "2",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "y9WzlaXF12ScrykwLDMy",
+          "pgid": "3",
+          "name": "3",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "sHFwpZhxPnM3yS1zvDzD",
+          "pgid": "4",
+          "name": "4",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "9AmYduBU1gZsWEIrYiHe",
+          "pgid": "5",
+          "name": "5",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "m4PgC8Yy5M6edzs4uYYK",
+          "pgid": "6",
+          "name": "6",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "bMGf5GJ8bGvbu4jCRWXg",
+          "pgid": "7",
+          "name": "7",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "dyAdbzDQ4ODnVAIortvp",
+          "pgid": "8",
+          "name": "8",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
         }
       ],
       "MASTER_WORKCATEGORY": [
@@ -260,7 +316,6 @@ var mainData_TEST =
     }
   ]
 }
-
 
 //#region パブリック変数
 
@@ -1705,6 +1760,7 @@ function bootSys_WORK_TASK(isFirst){
                             const range = createDOM("input");
                             const label = createDOM("label");
                             range.type = "range";
+                            range.style.width = "50%";
                             range.min = "0";
                             range.max = "100";
                             range.value = obj["progress"];
@@ -1826,6 +1882,10 @@ function bootSys_WORK_TASK(isFirst){
                             button.textContent = "開く";
                             button.classList.add("mini-btn");
                             td.appendChild(button);
+                            button.addEventListener("click", function(){
+                                // 作業メモ画面を開く
+                                bootSub_taskMemos(obj["id"]);
+                            })
                             break;
                         }
                         // 操作
@@ -2041,7 +2101,10 @@ function bootSub_refViewer(targetDOM, hiddenIDInput = null){
         subWindow.style.top = "5vh";
         subWindow.style.left = "30vw";
         subWindow.style.height = "85vh";
+        subWindow.style.maxHeight = "85vh";
         subWindow.style.width = "40vw";
+        container.style.maxHeight = "90%";
+        container.style.overflowY = "auto";
     }
     title.textContent = "ビューアー参照";
     title.classList.add("page-title")
@@ -2193,6 +2256,57 @@ function bootSub_refViewer(targetDOM, hiddenIDInput = null){
 
 
 }
+
+
+// #region サブ：タスクメモ（param：タスクID）
+function bootSub_taskMemos(taskObjID){
+    // create **
+    const modal = createDOM("div");
+    const subWindow = createDOM("div");
+    const container = createDOM("div");
+    const title = createDOM("h1");
+
+    // prop
+    modal.style.zIndex = 100;
+    subWindow.style.zIndex = 120;
+    container.style.zIndex = 120;
+    modal.classList.add("modal");
+    subWindow.classList.add("like-card-white");
+    {
+        subWindow.style.position="absolute";
+        subWindow.style.top = "5vh";
+        subWindow.style.left = "10vw";
+        subWindow.style.height = "85vh";
+        subWindow.style.maxHeight = "85vh";
+        subWindow.style.width = "80vw";
+        container.style.maxHeight = "90%";
+        container.style.overflowY = "auto";
+    }
+    title.textContent = "作業メモ";
+    title.classList.add("page-title")
+
+    // append
+    subWindow.appendChild(title);
+    subWindow.appendChild(container);
+    document.body.appendChild(modal);
+    document.body.appendChild(subWindow);
+
+    // event
+    modal.addEventListener("click", function(e){
+        end();
+    })
+
+    // end
+    function end(){
+        subWindow.remove();
+        modal.remove();
+    }
+
+    // clone for work
+    var cloneRepo_kaiso = mainData.WORK[0].WORK_TASK;
+
+}
+
 
 // region 作業カテゴリセレクト作成　※select返却
 function createDOM_workCategory(){
