@@ -644,7 +644,7 @@ JSONReader.addEventListener("change", function(event){
         const json = JSON.parse(e.target.result);
         if(confirm("現在の編集を破棄して、JSONデータを読み込みますか？")){
             mainData = json;
-            Init();
+            // Init();
             alert("データの読み込みが完了しました")
             log("JSONデータの読み込みに成功しました")
         }else{
@@ -2326,3 +2326,4 @@ function createDOM_workCategory(){
     return select;
 
 }
+
