@@ -336,6 +336,7 @@ var mainData =
                 //     "progress":"",
                 //     "actHours":"",
                 //     "compDate":"",
+                //     "memos":[ {id, title, value}, {}],
                 // }
             ],
         }
@@ -2260,6 +2261,10 @@ function bootSub_refViewer(targetDOM, hiddenIDInput = null){
 
 // #region サブ：タスクメモ（param：タスクID）
 function bootSub_taskMemos(taskObjID){
+
+    // clone for work
+    var cloneRepo = mainData.WORK[0].WORK_TASK;
+
     // create **
     const modal = createDOM("div");
     const subWindow = createDOM("div");
@@ -2282,7 +2287,7 @@ function bootSub_taskMemos(taskObjID){
         container.style.maxHeight = "90%";
         container.style.overflowY = "auto";
     }
-    title.textContent = "作業メモ";
+    title.textContent = `作業メモ [${cloneRepo.find(a => a.id == taskObjID)["pgInfo"]}]`;
     title.classList.add("page-title")
 
     // append
@@ -2302,8 +2307,96 @@ function bootSub_taskMemos(taskObjID){
         modal.remove();
     }
 
-    // clone for work
-    var cloneRepo_kaiso = mainData.WORK[0].WORK_TASK;
+    // データを基にメモ画面再構築
+    function resetView(){
+        const table = createDOM("table");
+        const thead = createDOM("thead");
+        const tbody = createDOM("tbody");
+        table.style.width = "90%";
+        table.style.height = "90%";
+        {
+            // ２列
+            const theadTr = createDOM("tr");
+            const thTmp = createDOM("th");
+            const thTmp2 = createDOM("th");
+            theadTr.appendChild(thTmp);
+            theadTr.appendChild(thTmp2);
+        }
+        let index = 1;
+        let tr;
+        log(cloneRepo.find(a => a.id == taskObjID)["memos"].length)
+        for(let target of cloneRepo.find(a => a.id == taskObjID)["memos"]){
+            // td
+            if(index%2 == 1){
+                tr = createDOM("tr")
+                tbody.appendChild(tr);
+            }
+            const td = createDOM("td");
+            const div_input = createDOM("div");
+            const input = createDOM("input");
+            const div_textarea = createDOM("div");
+            const textarea = createDOM("textarea");
+            {
+                // props
+                input.type = "text";
+                input.value = target.title;
+                input.style.border = "1px solid #ccc";
+                input.style.padding = "6px";
+                input.style.borderRadius = "4px";
+                input.placeholder = "タイトル...";
+                textarea.value = target.memoText;
+                textarea.style.width = "30vw";
+                textarea.style.height = "30vh";
+                // textarea.style.resize = "vertical";
+                textarea.style.resize = "none";
+                textarea.classList.add("like-card-white");
+
+                // event
+                input.addEventListener("change", function(){
+                    target.title = this.value;
+                })
+                textarea.addEventListener("change", function(){
+                    target.memoText = this.value;
+                })
+            }
+            div_input.appendChild(input);
+            div_textarea.appendChild(textarea);
+            td.appendChild(div_input);
+            td.appendChild(div_textarea);
+            tr.appendChild(td);
+            index++;
+        }
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        container.appendChild(table);
+    }
+
+    // 新規メモデータ作成**
+    function pushJSON_emptyMemos(count){
+        for(let i = 1; i <= count; i++){
+            // get unique ID
+            var let = false;
+            var uniqueID = getRandomString20();
+            while(!let){
+                let = true;
+                if(cloneRepo.find(a => a.id == taskObjID)["memos"].some(b => b.id == uniqueID) ){
+                    let = false;
+                    uniqueID = getRandomString20();
+                }
+                if(let) break;
+            }
+            let obj = {"id": uniqueID, "title": `Title${i}`, "memoText": ""};
+            cloneRepo.find(a => a.id == taskObjID)["memos"].push(obj);
+        }
+    }
+
+    // 初起動時に４つのメモオブジェクトを作成
+    if(cloneRepo.find(a => a.id == taskObjID)["memos"].length == 0){
+        pushJSON_emptyMemos(8);
+    }
+
+    // 再構築
+    resetView();
 
 }
 
@@ -2324,6 +2417,4 @@ function createDOM_workCategory(){
         select.appendChild(option);
     }
     return select;
-
 }
-
