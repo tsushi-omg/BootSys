@@ -17,7 +17,7 @@ const MASTER_SETTING = "MASTER_SETTING";            // 設定
 
 // 開発用
 let debug = false;
-// debug = true;
+debug = true;
 
 //tmp
 // Ctrl+S を押したらコピー
@@ -1859,7 +1859,7 @@ function bootSys_WORK_TASK(isFirst){
                         // 対象PG
                         case 3:{
                             td.textContent = obj["pgInfo"] ? obj["pgInfo"] : "ー";
-                            td.addEventListener("click", function(){
+                            td.addEventListener("dblclick", function(){
                                 if(obj["pgInfo"]){
                                     try{
                                         let pgid = mainData.MASTER[0].MASTER_PGINFO.find(a => a.id == obj["pgObjId"])["pgid"];
@@ -2354,10 +2354,14 @@ function bootSub_taskMemos(taskObjID){
                 input.style.border = "1px solid #ccc";
                 input.style.padding = "6px";
                 input.style.borderRadius = "4px";
+                input.style.borderLeft = "4px solid #4090ff";
+                input.style.backgroundColor = " #e7edff";
                 input.placeholder = "タイトル...";
                 textarea.value = target.memoText;
+                textarea.spellcheck = "off";
                 textarea.style.width = "24vw";
                 textarea.style.height = "30vh";
+                textarea.spellcheck = "off";
                 // textarea.style.resize = "vertical";
                 textarea.style.resize = "none";
                 textarea.classList.add("like-card-white");
