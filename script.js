@@ -1859,6 +1859,16 @@ function bootSys_WORK_TASK(isFirst){
                         // 対象PG
                         case 3:{
                             td.textContent = obj["pgInfo"] ? obj["pgInfo"] : "ー";
+                            td.addEventListener("click", function(){
+                                if(obj["pgInfo"]){
+                                    try{
+                                        let pgid = mainData.MASTER[0].MASTER_PGINFO.find(a => a.id == obj["pgObjId"])["pgid"];
+                                        navigator.clipboard.writeText(pgid).then(() => {
+                                            log(`クリップボードにコピーしました [${pgid}]`);
+                                        });
+                                    }catch(e){}
+                                }
+                            })
                             break;
                         }
                         // 内容
@@ -2287,7 +2297,7 @@ function bootSub_taskMemos(taskObjID){
         container.style.maxHeight = "90%";
         container.style.overflowY = "auto";
     }
-    title.textContent = `作業メモ [${cloneRepo.find(a => a.id == taskObjID)["pgInfo"]}]`;
+    title.textContent = `作業メモ ${cloneRepo.find(a => a.id == taskObjID)["pgInfo"] ? "["+cloneRepo.find(a => a.id == taskObjID)["pgInfo"]+"]" : ""}`;
     title.classList.add("page-title")
 
     // append
@@ -2327,7 +2337,8 @@ function bootSub_taskMemos(taskObjID){
         log(cloneRepo.find(a => a.id == taskObjID)["memos"].length)
         for(let target of cloneRepo.find(a => a.id == taskObjID)["memos"]){
             // td
-            if(index%2 == 1){
+            // if(index%2 == 1){
+            if(index%3 == 1){
                 tr = createDOM("tr")
                 tbody.appendChild(tr);
             }
@@ -2345,7 +2356,7 @@ function bootSub_taskMemos(taskObjID){
                 input.style.borderRadius = "4px";
                 input.placeholder = "タイトル...";
                 textarea.value = target.memoText;
-                textarea.style.width = "30vw";
+                textarea.style.width = "24vw";
                 textarea.style.height = "30vh";
                 // textarea.style.resize = "vertical";
                 textarea.style.resize = "none";
@@ -2392,7 +2403,7 @@ function bootSub_taskMemos(taskObjID){
 
     // 初起動時に４つのメモオブジェクトを作成
     if(cloneRepo.find(a => a.id == taskObjID)["memos"].length == 0){
-        pushJSON_emptyMemos(8);
+        pushJSON_emptyMemos(12);
     }
 
     // 再構築
