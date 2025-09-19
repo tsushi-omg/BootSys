@@ -17,7 +17,7 @@ const MASTER_SETTING = "MASTER_SETTING";            // 設定
 
 // 開発用
 let debug = false;
-debug = true;
+// debug = true;
 
 //tmp
 // Ctrl+S を押したらコピー
@@ -2432,4 +2432,5 @@ function createDOM_workCategory(){
         select.appendChild(option);
     }
     return select;
+
 }
