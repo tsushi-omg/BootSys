@@ -2280,15 +2280,24 @@ function bootSub_taskMemos(taskObjID){
     const subWindow = createDOM("div");
     const container = createDOM("div");
     const title = createDOM("h1");
+    const sheetAddButton = createDOM("button");
 
     // prop
     modal.style.zIndex = 100;
     subWindow.style.zIndex = 120;
     container.style.zIndex = 120;
     modal.classList.add("modal");
+    title.style.color = "#fff";
+    sheetAddButton.textContent = "３枚追加";
+    sheetAddButton.classList.add("mini-btn");
+    sheetAddButton.style.position = "absolute";
+    sheetAddButton.style.right = "3%";
+    sheetAddButton.style.bottom = "0.7%";
+    sheetAddButton.style.fontSize = "15px";
     subWindow.classList.add("like-card-white");
     {
         subWindow.style.position="absolute";
+        subWindow.style.border="none";
         subWindow.style.top = "5vh";
         subWindow.style.left = "10vw";
         subWindow.style.height = "85vh";
@@ -2296,12 +2305,23 @@ function bootSub_taskMemos(taskObjID){
         subWindow.style.width = "80vw";
         container.style.maxHeight = "90%";
         container.style.overflowY = "auto";
+        container.style.backgroundColor = "#2c3e50";
+        subWindow.style.backgroundColor = "#2c3e50";
+        sheetAddButton.addEventListener("click", function(){
+            // メモ追加・再構築
+            pushJSON_emptyMemos(3);
+            resetView();
+            log("作業メモを３枚追加しました");
+            end();
+            bootSub_taskMemos(taskObjID);
+        })
     }
     title.textContent = `作業メモ ${cloneRepo.find(a => a.id == taskObjID)["pgInfo"] ? "["+cloneRepo.find(a => a.id == taskObjID)["pgInfo"]+"]" : ""}`;
     title.classList.add("page-title")
 
     // append
     subWindow.appendChild(title);
+    subWindow.appendChild(sheetAddButton);
     subWindow.appendChild(container);
     document.body.appendChild(modal);
     document.body.appendChild(subWindow);
@@ -2334,7 +2354,6 @@ function bootSub_taskMemos(taskObjID){
         }
         let index = 1;
         let tr;
-        log(cloneRepo.find(a => a.id == taskObjID)["memos"].length)
         for(let target of cloneRepo.find(a => a.id == taskObjID)["memos"]){
             // td
             // if(index%2 == 1){
@@ -2353,11 +2372,17 @@ function bootSub_taskMemos(taskObjID){
                 input.value = target.title;
                 input.style.border = "1px solid #ccc";
                 input.style.padding = "6px";
+                input.style.border = "none";
                 input.style.borderRadius = "4px";
                 input.style.borderLeft = "4px solid #4090ff";
-                input.style.backgroundColor = " #e7edff";
+                input.style.backgroundColor = " #34495e";
                 input.placeholder = "タイトル...";
+                input.style.color = " #fff";
+                input.style.margin = "3px";
                 textarea.value = target.memoText;
+                textarea.style.backgroundColor = " #34495e";
+                textarea.style.color = " #fff";
+                textarea.style.border = "none";
                 textarea.spellcheck = "off";
                 textarea.style.width = "24vw";
                 textarea.style.height = "30vh";
@@ -2388,7 +2413,8 @@ function bootSub_taskMemos(taskObjID){
 
     // 新規メモデータ作成**
     function pushJSON_emptyMemos(count){
-        for(let i = 1; i <= count; i++){
+        let sheetCnt = (cloneRepo.find(a => a.id == taskObjID)["memos"].length + 1);
+        for(let i = sheetCnt; i <= sheetCnt + count - 1; i++){
             // get unique ID
             var let = false;
             var uniqueID = getRandomString20();
@@ -2432,5 +2458,4 @@ function createDOM_workCategory(){
         select.appendChild(option);
     }
     return select;
-
 }
