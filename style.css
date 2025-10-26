@@ -240,31 +240,19 @@ button{
   overflow-y: auto;
 }
 
-/* Firefox 用 */
-* {
-  scrollbar-width: thin;              /* 細め */
-  scrollbar-color: #888 #f1f1f1;      /* つまみ色 背景色 */
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  /* width: 8px; */
 }
 
-/* Chrome, Edge, Safari 用 */
-*::-webkit-scrollbar {
-  width: 8px;                         /* 縦スクロールバーの幅 */
-  height: 8px;                        /* 横スクロールバーの高さ */
+::-webkit-scrollbar-thumb {
+  /* background: transparent; */
 }
 
-*::-webkit-scrollbar-track {
-  background: #f1f1f1;                /* トラック背景 */
-  border-radius: 4px;
+:hover::-webkit-scrollbar-thumb {
+  /* background: rgba(0,0,0,0.3);  */
 }
 
-*::-webkit-scrollbar-thumb {
-  background: #888;                   /* スクロールつまみ */
-  border-radius: 4px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: #555;                   /* ホバー時 */
-}
 
 /* modal */
 .modal{
@@ -765,6 +753,9 @@ input:checked + .slider:before {
 .pgviewer-pgelement:hover {
     background: #809cbe;
 }
+.pgviewer-pgelement:focus {
+    background: #809cbe;
+}
 
 .setting-form {
   margin-bottom: 20px;
@@ -791,5 +782,195 @@ input:checked + .slider:before {
   flex: 1;
 }
 
+
+/* フローチャート *******************************************/
+.selected-tree-obj-flow{
+  border: solid rgb(115, 178, 219) 2px;
+}
+
+.back-image-grid{
+  width: 99%; 
+  height: 95%; 
+  margin-top: 10px; 
+  /* overflow-y: auto; */
+  background-image: url('https://sozaino.site/wp-content/uploads/2024/03/okumono_yugami6.png');
+  background-size: cover;      /* 画像を全体に広げる */
+  background-repeat: no-repeat;/* 繰り返さない */
+  background-position: center; /* 中央に配置 */
+}
+
+.tab-button-flow{
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: solid 1px rgb(202, 208, 212);
+  background-color: transparent;
+  color: #61a6dfff;
+  cursor: pointer;
+  margin: 1px;
+  max-width: 250px;
+  height: 40px;
+}
+
+.tab-button-flow.active{
+  background-color: #ffff;
+  border-bottom: solid 2px #61a6dfff;
+}
+.focusedMenu{
+  /* font-weight: bold; */
+  border-left: 7px solid #61a6dfff;
+  background-color: #ffff !important;
+}
+/* シート要素 */
+.sheetElement_flow{}
+
+.selected_sheetElement_flow{}
+
+
+
+
+.input-date{
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+/* 雑多メモ画面 *********************************************/
+.memo-container {
+  display: flex;
+  flex-direction: column;
+  width: 83vw;
+}
+
+/* 上部検索エリア */
+.memo-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* メイン：エクスプローラー＋メモエリア */
+.memo-main {
+  flex: 1;
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* 左：フォルダリスト */
+.memo-explorer {
+  width: 22%;
+  background: #f8f9fa;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow-y: auto;
+  /* padding: 10px; */
+}
+
+.memo-folder-list {
+  list-style: none;
+  padding: 0;
+}
+
+.memo-folder-list .folder {
+  padding: 6px 8px;
+  margin: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15px;
+  border-left: #516477 solid 5px;
+  background: #e9ecef;
+  user-select: none;
+}
+.memo-folder-list .file {
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15px;
+  user-select: none;
+}
+
+.memo-folder-list .folder:hover {
+  background: #d9dde2;
+}
+
+.memo-folder-list .file:hover {
+  background: #eceff1;
+}
+
+/* 右：メモ入力欄 */
+.memo-editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.memo-textarea {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  /* padding: 10px; */
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.box-1{
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.box-2{
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+}
+
+.focus-trans-back{}
+
+.focus-trans-back:focus{
+  background-color: transparent !important;
+}
+
+/* 作成メニューボタン */
+.contextitem {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    margin: 2px 0;
+    border: none;
+    background: #5a6d82;           /* 落ち着いたグレーブルー */
+    color: #e7ecf3;
+    text-align: left;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: 
+        background 0.15s ease,
+        border-left-color 0.15s ease,
+        transform 0.1s ease;
+}
+
+.contextitem:hover {
+    background: #6e8298;            /* 少し明るい */
+    border-left-color: #cfd8e3;     /* 左線で選択感 */
+    transform: translateX(2px);     /* クリック誘発感 */
+}
+
+.contextitem:active {
+    background: #516477;
+    transform: translateX(0);
+}
+
+
+/* 雑多メモ end *********************************************/
 
 

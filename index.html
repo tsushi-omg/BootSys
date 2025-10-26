@@ -373,23 +373,37 @@
 
             <!-- 照会テーブル -->
             <div class="like-card-white" style="height: 40vh;" id="table-container-task-manager">
-                <h3 class="page-title">タスク一覧</h3>
+                <h3 class="page-title">タスク一覧<span id="task_kensu_label"></span></h3>
                 <div class="task-category-table-wrapper" style="width: 100% !important; max-height: 85%;" id="task-Manager-table-wrapper">
                     <table class="task-category-table" style="width: 100% !important;">
                         <thead>
                             <tr>
                                 <th style="width:4%;" rowspan="2" id="sample-th-taskManager">No</th>
-                                <th style="width:7%;">追加日</th>
-                                <th style="width:38%;">進捗</th>
-                                <th style="width:39%;">期日</th>
+                                <th style="width:12%;">
+                                    <!-- 追加日 -->
+                                    <input type="date" id="task_condition_date" class="input-date" onchange="bootSys_WORK_TASK(false)" />
+                                </th>
+                                <th style="width:36%;">進捗</th>
+                                <th style="width:36%;">期日</th>
                                 <th style="width:5%;">実績工数</th>
                                 <th style="width:7%;">完了日</th>
                             </tr>
                             <tr id="second-th-row-taskManager">
                                 <!-- <th style="width:4%;"></th> -->
-                                <th style="width:7%;">作業カテゴリ</th>
-                                <th style="width:38%;">対象PG</th>
-                                <th style="width:39%;">内容</th>
+                                <th style="width:12%;">作業カテゴリ</th>
+                                <th style="width:36%;">
+                                    <!-- search -->
+                                    <span onclick="bootSub_refViewer(getDOM('contidionBox_pgid'), getDOM('contidionBox_pgid_hidden'), bootSys_WORK_TASK);" style="cursor: pointer; margin-right: 10px;">対象PG</span>
+                                    <!-- name -->
+                                    <input type="text" id="contidionBox_pgid" style="width: 65%;" placeholder="参照..." disabled />
+                                    <!-- clear -->
+                                    <button class="mini-btn" onclick="clearValue('contidionBox_pgid,contidionBox_pgid_hidden'); bootSys_WORK_TASK(false);" style="outline: none;">クリア</button>
+                                    <!-- hidden -->
+                                    <input type="hidden" id="contidionBox_pgid_hidden" />
+                                </th>
+                                <th style="width:36%;"><span style="margin-right: 10px;">内容</span>
+                                    <input type="text" id="contidionBox_content" style="width: 65%;" placeholder="検索..." />
+                                </th>
                                 <th style="width:5%;">作業メモ </th>
                                 <th style="width:7%;">操作</th>
                             </tr>
@@ -436,6 +450,64 @@
             </div>
         </div>
 
+        <!-- フローチャート start --------------------------------------------------------------------------------------------------------------->  
+        <div id="WORK_FLOW_PANEL" class="tab-panel">
+            <h2 class="page-title">フローチャート</h2>
+            <!-- 登録フォーム -->
+            <div class="task-category-form" style="width: 83vw; height: 72vh; display: flex;">
+                <!-- ツリー -->
+                <div id="toggle_tree_visible_flow" class="like-card-white" style="width: 0.5%; height: 95%; background-color: #94aac0; cursor: pointer;"></div>
+                <div id="treeContainer_flow" class="like-card-white scroll-notVisible" style="width: 25%; height: 95%; ">
+                    <select id="tree_createMode_flow">
+                        <option value="PG" checked>PG</option>
+                        <option value="TASK">タスク</option>
+                    </select>
+                    <div id="tree_flow" style="width: 99%; height: 95%; margin-top: 10px; overflow-y: auto;"></div>
+                </div>
+                <!-- ワーク -->
+                <div class="like-card-white" id="work_container_flow" style="width: 68%; height: 95%; overflow-y: auto;">
+                    <input type="text" id="title_flow" class="page-title" style="color: #61a6dfff; user-select: none; border: none; width: 100%;" value="関連項目を選択" readOnly>
+                    <div id="flow_workArea" style="width: 100%; height: 87%; background-color: #e8edf1ff;">
+                        <div id="file_tab_container_flow" style="width: 100%; height: 7%;"></div>
+                        <div id="work_sheet_flow" style="width: 100%; height: 93%; outline: none;" tabindex="0"></div>
+                    </div>
+                    <input type="text" style="color: gray; border: none; user-select: none;" id="modeInput" readonly/>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 雑多メモ start --------------------------------------------------------------------------------------------------------------->  
+        <div id="WORK_MEMO_PANEL" class="tab-panel">
+            <h2 class="page-title">雑多メモ</h2>
+            <!-- 上部：検索ボックス -->
+            <div class="memo-header">
+                <input type="text" class="medium-input" id="memoSearchInput" placeholder="メモ検索...">
+                <button class="mini-btn" id="memoSearchButton">検索</button>
+            </div>
+
+            <div class="memo-main" style="height: 70vh;">
+                <!-- 左：エクスプローラー -->
+                <div class="memo-explorer" style="height: 100%;" id="exp_memo">
+                    <ul class="memo-folder-list" id="tree_memo">
+                        <!-- <li class="folder">日常</li>
+                        <li class="folder">仕事</li>
+                        <li class="folder">アイデア</li>
+                        <li class="folder">買い物リスト</li> -->
+                    </ul>
+                </div>
+                <!-- 右：メモエリア -->
+                <div class="box-1 " style="height: 100%; width: 75%;">
+                    <input type="text" id="fileNameBox_memo" class="box-2" placeholder="ファイル名..." style="margin: 20px; width: 22%; font-size: 16px;" autocomplete="off" spellcheck="false">
+                    <label style="color: gray;" id="pathLabel_memo">パス</label>
+                    <p>
+                    <textarea id="memoTextarea_memo" class="focus-trans-back" placeholder="メモを入力..." style="height:58vh; width: 95%; margin: 20px; margin-top: -10px; font-size: 16px; resize: none; border: none;" autocomplete="off" spellcheck="false"></textarea>
+                </div>
+            </div>
+        </div>
+
+
+
         <!-- 設定 start --------------------------------------------------------------------------------------------------------------->  
         <div id="MASTER_SETTING_PANEL" class="tab-panel">
             <h2 class="page-title">設定</h2>
@@ -473,10 +545,6 @@
             <!-- * -->
         </div>
 
-
-
-
-        
     </div>
   </div>
 

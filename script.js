@@ -3,6 +3,7 @@
 // ワーク
 const WORK_DAILY = "WORK_DAILY";    // デイリー記録
 const WORK_TASK = "WORK_TASK";      // タスク管理
+const WORK_FLOW = "WORK_FLOW";      // フローチャート
 const WORK_MEMO = "WORK_MEMO";      // 雑多メモ
 const WORK_PGVIEWR = "WORK_PGVIEWR";      //PGビューアー
 const WORK_LINK = "WORK_LINK";      // 外部リンク
@@ -17,7 +18,7 @@ const MASTER_SETTING = "MASTER_SETTING";            // 設定
 
 // 開発用
 let debug = false;
-// debug = true;
+debug = true;
 
 //tmp
 // Ctrl+S を押したらコピー
@@ -399,6 +400,7 @@ const svg_android = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewB
 const svg_tag = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h440q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H160Zm0-80h440l180-240-180-240H160v480Zm220-240Z"/></svg>`;
 const svg_calendar = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z"/></svg>';
 const svg_task = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z"/></svg>`;
+const svg_task_color2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#61a6dfff"><path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z"/></svg>`;
 const svg_category = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="m260-520 220-360 220 360H260ZM700-80q-75 0-127.5-52.5T520-260q0-75 52.5-127.5T700-440q75 0 127.5 52.5T880-260q0 75-52.5 127.5T700-80Zm-580-20v-320h320v320H120Zm580-60q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm-500-20h160v-160H200v160Zm202-420h156l-78-126-78 126Zm78 0ZM360-340Zm340 80Z"/></svg>`;
 const svg_info = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
 const svg_category2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M120-240v-80h240v80H120Zm0-200v-80h480v80H120Zm0-200v-80h720v80H120Z"/></svg>`;
@@ -407,6 +409,17 @@ const svg_link = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox=
 const svg_setting = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"/></svg>`;
 const svg_map = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M640-560v-126 126ZM174-132q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v337q-15-23-35.5-42T760-528v-204l-120 46v126q-21 0-41 3.5T560-546v-140l-160-56v523l-226 87Zm26-96 120-46v-468l-120 40v474Zm440-12q34 0 56.5-20t23.5-60q1-34-22.5-57T640-400q-34 0-57 23t-23 57q0 34 23 57t57 23Zm0 80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 23-5.5 43.5T778-238l102 102-56 56-102-102q-18 11-38.5 16.5T640-160ZM320-742v468-468Z"/></svg>`;
 const svg_edit = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T903-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v120h-80v-80H520v-200H240v640h240v80H240Zm280-400Zm241 199-19-18 37 37-18-19Z"/></svg>`;
+const svg_edit_color2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#61a6dfff"><path d="M560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T903-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v120h-80v-80H520v-200H240v640h240v80H240Zm280-400Zm241 199-19-18 37 37-18-19Z"/></svg>`;
+const svg_brain = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M440-400h80v-280h-80v280Zm120-60h80v-180h-80v180Zm-240-20h80v-160h-80v160ZM240-80v-172q-57-52-88.5-121.5T120-520q0-150 105-255t255-105q125 0 221.5 73.5T827-615l52 205q5 19-7 34.5T840-360h-80v120q0 33-23.5 56.5T680-160h-80v80h-80v-160h160v-200h108l-38-155q-23-91-98-148t-172-57q-116 0-198 81t-82 197q0 60 24.5 114t69.5 96l26 24v208h-80Zm254-360Z"/></svg>`;
+const svg_shapes2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#61a6dfff"><path d="M600-360ZM320-242q10 1 19.5 1.5t20.5.5q11 0 20.5-.5T400-242v82h400v-400h-82q1-10 1.5-19.5t.5-20.5q0-11-.5-20.5T718-640h82q33 0 56.5 23.5T880-560v400q0 33-23.5 56.5T800-80H400q-33 0-56.5-23.5T320-160v-82Zm40-78q-117 0-198.5-81.5T80-600q0-117 81.5-198.5T360-880q117 0 198.5 81.5T640-600q0 117-81.5 198.5T360-320Zm0-80q83 0 141.5-58.5T560-600q0-83-58.5-141.5T360-800q-83 0-141.5 58.5T160-600q0 83 58.5 141.5T360-400Zm0-200Z"/></svg>`;
+const svg_square2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#61a6dfff"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0 0v-560 560Z"/></svg>`;
+const svg_circle2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#61a6dfff"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
+const svg_card2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#61a6dfff"><path d="M200-280h560v-80H200v80Zm0-160h560v-80H200v80Zm0-160h400v-80H200v80Zm-40 440q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm0-80h640v-480H160v480Zm0 0v-480 480Z"/></svg>`;
+const svg_folder = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/></svg>`;
+const svg_folder_black = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#383838ff"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/></svg>`;
+const svg_file = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>`;
+const svg_file_black = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#383838ff"><path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>`;
+const svg_gabage = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>`;
 
 
 //#region 共通関数
@@ -603,6 +616,20 @@ function createDOM(type){
     return document.createElement(type);
 }
 
+// valueをクリア
+function clearValue(DOMIDsCSV){
+    for(let domid of DOMIDsCSV.split(',')){
+        if(domid != "") getDOM(domid).value = "";
+    }
+}
+
+// マウス位置取得
+var mouseX = 0;
+var mouseY = 0;
+document.addEventListener("mousemove", function(e){
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
 
 // JSONファイル作成＆ダウンロード
 function downLoadJSON(){
@@ -645,7 +672,7 @@ JSONReader.addEventListener("change", function(event){
         const json = JSON.parse(e.target.result);
         if(confirm("現在の編集を破棄して、JSONデータを読み込みますか？")){
             mainData = json;
-            // Init();
+            document.getElementById("PNameBox").value = mainData.META[0].PROJECTNAME;
             alert("データの読み込みが完了しました")
             log("JSONデータの読み込みに成功しました")
         }else{
@@ -699,7 +726,8 @@ function bootEvents(){
             logClone.style.left = "10vw";
             logClone.style.height = "60vh";
             logClone.style.width = "80vw";
-            logClone.value = appLog.value;
+            // logClone.value = appLog.value;
+            logClone.value = JSON.stringify(mainData, null, 2);
             logClone.style.zIndex = 110;
             logClone.spellcheck = "off";
         }
@@ -754,6 +782,7 @@ function Init(){
                 "name": "ワーク", "nextMenu": [
                     {"name": "デイリー記録", "id": WORK_DAILY, "icon":svg_calendar,"bootSys": null},
                     {"name": "タスク管理",  "id": WORK_TASK, "icon":svg_task,"bootSys": bootSys_WORK_TASK},
+                    // {"name": "フローチャート",  "id": WORK_FLOW, "icon":svg_brain,"bootSys": bootSys_WORK_FLOW},
                     {"name": "雑多メモ",   "id": WORK_MEMO, "icon":svg_memo,"bootSys": null},
                     {"name": "PGビューアー",  "id": WORK_PGVIEWR, "icon":svg_map,"bootSys": bootSys_WORK_PGVIEWR},
                     {"name": "外部リンク",  "id": WORK_LINK, "icon":svg_link,"bootSys": null},
@@ -786,6 +815,8 @@ function Init(){
         bootSys_MASTER_PGCATEGORY(true); // プログラム階層
         bootSys_MASTER_PGINFO(true); // プログラム情報
         bootSys_WORK_TASK(true); // タスク管理
+        bootSys_WORK_FLOW(true); // フローチャート
+        bootSys_WORK_MEMO(true); // 雑多メモ
     }
 
     // プロジェクト名
@@ -1698,8 +1729,19 @@ const tbody_taskTable = getDOM("tbody_taskTable");
 const sample_th_taskManager = getDOM("sample-th-taskManager");
 // second th
 const second_th_row_taskManager = getDOM("second-th-row-taskManager");
+// condition date
+const task_condition_date = getDOM("task_condition_date");
+// 検索用PGID隠しボックス
+const contidionBox_pgid_hidden = getDOM("contidionBox_pgid_hidden");
+// 内容検索ボックス
+const contidionBox_content = getDOM("contidionBox_content");
+{
+    contidionBox_content.addEventListener("input", function(){
+        bootSys_WORK_TASK();
+    })
+}
 
-function bootSys_WORK_TASK(isFirst){
+function bootSys_WORK_TASK(isFirst=false){
 
     // Init **
 
@@ -1730,12 +1772,28 @@ function bootSys_WORK_TASK(isFirst){
         // clone for work
         let cloneRepo = mainData.WORK[0].WORK_TASK;
 
-
         // create
         let index = 1;
         for(let obj of cloneRepo){
             // tr1（No、追加日、進捗、期日、実績工数、完了日）
             {
+                // condition
+                {
+                    // 追加日
+                    if(task_condition_date.value != ""){
+                        if(obj["addedDate"] != task_condition_date.value) continue;
+                    }
+                    // 対象PG
+                    if(contidionBox_pgid_hidden.value != ""){
+                        try{
+                            if(obj["pgObjId"] != contidionBox_pgid_hidden.value) continue;
+                        }catch(e){continue};
+                    }
+                    // 内容（大文字、小文字統一）
+                    if(contidionBox_content.value != ""){
+                        if(!obj["content"].toUpperCase().includes(contidionBox_content.value.toUpperCase())) continue;
+                    }
+                }
                 const tr = createDOM("tr");
                 if(!(index%2==0)) tr.style.backgroundColor = "#e7edff";
                 for(let col = 1; col <= 6; col++){
@@ -1749,11 +1807,23 @@ function bootSys_WORK_TASK(isFirst){
                         }
                         // 追加日
                         case 2:{
-                            const input = createDOM("input");
-                            input.type = "date";
-                            input.value = obj["addedDate"];
-                            input.disabled = true;
-                            td.appendChild(input)
+                            const label = createDOM("label");
+                            const span = createDOM("span");
+                            const today = new Date();
+                            var dateTmp;
+                            if(obj["addedDate"] == today.toISOString().slice(0, 10))
+                            {
+                                // span.style.fontWeight = "bold";
+                                dateTmp = "今日";
+                            }else{
+                                dateTmp = obj["addedDate"].replaceAll('-','/');
+                            }
+                            span.style.color = "#dd6464ff";
+                            span.textContent = dateTmp;
+                            label.textContent = "追加日：";
+                            label.appendChild(span)
+                            td.appendChild(label)
+                            // td.appendChild(input)
                             break;
                         }
                         // 進捗
@@ -1779,11 +1849,14 @@ function bootSys_WORK_TASK(isFirst){
                         }
                         // 期日
                         case 4:{
+                            const label = createDOM("label");
                             const input = createDOM("input");
                             input.type = "date";
                             input.value = obj["dueDate"];
                             input.style.width = "40%";
+                            label.textContent = "期日：";
                             if(!(index%2==0)) input.style.backgroundColor = "#e7edff";
+                            td.appendChild(label)
                             td.appendChild(input)
                             {
                                 // event
@@ -1858,7 +1931,16 @@ function bootSys_WORK_TASK(isFirst){
                         }
                         // 対象PG
                         case 3:{
-                            td.textContent = obj["pgInfo"] ? obj["pgInfo"] : "ー";
+                            const label = createDOM("label");
+                            label.textContent = obj["pgInfo"] ? obj["pgInfo"] : "ー";
+                            if(obj["pgInfo"]){
+                                // label.style.color = "#2361a8ff";
+                                // label.style.textDecoration = "underline";
+                                label.style.cursor = "pointer";
+                                label.addEventListener("click", function(e){
+                                    // bootSub_memoLink
+                                })
+                            }
                             td.addEventListener("dblclick", function(){
                                 if(obj["pgInfo"]){
                                     try{
@@ -1869,6 +1951,7 @@ function bootSys_WORK_TASK(isFirst){
                                     }catch(e){}
                                 }
                             })
+                            td.appendChild(label);
                             break;
                         }
                         // 内容
@@ -1937,7 +2020,10 @@ function bootSys_WORK_TASK(isFirst){
 
             // scroll
             document.getElementById("task-Manager-table-wrapper").scrollTop = document.getElementById("task-Manager-table-wrapper").scrollHeight;
+
         }
+        // hit count
+        getDOM("task_kensu_label").textContent = `（${index-1}件）`;
     }
     buildTable();
 
@@ -2020,7 +2106,633 @@ function bootSys_WORK_TASK(isFirst){
 
 
 
-// #region 共通関数2 ******************************************************************* /
+
+// region ワーク-雑多メモ
+
+// dom
+
+// エクスプローラー
+const exp_memo = getDOM("exp_memo");
+// ツリー
+const tree_memo = getDOM("tree_memo");
+// ファイル名
+const fileNameBox_memo = getDOM("fileNameBox_memo");
+// パスラベル
+const pathLabel_memo = getDOM("pathLabel_memo");
+// メモテキストエリア
+const memoTextarea_memo = getDOM("memoTextarea_memo");
+
+function bootSys_WORK_MEMO(isFirst){
+    if(isFirst){
+        // イベント付与
+        exp_memo.addEventListener("contextmenu",function(e){
+            // 右クリックメニュー
+            e.preventDefault();
+            let orderArr = [
+                {"printName":"フォルダを作成", "icon":svg_folder, "func":()=> createExpObj_memo( {"type": "folder", "parent": null} ), },
+                {"printName":"ファイルを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": null} ), },
+            ];
+            createMenu(orderArr);
+        })
+    }
+
+}
+// メニュー呼び出し用にパブリックスコープにて宣言
+// メニュー作成（）
+function createExpObj_memo(obj){
+    var typeName = obj["type"]=="folder" ? "フォルダ" : "ファイル";
+    var objName = prompt(`${typeName}名を入力してください ※カンマ区切り`);
+    if(objName=="") return;
+    for(let name of objName.split(',')){
+        if(name == "") continue;
+        let parent = obj["parent"] ? obj["parent"] : tree_memo;
+        const container = createDOM("div");
+        const li = createDOM("li");
+        const icon = createDOM("span");
+        {
+            li.classList.add(obj["type"]);
+            li.textContent = name;
+            li.style.display = "flex";
+            icon.classList.add("iconButton")
+            if(obj["type"]=="folder") {
+                // icon.innerHTML = svg_folder_black;
+            }else{
+                icon.innerHTML = svg_file_black;
+            }
+            icon.style.marginRight = "5px";
+            container.classList.add("pgviewer-kaisofolder-container");
+            container.style.marginLeft = "15px";
+        }
+        // event
+        if(obj["type"]=="folder"){
+            // folder
+            li.addEventListener("click", function(e){
+                // 開閉
+                for(let child of this.parentElement.children){
+                    if(child != this && child != this.child){
+                        // child.style.display = child.style.display=="none" ? "block" : "none";
+                        child.hidden = !child.hidden;
+                    }
+                }
+            });
+            li.addEventListener("contextmenu", function(e){
+                // 右クリックメニュー
+                e.preventDefault();
+                let orderArr = [
+                    {"printName":"フォルダを作成", "icon":svg_folder, "func":()=> createExpObj_memo( {"type": "folder", "parent": container} ), },
+                    {"printName":"ファイルを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": container} ), },
+                    {"printName":"リネーム", "icon":svg_gabage, "func":null, },
+                    {"printName":"削除", "icon":svg_gabage, "func":null, },
+                ];
+                createMenu(orderArr);
+                // 開ける（開閉状態を統一するため）
+                for(let child of this.parentElement.children){
+                    if(child != this && child != this.child){
+                        child.hidden = false;
+                    }
+                }
+                e.stopPropagation();
+            });
+        }else{
+            // file
+            li.addEventListener("contextmenu", function(e){
+                // 右クリックメニュー
+                e.preventDefault();
+                let orderArr = [
+                    {"printName":"リネーム", "icon":svg_gabage, "func":null, },
+                    {"printName":"削除", "icon":svg_gabage, "func":null, },
+                ];
+                createMenu(orderArr);
+                e.stopPropagation();
+            });
+        }
+        li.prepend(icon);
+        container.appendChild(li);
+        parent.appendChild(container);
+    }
+}
+
+
+
+// region ワーク - フローチャート（１回しか通してはならないもの➤DOM取得、永続DOMのイベント設置）
+
+const tree_createMode_flow = getDOM("tree_createMode_flow");
+const toggle_tree_visible_flow = getDOM("toggle_tree_visible_flow");
+const treeContainer_flow = getDOM("treeContainer_flow");
+const tree_flow = getDOM("tree_flow");
+const work_container_flow = getDOM("work_container_flow");
+const flow_workArea = getDOM("flow_workArea");
+const file_tab_container_flow = getDOM("file_tab_container_flow");
+const title_flow = getDOM("title_flow");
+const work_sheet_flow = getDOM("work_sheet_flow");
+const modeInput = getDOM("modeInput");
+toggle_tree_visible_flow.addEventListener("click", function(){
+    treeContainer_flow.hidden = !treeContainer_flow.hidden;
+    work_container_flow.style.width = treeContainer_flow.hidden ? "95%" : "68%";
+})
+tree_createMode_flow.addEventListener("change", function(){
+    bootSys_WORK_FLOW(false);
+})
+
+function bootSys_WORK_FLOW(isFirst){
+
+    // clear
+    tree_flow.innerHTML = '';
+    file_tab_container_flow.innerHTML = '';
+    title_flow.value = "関連項目を選択";
+
+    // build tree
+    function build_tree(){
+        // PG or TASK
+        switch(tree_createMode_flow.value){
+            case "PG":{
+                // create **
+                const container = tree_flow;
+
+                // clone for work
+                var cloneRepo_kaiso = mainData.MASTER[0].MASTER_PGCATEGORY;
+                var cloneRepo_pginfo = mainData.MASTER[0].MASTER_PGINFO;
+
+                // bool
+                var count = cloneRepo_kaiso.find(a => a.hasOwnProperty("kaisoCount"))["kaisoCount"];
+
+                // create kaiso folder
+                for(let index = 1; index <= count; index++){
+                    
+                    let keyName = `kaiso${index}`;
+                    for(let target of cloneRepo_kaiso.find(a => a.hasOwnProperty(keyName))[keyName]){
+
+                        const containerElement = createDOM("div");
+                        const button = createDOM("button");
+                        const icon = createDOM("span");
+                        containerElement.style.display = (index == 1 ? "block" : "none");
+                        // props
+                        {
+                            containerElement.id = target["id"] + "_pgviewer_flow";
+                            containerElement.style.marginLeft = "15px";
+                            // if(index > 1) container.classList.add("pgviewer-kaisofolder-container");
+                            containerElement.classList.add("pgviewer-kaisofolder-container");
+                            button.textContent = target.name;
+                            button.style.display = "flex";
+                            button.style.userSelect = "none";
+                            button.classList.add("pgviewer-kaisofolder");
+                            button.style.backgroundColor = "#e8edf1ff";
+                            button.style.color = "#61a6dfff";
+                            button.style.borderLeft = "#80b0ccff solid 5px";
+                            icon.innerHTML = svg_task_color2;
+                            icon.style.marginRight = "10px";
+                            icon.classList.add("iconButton")
+                            // button.style.minWidth = (button.style.minWidth.replace("px", "") - 15 * (index-1)) + "px !important";
+                            if(index==1) button.style.fontWeight = "bold";
+                        }
+
+                        // append
+                        containerElement.appendChild(button);
+                        button.prepend(icon);
+
+                        // event listener
+                        {
+                            // toggle visible
+                            button.addEventListener("click", function toggleChildrenVisible(){
+                                for(let tmp of this.parentElement.children){
+                                    if(tmp != this){
+                                        let state = tmp.style.display == "block" ? "none" : "block"
+                                        tmp.style.display=state;
+                                    }
+                                }
+                            })
+                        }
+                        // append to tree or parentKaiso (id_pgviewer_flow)
+                        const parentDOM = (index == 1 ? container : getDOM(target[`kaiso${index-1}ID`] + "_pgviewer_flow"));
+                        parentDOM.appendChild(containerElement);
+                    }
+                }
+
+                // create pg element
+                for(let target of cloneRepo_pginfo){
+
+                    const containerElement = createDOM("div");
+                    const button = createDOM("button");
+                    const remarkLabel = createDOM("label");
+                    const remarkInput = createDOM("input");
+                    const icon = createDOM("span");
+                    // container.appendChild(remarkLabel);
+                    // container.appendChild(remarkInput);
+                    let parentIDList = null;
+                    if(target["kaisoCSV"] != ""){
+                        parentIDList = target["kaisoCSV"].split(",");
+                    }
+
+                    // props
+                    {
+                        containerElement.style.marginLeft = (parentIDList ? "25px" : "15px");
+                        containerElement.style.display = "flex";
+                        containerElement.style.display = "none";
+                        button.textContent = target.name;
+                        button.style.display = "flex";
+                        button.style.userSelect = "none";
+                        button.classList.add("pgviewer-pgelement");
+                        button.style.backgroundColor = "#e8edf1ff";
+                        button.style.color = "#61a6dfff";
+                        remarkLabel.textContent = "備考：";
+                        remarkInput.placeholder = "メモを入力…";
+                        remarkInput.value = target["remark"];
+                        remarkInput.style.marginLeft = "10px";
+                        remarkInput.style.border = "none";
+                        remarkInput.style.color = "gray";
+                        remarkInput.style.borderBottom = "solid gray 1px";
+                        icon.innerHTML = svg_edit_color2;
+                        icon.style.marginRight = "10px";
+                        icon.classList.add("iconButton")
+                    }
+
+                    button.prepend(icon);
+                    containerElement.appendChild(button);
+                    const targetID = target["ID"];
+
+                    // event listener
+                    {
+                        // click
+                        button.addEventListener("click", function (){
+                            // title
+                            title_flow.value = target.name;
+                            // tree-obj-style
+                            for(let tmp of document.getElementsByClassName("selected-tree-obj-flow")){
+                                tmp.classList.remove("selected-tree-obj-flow");
+                            }
+                            this.classList.add("selected-tree-obj-flow");
+                            // create-file-tab
+                            openFile("PG", targetID)
+                        })
+                    }
+                    // append
+                    try{
+                        (!parentIDList ? container : getDOM(parentIDList[parentIDList.length-1] + "_pgviewer_flow")).appendChild(containerElement);
+                    }catch(e){
+                        log(`[${target["pgid"]}:${target["name"]}] は所属階層が削除済みのため、ビューアーに生成されませんでした`);
+                    }
+                }
+
+                break;
+            }
+            case "TASK":{
+                // create **
+                const container = tree_flow;
+                // clone for work
+                var cloneRepo = mainData.WORK[0].WORK_TASK;
+                // prev
+                var prevDate = "";
+                // create date folder
+                for(let target of cloneRepo){
+                    let targetDate = target["addedDate"];
+                    // skip
+                    if(targetDate==prevDate || getDOM(targetDate + "_pgviewer_flow")){
+                        continue;
+                    }
+                    prevDate = targetDate;
+                    // create
+                    const containerElement = createDOM("div");
+                    const button = createDOM("button");
+                    const icon = createDOM("span");
+                    // props
+                    {
+                        containerElement.id = targetDate + "_pgviewer_flow";
+                        containerElement.style.marginLeft = "15px";
+                        containerElement.classList.add("pgviewer-kaisofolder-container");
+                        button.textContent = targetDate;
+                        button.style.display = "flex";
+                        button.style.userSelect = "none";
+                        button.classList.add("pgviewer-kaisofolder");
+                        button.style.backgroundColor = "#e8edf1ff";
+                        button.style.color = "#61a6dfff";
+                        button.style.borderLeft = "#80b0ccff solid 5px";
+                        icon.innerHTML = svg_task_color2;
+                        icon.style.marginRight = "10px";
+                        icon.classList.add("iconButton")
+                    }
+                    // append
+                    containerElement.appendChild(button);
+                    button.prepend(icon);
+                    // event listener
+                    {
+                        // toggle visible
+                        button.addEventListener("click", function toggleChildrenVisible(){
+                            for(let tmp of this.parentElement.children){
+                                if(tmp != this){
+                                    let state = tmp.style.display == "block" ? "none" : "block"
+                                    tmp.style.display=state;
+                                }
+                            }
+                        })
+                    }
+                    // append to tree or parentKaiso (id_pgviewer_flow)
+                    container.appendChild(containerElement);
+                }
+                // create task element
+                for(let target of cloneRepo){
+                    let targetDate = target["addedDate"];
+                    const containerElement = createDOM("div");
+                    const button = createDOM("button");
+                    const icon = createDOM("span");
+                    // props
+                    {
+                        containerElement.style.marginLeft = "25px";
+                        containerElement.style.display = "flex";
+                        containerElement.style.display = "none";
+                        button.textContent = `【${targetDate}】`
+                                            + `\n${target["pgInfo"] ? target["pgInfo"] : "ー"}`
+                                            + `\n ${target["content"] ? target["content"] : "ー"}`;
+                        button.style.display = "flex";
+                        button.style.userSelect = "none";
+                        button.classList.add("pgviewer-pgelement");
+                        button.style.backgroundColor = "#e8edf1ff";
+                        button.style.color = "#61a6dfff";
+                        icon.innerHTML = svg_edit_color2;
+                        icon.style.marginRight = "10px";
+                        icon.classList.add("iconButton")
+                    }
+                    button.prepend(icon);
+                    containerElement.appendChild(button);
+                    const targetID = target["ID"];
+                    // event listener
+                    {
+                        // click
+                        button.addEventListener("click", function (){
+                            // title
+                            title_flow.value = button.textContent;
+                            // style
+                            for(let tmp of document.getElementsByClassName("selected-tree-obj-flow")){
+                                tmp.classList.remove("selected-tree-obj-flow");
+                            }
+                            this.classList.add("selected-tree-obj-flow");
+                            // create-file-tab
+                            openFile("PG", targetID)
+                        })
+                    }
+                    // append
+                    try{
+                        getDOM(targetDate + "_pgviewer_flow").appendChild(containerElement);
+                    }catch(e){
+                        log(`タスクビュー生成に失敗しました`);
+                    }
+                }
+                break;
+            }
+        }
+    }
+    build_tree();
+
+    // ファイルクリック（PG or TASK、PGObjID or TASKObjID）
+    function openFile(type, objID){
+        // create tab
+        file_tab_container_flow.innerHTML = '';
+        const newButton = createDOM("button");
+        {
+            newButton.textContent = "新規作成";
+            newButton.id = "new_button_tab_flow";
+            newButton.style.backgroundColor = "#ffff";
+            newButton.classList.add("tab-button-flow");
+            // newButton.classList.add("active");
+        }
+        file_tab_container_flow.appendChild(newButton);
+    }
+
+    // mode val
+    let modeObj = "";
+    // menuDOM（コンテナ格納➤参照操作用　参照操作後はnullで初期化）
+    let menuDOM = null;
+    // menu data
+    let menuJson_new_flow = [
+        {
+            "printName":"テキストカード",
+            "modeName":"textarea",
+            "icon":svg_card2,
+            "className":"sheetElement_flow,like-card-white",// 共通判別用クラス + CSV
+            "childMenu":null,
+        },
+        {
+            "printName":"図形...",
+            "modeName":"shapes",
+            "icon":svg_shapes2,
+            "childMenu":
+            [
+                {
+                    "path":"図形>",
+                    "printName":"スクエア",
+                    "modeName":"square",
+                    "icon":svg_square2,
+                    "className":"sheetElement_flow",
+                    "childMenu":null
+                },
+                {
+                    "path":"図形>",
+                    "printName":"サークル",
+                    "modeName":"circle",
+                    "icon":svg_circle2,
+                    "className":"sheetElement_flow",
+                    "childMenu":null
+                },
+            ],
+        },
+    ];
+
+    // editor function
+    if(isFirst){
+        // keyDown
+        work_sheet_flow.addEventListener("keydown", function(e){
+            if(e.key===" "){
+                // space for createMenu
+                e.preventDefault();
+                if(!menuDOM){
+                    createEditMenu();
+                }else{
+                    // move focus
+                    let cnt = 0;
+                    let index = null;
+                    for(let target of menuDOM.children){
+                        if(document.activeElement==target){
+                            index = cnt;
+                            break;
+                        }
+                        cnt++;
+                    }
+                    if(index!=null && menuDOM.children.length > index+1){ // 0はfalse値
+                        menuDOM.children[index+1].focus();
+                    }else{
+                        menuDOM.children[0].focus();
+                    }
+                }
+            }else if(e.key==="Escape"){
+                // remove menu
+                e.preventDefault();
+                removeMenu();
+            }else if(e.key==="ArrowUp" || e.key==="ArrowDown" || e.key==="ArrowLeft" || e.key==="ArrowRight"){
+                // 選択
+                let arr = document.getElementsByClassName("sheetElement_flow");
+                if(arr){
+                    let currentSelection = document.getElementsByClassName("selected_sheetElement_flow");
+                    if(currentSelection){
+                        // 既選択あり
+                    }else{
+                        // 既選択ナシ
+                    }
+                }
+            }
+        })
+        // click
+        work_sheet_flow.addEventListener("click", function(e){
+            // remove menu
+            removeMenu();
+
+        })
+        // active
+        work_sheet_flow.addEventListener("focus", function(e){
+            title_flow.style.color = "#61a6dfff";
+        })
+        // not active
+        work_sheet_flow.addEventListener("blur", function(e){
+            title_flow.style.color = "#a7b2bbff";
+        })
+    }
+
+    // functions**
+    
+    // remove menu*
+    function removeMenu(){
+        if(menuDOM){
+            menuDOM.remove();
+            menuDOM = null;
+        }
+        active()
+    }
+    // フォーカス
+    function active(){
+        work_sheet_flow.focus();
+    }
+    // 選択
+    function select(target){
+        let arr = document.getElementsByClassName("selected_sheetElement_flow");
+        if(arr){
+            arr[0].classList.remove("selected_sheetElement_flow");
+        }
+        target.classList.add("selected_sheetElement_flow");
+    }
+    // jsonデータをもとに編集メニュー作成、クリックでモード変数を更新*
+    function createEditMenu(repo = menuJson_new_flow){
+        const container = createDOM("div");
+        const pathLabel = createDOM("label");
+        menuDOM = container;
+        if(repo.find(a => a.hasOwnProperty("path"))){
+            pathLabel.textContent = repo[0]["path"];
+            {
+                pathLabel.tabIndex = 0;
+                pathLabel.style.color = "#61a6dfff";
+                // pathLabel.style.backgroundColor = "#fafafaff";
+                pathLabel.style.fontSize = "15px";
+                pathLabel.style.marginBottom = "5px";
+                pathLabel.addEventListener("focus", function(){
+                    // パスラベル　フォーカススキップ
+                    try{
+                        this.parentElement.children[1].focus();
+                    }catch(e){}
+                })
+
+            }
+            // container.appendChild(pathLabel);
+        }
+        for(let target of repo){
+            const button = createDOM("button");
+            const icon = createDOM("span");
+            {
+                button.classList.add("pgviewer-pgelement");
+                button.textContent = target["printName"];
+                button.style.display = "flex";
+                button.style.outline = "none";
+                if(target["icon"]) icon.innerHTML = target["icon"];
+                icon.style.marginRight = "10px";
+                icon.classList.add("iconButton")
+                button.style.backgroundColor = "#f1f5f7ff";
+                button.style.color = "#61a6dfff";
+                button.style.borderLeft = "5px solid #61a6dfff";
+                container.style.position = "absolute";
+                container.style.marginTop = "5px";
+                container.style.marginLeft = "5px";
+                const childArray = target["childMenu"];
+                // event
+                button.addEventListener("click", function(e){
+                    // child menu
+                    e.stopPropagation();
+                    if(childArray){
+                        removeMenu();
+                        createEditMenu(childArray);
+                    }else{
+                        modeObj = target;
+                        removeMenu();
+                        startEdit();
+                    }
+                })
+                button.addEventListener("focus", function(){
+                    // style
+                    this.classList.add("focusedMenu");
+                })
+                button.addEventListener("blur", function(){
+                    // style
+                    this.classList.remove("focusedMenu");
+                })
+            }
+            if(target["icon"]) button.prepend(icon);
+            container.appendChild(button);
+        }
+        work_sheet_flow.appendChild(container);
+        try{ menuDOM.children[0].focus(); }catch(e){};
+    }
+
+    // モード別編集実行（ by modeObj）
+    function startEdit(){
+        // 共通
+        modeInput.value = `${(modeObj.hasOwnProperty("path") ? modeObj["path"] : "") + modeObj["printName"]}`;
+        function addClass(target){
+            // データで指定されたクラスをすべて付与
+            for(let className of modeObj["className"].split(',')){
+                target.classList.add(className);
+            }
+        }
+        
+        // 分岐
+        switch(modeObj["modeName"]){
+            // テキストカード
+            case "textarea":{
+                const textarea = createDOM("textarea");
+                {
+                    addClass(textarea);
+                    textarea.style.position = "absolute";
+                    textarea.style.resize = "both";
+                    textarea.spellcheck = false;
+                    textarea.autoComplete = false;
+                }
+                textarea.addEventListener("click",function(e){
+                    // 伝播防止
+                    e.stopPropagation();
+                })
+                textarea.addEventListener("keydown",function(e){
+                    // 伝播防止（スペースメニュー）
+                    e.stopPropagation();
+                    if(e.key==="Escape"){
+                        // escapeでフォーカス外し
+                        active();
+                    }
+                })
+                work_sheet_flow.appendChild(textarea);
+                textarea.focus();
+                break;
+            }
+        }
+    }
+}
+
+
+
+// #region 共通関数（大） ******************************************************************* /
 
 
 
@@ -2093,8 +2805,8 @@ function createDOM_kaisoSelect(kaisoNo){
 }
 
 // #region PG情報参照（ビューアー参照、指定DOMに代入）
-// ※textContent or value　例，階層1>階層2>PG名 [pgid]
-function bootSub_refViewer(targetDOM, hiddenIDInput = null){
+// ※textContent or value　例，階層1>階層2>PG名 [pgid], afterFunc：代入後に実行したい関数
+function bootSub_refViewer(targetDOM, hiddenIDInput = null, afterFunc = null){
     // create **
     const modal = createDOM("div");
     const subWindow = createDOM("div");
@@ -2253,6 +2965,8 @@ function bootSub_refViewer(targetDOM, hiddenIDInput = null){
                 }
                 // hidden id
                 if(hiddenIDInput) hiddenIDInput.value = target["id"];
+                // after function
+                if(afterFunc!=null) afterFunc();
                 // end
                 end();
             })
@@ -2264,8 +2978,6 @@ function bootSub_refViewer(targetDOM, hiddenIDInput = null){
             log(`[${target["pgid"]}:${target["name"]}] は所属階層が削除済みのため、ビューアーに生成されませんでした`);
         }
     }
-
-
 }
 
 
@@ -2459,3 +3171,46 @@ function createDOM_workCategory(){
     }
     return select;
 }
+
+
+
+// region メニュー作成
+// 例、{"printName":"フォルダを作成", "icon":null, "func":null},を配列形式で
+function createMenu(orderArr){
+    if(getDOM("unique_container_context")){
+        getDOM("unique_container_context").remove();
+    }
+    const container = createDOM("div");
+    {
+        container.id = "unique_container_context";
+        container.style.position = "absolute";
+        container.style.top = mouseY + "px";
+        container.style.left = mouseX + "px";
+    }
+    for(let obj of orderArr){
+        const button = createDOM("button")
+        const icon = createDOM("span");
+        {
+            button.textContent = obj["printName"];
+            button.classList.add("contextitem");
+            button.style.display = "flex";
+            button.style.margin = "0.1";
+            icon.classList.add("iconButton");
+            if(obj["icon"]) icon.innerHTML = obj["icon"];
+            if(obj["func"]){
+                button.addEventListener("click", function(){
+                    obj["func"]();
+                    container.remove();
+                })
+            }
+        }
+        button.prepend(icon);
+        container.appendChild(button);
+    }
+    document.body.appendChild(container);
+    // クリックで削除（ドキュメントへのイベント重複登録を防ぐ）
+    document.addEventListener("click", function (){
+        container.remove();
+    },{once:true});
+}
+
