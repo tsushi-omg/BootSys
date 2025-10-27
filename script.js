@@ -92,7 +92,8 @@ var mainData_TEST =
           "compDate": "",
           "memos": []
         }
-      ]
+      ],
+      "WORK_MEMO" : [],
     }
   ],
   "MASTER": [
@@ -340,6 +341,17 @@ var mainData =
                 //     "memos":[ {id, title, value}, {}],
                 // }
             ],
+            //*** 雑多メモ*************************************** /
+            WORK_MEMO:[
+            //    {
+            //         "type": obj["type"],
+            //         "name": name,
+            //         "content":"",
+            //         "id": objId,
+            //         "parentCSV": container.name,
+            //         "sortNo":0,
+            //     },
+            ],
         }
     ],
     "MASTER": [
@@ -420,6 +432,7 @@ const svg_folder_black = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" 
 const svg_file = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>`;
 const svg_file_black = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#383838ff"><path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>`;
 const svg_gabage = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>`;
+const svg_pencil = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>`;
 
 
 //#region 共通関数
@@ -595,19 +608,35 @@ function toggleLogsVisible(){
     appLog.hidden = !appLog.hidden;
 }
 
-// 20桁ランダム英数字種痘（ランダム英数、重複不可）
-function getRandomString20(){
+// 20桁ランダム英数字種痘（ランダム英数）
+function getRandomString20(repo=null){
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     for (let i = 0; i < 20; i++) {
         const randomIndex = Math.floor(Math.random() * chars.length);
         result += chars.charAt(randomIndex);
     }
-    return result;
+    if(repo==null) return result;
+    var useAble = true;
+    for(let obj of repo){
+        try{
+            if(obj["id"]==result) {
+                useAble = false;
+                break;
+            }
+        }catch(e){}
+    }
+    if(useAble) return result;
+    else return getRandomString20(repo);
 }
 
 // 簡略化用関数（getElementByID）
-function getDOM(targetID){
+function getDOM(targetID, byName = false){
+    if(byName){
+        try{
+            return document.getElementsByName(targetID)[0];
+        }catch(e){}
+    }
     return document.getElementById(targetID);
 }
 
@@ -783,7 +812,7 @@ function Init(){
                     {"name": "デイリー記録", "id": WORK_DAILY, "icon":svg_calendar,"bootSys": null},
                     {"name": "タスク管理",  "id": WORK_TASK, "icon":svg_task,"bootSys": bootSys_WORK_TASK},
                     // {"name": "フローチャート",  "id": WORK_FLOW, "icon":svg_brain,"bootSys": bootSys_WORK_FLOW},
-                    {"name": "雑多メモ",   "id": WORK_MEMO, "icon":svg_memo,"bootSys": null},
+                    {"name": "雑多メモ",   "id": WORK_MEMO, "icon":svg_memo,"bootSys": bootSys_WORK_MEMO},
                     {"name": "PGビューアー",  "id": WORK_PGVIEWR, "icon":svg_map,"bootSys": bootSys_WORK_PGVIEWR},
                     {"name": "外部リンク",  "id": WORK_LINK, "icon":svg_link,"bootSys": null},
                 ]
@@ -2111,6 +2140,7 @@ function bootSys_WORK_TASK(isFirst=false){
 
 // dom
 
+let keyId_memo = "";
 // エクスプローラー
 const exp_memo = getDOM("exp_memo");
 // ツリー
@@ -2121,6 +2151,14 @@ const fileNameBox_memo = getDOM("fileNameBox_memo");
 const pathLabel_memo = getDOM("pathLabel_memo");
 // メモテキストエリア
 const memoTextarea_memo = getDOM("memoTextarea_memo");
+{
+    memoTextarea_memo.addEventListener("change", function(){
+        if(keyId!=""){
+            mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==keyId)["content"] = this.value;
+        }
+    })
+}
+
 
 function bootSys_WORK_MEMO(isFirst){
     if(isFirst){
@@ -2135,21 +2173,66 @@ function bootSys_WORK_MEMO(isFirst){
             createMenu(orderArr);
         })
     }
-
+    // 再構築
+    function rebuild(){
+        {
+            // clear
+            keyId_memo = ""; // 先にキークリア
+            tree_memo.innerHTML = "";
+            fileNameBox_memo.value = "";
+            pathLabel_memo.textContent = "";
+            memoTextarea_memo.value = "";
+        }
+        // 親から生成できるようソート（破壊的メソッド）
+        mainData.WORK[0].WORK_MEMO.sort((a, b) => {
+            return a.parentCSV.split(',').length - b.parentCSV.split(',').length;
+        });
+        for(let obj of mainData.WORK[0].WORK_MEMO){
+            createExpObj_memo(obj, true)
+        }
+    }
+    rebuild();
 }
 // メニュー呼び出し用にパブリックスコープにて宣言
 // メニュー作成（）
-function createExpObj_memo(obj){
+function createExpObj_memo(obj, isRebuild = false){
+    if(isRebuild){
+        createObjDOM(obj, obj["name"], true);
+        return;
+    }
     var typeName = obj["type"]=="folder" ? "フォルダ" : "ファイル";
     var objName = prompt(`${typeName}名を入力してください ※カンマ区切り`);
     if(objName=="") return;
+    // カンマ区切り
     for(let name of objName.split(',')){
         if(name == "") continue;
-        let parent = obj["parent"] ? obj["parent"] : tree_memo;
+        createObjDOM(obj, name, false);
+    }
+    // 画面構築
+    function createObjDOM(obj, name, isRebuild){
+        const objId = getRandomString20(mainData.WORK[0].WORK_MEMO);
+        let parent;
+        // 親設定
+        if(!isRebuild){
+            parent = obj["parent"] ? obj["parent"] : tree_memo;
+        }else{
+            // パスから自身を省いたものが親domのid
+            parent = obj["parentCSV"].split(',').length > 1 ? getDOM( obj["parentCSV"].replace(`,${obj["id"]}`, "")) : tree_memo;
+        }
         const container = createDOM("div");
         const li = createDOM("li");
         const icon = createDOM("span");
         {
+            // idにparentCSVを設定
+            if(isRebuild){
+                container.id = obj["parentCSV"];
+            }else{
+                if(obj["parent"]){
+                    container.id = obj["parent"].id + "," + objId; //*** */
+                }else{
+                    container.id = objId; //*** */
+                }
+            }
             li.classList.add(obj["type"]);
             li.textContent = name;
             li.style.display = "flex";
@@ -2162,7 +2245,27 @@ function createExpObj_memo(obj){
             icon.style.marginRight = "5px";
             container.classList.add("pgviewer-kaisofolder-container");
             container.style.marginLeft = "15px";
+            // 最上階層以外初期非表示
+            if(isRebuild){
+                if(obj["parentCSV"].split(',').length > 1){
+                    container.hidden = true;
+                }
+            }
         }
+        if(!isRebuild){
+            // crate Data
+            let dataObj = 
+            {
+                "type": obj["type"],
+                "name": name,
+                "content":"",
+                "id": objId,
+                "parentCSV": container.id,
+                "sortNo":0,
+            }
+            mainData.WORK[0].WORK_MEMO.push(dataObj);
+        }
+        const id = isRebuild ? obj["id"] : objId;
         // event
         if(obj["type"]=="folder"){
             // folder
@@ -2181,13 +2284,13 @@ function createExpObj_memo(obj){
                 let orderArr = [
                     {"printName":"フォルダを作成", "icon":svg_folder, "func":()=> createExpObj_memo( {"type": "folder", "parent": container} ), },
                     {"printName":"ファイルを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": container} ), },
-                    {"printName":"リネーム", "icon":svg_gabage, "func":null, },
-                    {"printName":"削除", "icon":svg_gabage, "func":null, },
+                    {"printName":"リネーム", "icon":svg_gabage, "func":()=>rename_memo(id,li), },
+                    {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
                 ];
                 createMenu(orderArr);
                 // 開ける（開閉状態を統一するため）
                 for(let child of this.parentElement.children){
-                    if(child != this && child != this.child){
+                    if(child != this && child != this.child){ // button, svg
                         child.hidden = false;
                     }
                 }
@@ -2199,11 +2302,28 @@ function createExpObj_memo(obj){
                 // 右クリックメニュー
                 e.preventDefault();
                 let orderArr = [
-                    {"printName":"リネーム", "icon":svg_gabage, "func":null, },
-                    {"printName":"削除", "icon":svg_gabage, "func":null, },
+                    {"printName":"リネーム", "icon":svg_pencil, "func":()=>rename_memo(id,li), },
+                    {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
                 ];
                 createMenu(orderArr);
                 e.stopPropagation();
+            });
+            li.addEventListener("click", function(e){
+                keyId = id;
+                fileNameBox_memo.value = mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["name"];
+                memoTextarea_memo.value = mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["content"];
+                let strPath = "";
+                for(let tmp of mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["parentCSV"].split(`,`)){
+                    if(tmp!=id){
+                        strPath += `${strPath=="" ? "" : "> "}${mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==tmp)["name"]}`;
+                    }
+                }
+                pathLabel_memo.textContent = strPath;
+                // class
+                for (let element of document.getElementsByClassName("selected-tree-obj-memo")){
+                    element.classList.remove("selected-tree-obj-memo");
+                }
+                this.classList.add("selected-tree-obj-memo");
             });
         }
         li.prepend(icon);
@@ -2211,10 +2331,35 @@ function createExpObj_memo(obj){
         parent.appendChild(container);
     }
 }
+// delete
+function delete_memo(objId, container){
+    // data
+    if(confirm(`[${mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==objId)["name"]}]を削除しますか？`)){
+        mainData.WORK[0].WORK_MEMO = mainData.WORK[0].WORK_MEMO.filter(a => !a["parentCSV"].includes(objId));
+    }
+    container.remove();
+    {
+        // clear
+        keyId_memo = ""; // 先にキークリア
+        fileNameBox_memo.value = "";
+        pathLabel_memo.textContent = "";
+        memoTextarea_memo.value = "";
+    }
+}
+// rename
+function rename_memo(objId, li){
+    // data
+    let newName = prompt("新しい名称を入力してください",li.textContent);
+    if(newName!="" && newName.trim()){
+        mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==objId)["name"] = newName;
+    }
+    li.textContent = newName;
+}
 
 
 
-// region ワーク - フローチャート（１回しか通してはならないもの➤DOM取得、永続DOMのイベント設置）
+// region ワーク - フローチャート
+// （１回しか通してはならないもの➤DOM取得、永続DOMのイベント設置）
 
 const tree_createMode_flow = getDOM("tree_createMode_flow");
 const toggle_tree_visible_flow = getDOM("toggle_tree_visible_flow");
@@ -3213,5 +3358,4 @@ function createMenu(orderArr){
         container.remove();
     },{once:true});
 }
-
 

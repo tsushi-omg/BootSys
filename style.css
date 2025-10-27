@@ -784,8 +784,9 @@ input:checked + .slider:before {
 
 
 /* フローチャート *******************************************/
-.selected-tree-obj-flow{
-  border: solid rgb(115, 178, 219) 2px;
+.selected-tree-obj-memo{
+  /* border: solid rgb(115, 178, 219) 2px; */
+  background-color: rgb(184, 211, 230) !important;
 }
 
 .back-image-grid{
