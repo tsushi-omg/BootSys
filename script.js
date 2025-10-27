@@ -18,7 +18,7 @@ const MASTER_SETTING = "MASTER_SETTING";            // 設定
 
 // 開発用
 let debug = false;
-debug = true;
+// debug = true;
 
 //tmp
 // Ctrl+S を押したらコピー
@@ -3213,4 +3213,5 @@ function createMenu(orderArr){
         container.remove();
     },{once:true});
 }
+
 
