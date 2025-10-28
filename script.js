@@ -2174,7 +2174,7 @@ function bootSys_WORK_MEMO(isFirst){
         })
     }
 
-    if (!mainData.WORK[0].hasOwnProperty("WORK_MEMO")) { maindData.WORK[0].WORK_MEMO = []; }
+    if (!mainData.WORK[0].hasOwnProperty("WORK_MEMO")) { mainData.WORK[0].WORK_MEMO = []; }
     // 再構築
     function rebuild(){
         {
@@ -3360,6 +3360,7 @@ function createMenu(orderArr){
         container.remove();
     },{once:true});
 }
+
 
 
 
