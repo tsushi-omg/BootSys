@@ -2173,6 +2173,8 @@ function bootSys_WORK_MEMO(isFirst){
             createMenu(orderArr);
         })
     }
+
+    if(!maindata.WORK[0].some(a=>a.hasOwnProperty("WORK_MEMO"))){ maindata.WORK[0].push({"WORK_MEMO":[]}) }
     // 再構築
     function rebuild(){
         {
@@ -3358,4 +3360,5 @@ function createMenu(orderArr){
         container.remove();
     },{once:true});
 }
+
 
