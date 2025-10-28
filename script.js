@@ -704,6 +704,8 @@ JSONReader.addEventListener("change", function(event){
             document.getElementById("PNameBox").value = mainData.META[0].PROJECTNAME;
             alert("データの読み込みが完了しました")
             log("JSONデータの読み込みに成功しました")
+            // 既存データパッチ
+            applyPatch();
         }else{
             JSONReader.value = "";
         }
@@ -714,6 +716,15 @@ JSONReader.addEventListener("change", function(event){
     };
     reader.readAsText(file);
 })
+
+// 既存データパッチ**
+function applyPatch(){
+    // 雑多メモデータ領域
+    if (!mainData.WORK[0].hasOwnProperty("WORK_MEMO")) {
+        mainData.WORK[0].WORK_MEMO = []; 
+        log("パッチを適用しました [雑多メモ：データ領域を作成]");
+    }
+}
 
 // 表示切替
 function toggleVisible(DOMID){
@@ -2173,8 +2184,6 @@ function bootSys_WORK_MEMO(isFirst){
             createMenu(orderArr);
         })
     }
-
-    if (!mainData.WORK[0].hasOwnProperty("WORK_MEMO")) { mainData.WORK[0].WORK_MEMO = []; }
     // 再構築
     function rebuild(){
         {
@@ -2204,10 +2213,10 @@ function createExpObj_memo(obj, isRebuild = false){
     }
     var typeName = obj["type"]=="folder" ? "フォルダ" : "ファイル";
     var objName = prompt(`${typeName}名を入力してください ※カンマ区切り`);
-    if(!objName) return;
+    if(!objName || !(objName.trim())) return;
     // カンマ区切り
     for(let name of objName.split(',')){
-        if(name == "") continue;
+        if(name.trim() == "") continue;
         createObjDOM(obj, name, false);
     }
     // 画面構築
@@ -2338,14 +2347,14 @@ function delete_memo(objId, container){
     // data
     if(confirm(`[${mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==objId)["name"]}]を削除しますか？`)){
         mainData.WORK[0].WORK_MEMO = mainData.WORK[0].WORK_MEMO.filter(a => !a["parentCSV"].includes(objId));
-    }
-    container.remove();
-    {
-        // clear
-        keyId_memo = ""; // 先にキークリア
-        fileNameBox_memo.value = "";
-        pathLabel_memo.textContent = "";
-        memoTextarea_memo.value = "";
+        container.remove();
+        {
+            // clear
+            keyId_memo = ""; // 先にキークリア
+            fileNameBox_memo.value = "";
+            pathLabel_memo.textContent = "";
+            memoTextarea_memo.value = "";
+        }
     }
 }
 // rename
@@ -2354,8 +2363,7 @@ function rename_memo(objId, li){
     let newName = prompt("新しい名称を入力してください",li.textContent);
     if(newName && newName.trim()){
         mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==objId)["name"] = newName;
-    
-    li.textContent = newName;
+        li.textContent = newName;
     }
 }
 
@@ -3361,11 +3369,4 @@ function createMenu(orderArr){
         container.remove();
     },{once:true});
 }
-
-
-
-
-
-
-
 
