@@ -2204,7 +2204,7 @@ function createExpObj_memo(obj, isRebuild = false){
     }
     var typeName = obj["type"]=="folder" ? "フォルダ" : "ファイル";
     var objName = prompt(`${typeName}名を入力してください ※カンマ区切り`);
-    if(objName) return;
+    if(!objName) return;
     // カンマ区切り
     for(let name of objName.split(',')){
         if(name == "") continue;
@@ -3361,6 +3361,7 @@ function createMenu(orderArr){
         container.remove();
     },{once:true});
 }
+
 
 
 
