@@ -506,7 +506,28 @@
             </div>
         </div>
 
-
+        <!-- ツール管理 start --------------------------------------------------------------------------------------------------------------->  
+        <div id="WORK_TOOLMANAGER_PANEL" class="tab-panel">
+            <h2 class="page-title">ツール管理</h2>
+            <div class="memo-main" style="height: 70vh;">
+                <!-- 左：エクスプローラー -->
+                <div class="memo-explorer" style="height: 100%;" id="exp_tool">
+                    <ul class="memo-folder-list" id="tree_tool">
+                        <!-- 
+                        <li class="folder">日常</li>
+                        <li class="folder">仕事</li>
+                        <li class="folder">アイデア</li>
+                        <li class="folder">買い物リスト</li> 
+                        -->
+                    </ul>
+                </div>
+                <!-- 右：ワークエリア -->
+                <div class="box-1" style="height: 100%; width: 75%;">
+                    <input type="text" id="fileNameBox_tool" class="box-2" placeholder="ツール名..." style="margin: 20px; width: 22%; font-size: 16px;" autocomplete="off" spellcheck="false">
+                    <div id="working_div_tool"></div>
+                </div>
+            </div>
+        </div>
 
         <!-- 設定 start --------------------------------------------------------------------------------------------------------------->  
         <div id="MASTER_SETTING_PANEL" class="tab-panel">
@@ -544,6 +565,8 @@
             </div>
             <!-- * -->
         </div>
+
+        
 
     </div>
   </div>

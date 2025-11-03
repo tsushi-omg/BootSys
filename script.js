@@ -6,6 +6,7 @@ const WORK_TASK = "WORK_TASK";      // タスク管理
 const WORK_FLOW = "WORK_FLOW";      // フローチャート
 const WORK_MEMO = "WORK_MEMO";      // 雑多メモ
 const WORK_PGVIEWR = "WORK_PGVIEWR";      //PGビューアー
+const WORK_TOOLMANAGER = "WORK_TOOLMANAGER";    // ツール管理
 const WORK_LINK = "WORK_LINK";      // 外部リンク
 
 // リソース
@@ -13,7 +14,6 @@ const MASTER_PGCATEGORY = "MASTER_PGCATEGORY";      // プログラム分類
 const MASTER_PGINFO = "MASTER_PGINFO";              // プログラム情報
 const MASTER_WORKCATEGORY = "MASTER_WORKCATEGORY";  // 作業カテゴリ
 const MASTER_TAGMANAGER = "MASTER_TAGMANAGER";      // タグ管理
-const MASTER_TOOLMANAGER = "MASTER_TOOLMANAGER";    // ツール管理
 const MASTER_SETTING = "MASTER_SETTING";            // 設定
 
 // 開発用
@@ -21,303 +21,16 @@ let debug = false;
 // debug = true;
 
 //tmp
-// Ctrl+S を押したらコピー
+// クイックダウンロード
 document.addEventListener("keydown", function(e) {
     if (e.ctrlKey && e.key === "s" || e.ctrlKey && e.key === "S") {
-        e.preventDefault(); // ブラウザの「保存」動作をキャンセル
-        navigator.clipboard.writeText(JSON.stringify(mainData, null, 2)).then(() => {
-            alert("コピーしました");
-        });
+        e.preventDefault();
+        // navigator.clipboard.writeText(JSON.stringify(mainData, null, 2)).then(() => {
+        //     alert("コピーしました");
+        // });
+        downLoadJSON();
     }
 });
-
-// テスト用データ
-
-
-
-var mainData_TEST = 
-{
-  "WORK": [
-    {
-      "WORK_TASK": [
-        {
-          "id": "KGDFLguQvpqwYuJipMfF",
-          "addedDate": "2025-09-16",
-          "workCategory": "9MXyNpIdoCQ2XTYwOJwJ",
-          "pgInfo": "製造> データ照会> 製造伝票照会 [CP801010_00]",
-          "pgObjId": "BkoEifYZCmVGTPCCLlXo",
-          "content": "特になし",
-          "dueDate": "2025-09-15",
-          "progress": "64",
-          "actHours": 0,
-          "compDate": "",
-          "memos": []
-        },
-        {
-          "id": "k1Aowp15tM0gm8CJsqao",
-          "addedDate": "2025-09-15",
-          "workCategory": "2AehAj90npZ3s7OvWbhi",
-          "pgInfo": "仕入> 日時処理> 用途仕分入力 [CB209000_00]",
-          "pgObjId": "tI05ExkjNKA8wG7tHGVJ",
-          "content": "DSIMPができないバグ対応",
-          "dueDate": "2025-09-17",
-          "progress": 0,
-          "actHours": 0,
-          "compDate": "",
-          "memos": []
-        },
-        {
-          "id": "VVxKmT3JQhjJD10ZJpMc",
-          "addedDate": "2025-09-15",
-          "workCategory": "FVeexTroVIFHwoqNhw1x",
-          "pgInfo": "製造> データ照会> 製造伝票照会 [CP801010_00]",
-          "pgObjId": "BkoEifYZCmVGTPCCLlXo",
-          "content": "テスト仕様書以下パスにあり",
-          "dueDate": "2025-09-15",
-          "progress": 0,
-          "actHours": 0,
-          "compDate": "",
-          "memos": []
-        },
-        {
-          "id": "M56ADBZa581Z0Azp8ibe",
-          "addedDate": "2025-09-15",
-          "workCategory": "HHIjISPrx7z6NaHKqfRB",
-          "pgInfo": "仕入> 日時処理> 入札データ取込 [CB209040_00]",
-          "pgObjId": "1UmD7NQoAAXzHATnOQ6N",
-          "content": "色々と曖昧",
-          "dueDate": "2025-09-15",
-          "progress": 0,
-          "actHours": 0,
-          "compDate": "",
-          "memos": []
-        }
-      ],
-      "WORK_MEMO" : [],
-    }
-  ],
-  "MASTER": [
-    {
-      "MASTER_PGCATEGORY": [
-        {
-          "kaisoCount": "2"
-        },
-        {
-          "kaiso1": [
-            {
-              "id": "GCu1qThs00Vo0wJaNzAg",
-              "name": "製造"
-            },
-            {
-              "id": "mU24w6lgTR16xztoRaHD",
-              "name": "仕入"
-            },
-            {
-              "id": "wWhKsCGwhpOyMx9q3y4H",
-              "name": "在庫"
-            },
-            {
-              "id": "66SmE4kWZnEInT9WyS2R",
-              "name": "マスタ"
-            }
-          ]
-        },
-        {
-          "kaiso2": [
-            {
-              "id": "lLcVZtE1zEpo9nD3y94h",
-              "name": "月次処理",
-              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg"
-            },
-            {
-              "id": "76ehunl80GBggiBLKVl8",
-              "name": "日時処理",
-              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg"
-            },
-            {
-              "id": "jJsj7RWlpJBEa9UPOV74",
-              "name": "データ照会",
-              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg"
-            },
-            {
-              "id": "TEZDpSKvzB060KtJfGUp",
-              "name": "日時処理",
-              "kaiso1ID": "mU24w6lgTR16xztoRaHD"
-            },
-            {
-              "id": "MAkyW6Hy38GpiN0a5svn",
-              "name": "月次処理",
-              "kaiso1ID": "mU24w6lgTR16xztoRaHD"
-            },
-            {
-              "id": "p7GNdldOzgpzc53TFKNV",
-              "name": "データ照会",
-              "kaiso1ID": "mU24w6lgTR16xztoRaHD"
-            },
-            {
-              "id": "RQZfoCaYhD8jDPk0Uxa9",
-              "name": "日時処理",
-              "kaiso1ID": "wWhKsCGwhpOyMx9q3y4H"
-            },
-            {
-              "id": "NEe94akwbPnxp0VhoJJI",
-              "name": "月次処理",
-              "kaiso1ID": "wWhKsCGwhpOyMx9q3y4H"
-            },
-            {
-              "id": "ytYAd7zAoTYXGNDyxlZV",
-              "name": "データ照会",
-              "kaiso1ID": "wWhKsCGwhpOyMx9q3y4H"
-            }
-          ]
-        },
-        {
-          "kaiso3": [
-            {
-              "id": "B7wPrZHtc7Lh8jlOl2Fr",
-              "name": "処理締め",
-              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg",
-              "kaiso2ID": "lLcVZtE1zEpo9nD3y94h"
-            },
-            {
-              "id": "BjTuYNv2R1IHtCyN5KYd",
-              "name": "製造登録",
-              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg",
-              "kaiso2ID": "76ehunl80GBggiBLKVl8"
-            },
-            {
-              "id": "a7ChzT6r1o1stqAUTUrl",
-              "name": "製造登録２",
-              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg",
-              "kaiso2ID": "76ehunl80GBggiBLKVl8"
-            }
-          ]
-        },
-        {
-          "kaiso4": []
-        }
-      ],
-      "MASTER_PGINFO": [
-        {
-          "id": "BkoEifYZCmVGTPCCLlXo",
-          "pgid": "CP801010_00",
-          "name": "製造伝票照会",
-          "kaisoCSV": "GCu1qThs00Vo0wJaNzAg,jJsj7RWlpJBEa9UPOV74",
-          "remark": "CSV対応済み"
-        },
-        {
-          "id": "AJA8LdxpBgUvSiyy1QKo",
-          "pgid": "CB100000_00",
-          "name": "締め処理",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,MAkyW6Hy38GpiN0a5svn",
-          "remark": ""
-        },
-        {
-          "id": "tWgLjyfQt5UebAhuj5yh",
-          "pgid": "CB203030_00",
-          "name": "仕入入力",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        },
-        {
-          "id": "tI05ExkjNKA8wG7tHGVJ",
-          "pgid": "CB209000_00",
-          "name": "用途仕分入力",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        },
-        {
-          "id": "1UmD7NQoAAXzHATnOQ6N",
-          "pgid": "CB209040_00",
-          "name": "入札データ取込",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        },
-        {
-          "id": "rAewwnOpDUQRIjVPxk7D",
-          "pgid": "1",
-          "name": "1",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        },
-        {
-          "id": "K9AfnNjBO9Yq0JIoIZDf",
-          "pgid": "2",
-          "name": "2",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        },
-        {
-          "id": "y9WzlaXF12ScrykwLDMy",
-          "pgid": "3",
-          "name": "3",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        },
-        {
-          "id": "sHFwpZhxPnM3yS1zvDzD",
-          "pgid": "4",
-          "name": "4",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        },
-        {
-          "id": "9AmYduBU1gZsWEIrYiHe",
-          "pgid": "5",
-          "name": "5",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        },
-        {
-          "id": "m4PgC8Yy5M6edzs4uYYK",
-          "pgid": "6",
-          "name": "6",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        },
-        {
-          "id": "bMGf5GJ8bGvbu4jCRWXg",
-          "pgid": "7",
-          "name": "7",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        },
-        {
-          "id": "dyAdbzDQ4ODnVAIortvp",
-          "pgid": "8",
-          "name": "8",
-          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
-          "remark": ""
-        }
-      ],
-      "MASTER_WORKCATEGORY": [
-        {
-          "id": "9MXyNpIdoCQ2XTYwOJwJ",
-          "name": "新規作成"
-        },
-        {
-          "id": "2AehAj90npZ3s7OvWbhi",
-          "name": "改修"
-        },
-        {
-          "id": "FVeexTroVIFHwoqNhw1x",
-          "name": "テスト"
-        },
-        {
-          "id": "HHIjISPrx7z6NaHKqfRB",
-          "name": "詳細設計"
-        }
-      ],
-      "MASTER_TAGMANAGER": [],
-      "MASTER_TOOLMANAGER": []
-    }
-  ],
-  "META": [
-    {
-      "PROJECTNAME": "茶管"
-    }
-  ]
-}
 
 //#region パブリック変数
 
@@ -351,6 +64,10 @@ var mainData =
             //         "parentCSV": container.name,
             //         "sortNo":0,
             //     },
+            ],
+            //*** ツール管理*************************************** /
+            WORK_TOOLMANAGER:[
+                // id, name, code, memo
             ],
         }
     ],
@@ -386,10 +103,6 @@ var mainData =
             //*** タグ管理*************************************** /
             MASTER_TAGMANAGER:[
                 // {"id":1, "name":"abc"}, {"id":2, "name":"def"},
-            ],
-            //*** ツール管理*************************************** /
-            MASTER_TOOLMANAGER:[
-                
             ],
         }
     ],
@@ -433,6 +146,10 @@ const svg_file = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox=
 const svg_file_black = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#383838ff"><path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>`;
 const svg_gabage = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>`;
 const svg_pencil = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>`;
+const svg_lock = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/></svg>`;
+const svg_code = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M320-240 80-480l240-240 57 57-184 184 183 183-56 56Zm320 0-57-57 184-184-183-183 56-56 240 240-240 240Z"/></svg>`;
+const svg_spanner = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="m620-284 56-56q6-6 6-14t-6-14L540-505q4-11 6-22t2-25q0-57-40.5-97.5T410-690q-17 0-34 4.5T343-673l94 94-56 56-94-94q-8 16-12.5 33t-4.5 34q0 57 40.5 97.5T408-412q13 0 24.5-2t22.5-6l137 136q6 6 14 6t14-6ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
+const svg_spanner_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#383838ff"><path d="m620-284 56-56q6-6 6-14t-6-14L540-505q4-11 6-22t2-25q0-57-40.5-97.5T410-690q-17 0-34 4.5T343-673l94 94-56 56-94-94q-8 16-12.5 33t-4.5 34q0 57 40.5 97.5T408-412q13 0 24.5-2t22.5-6l137 136q6 6 14 6t14-6ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
 
 
 //#region 共通関数
@@ -519,7 +236,8 @@ function buildMenu(){
                             // alert("タブボタンクリック発火")
                         })
                         // タブ閉じるボタン
-                        tabCloseButton.addEventListener("click", function(){
+                        tabCloseButton.addEventListener("click", function(e){
+                            e.stopPropagation();
                             this.parentElement.remove();
                             // アクティブパネルの閉じるボタンなら、（ほかにタブがあれば先頭のタブを開き、なければパネルクローズ）
                         })
@@ -608,7 +326,7 @@ function toggleLogsVisible(){
     appLog.hidden = !appLog.hidden;
 }
 
-// 20桁ランダム英数字種痘（ランダム英数）
+// 20桁ランダム英数字種痘（ランダム英数） 指定した配列内オブジェクトのプロパティ"id"を見て一意生成
 function getRandomString20(repo=null){
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
@@ -719,11 +437,27 @@ JSONReader.addEventListener("change", function(event){
 
 // 既存データパッチ**
 function applyPatch(){
+    let msg = false;
     // 雑多メモデータ領域
     if (!mainData.WORK[0].hasOwnProperty("WORK_MEMO")) {
         mainData.WORK[0].WORK_MEMO = []; 
-        log("パッチを適用しました [雑多メモ：データ領域を作成]");
+        log("パッチが適用されました [雑多メモ：データ領域を作成]");
     }
+    // 雑多メモデータ　ステータスアイコンデータ領域
+    msg = false
+    for(let obj of mainData.WORK[0].WORK_MEMO){
+        if(! (obj.hasOwnProperty("statusIcon"))){
+            obj["statusIcon"] = null;
+            msg = true;
+        }
+    }
+    if(msg) log("パッチが適用されました [雑多メモ：ステータスアイコンデータを作成]");
+    // ツール管理データ領域
+    if (!mainData.WORK[0].hasOwnProperty("WORK_TOOLMANAGER")) {
+        mainData.WORK[0].WORK_TOOLMANAGER = []; 
+        log("パッチが適用されました [ツール管理：データ領域を作成]");
+    }
+
 }
 
 // 表示切替
@@ -752,56 +486,48 @@ window.addEventListener('beforeunload', function(event) {
 });
 
 
-//#region イベントリスナー
-function bootEvents(){
+// ログ拡大
+appLog.addEventListener("dblclick", function(){
+    const logClone = document.createElement("textarea");
+    const modal = document.createElement("div");
+    {
+        logClone.style = appLog.style;
+        logClone.style.position="absolute";
+        logClone.style.top = "20vh";
+        logClone.style.left = "10vw";
+        logClone.style.height = "60vh";
+        logClone.style.width = "80vw";
+        // logClone.value = appLog.value;
+        logClone.value = JSON.stringify(mainData, null, 2);
+        logClone.style.zIndex = 110;
+        logClone.spellcheck = "off";
+    }
+    {
+        modal.style.position="absolute";
+        modal.style.top = "0vh";
+        modal.style.left = "0vw";
+        modal.style.height = "100vh";
+        modal.style.width = "100vw";
+        modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+        modal.style.zIndex = 100;
+        modal.addEventListener("click", function(){
+            try{
+                logClone.remove();
+                this.remove();
+            }catch(e){}
+        })
+    }
+    document.body.appendChild(modal);
+    document.body.appendChild(logClone);
+    logClone.scrollTop = logClone.scrollHeight;
+})
 
-    // ログ拡大
-    appLog.addEventListener("dblclick", function(){
-        const logClone = document.createElement("textarea");
-        const modal = document.createElement("div");
-        {
-            logClone.style = appLog.style;
-            logClone.style.position="absolute";
-            logClone.style.top = "20vh";
-            logClone.style.left = "10vw";
-            logClone.style.height = "60vh";
-            logClone.style.width = "80vw";
-            // logClone.value = appLog.value;
-            logClone.value = JSON.stringify(mainData, null, 2);
-            logClone.style.zIndex = 110;
-            logClone.spellcheck = "off";
-        }
-        {
-            modal.style.position="absolute";
-            modal.style.top = "0vh";
-            modal.style.left = "0vw";
-            modal.style.height = "100vh";
-            modal.style.width = "100vw";
-            modal.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-            modal.style.zIndex = 100;
-            modal.addEventListener("click", function(){
-                try{
-                    logClone.remove();
-                    this.remove();
-                }catch(e){}
-            })
-        }
-        document.body.appendChild(modal);
-        document.body.appendChild(logClone);
-        logClone.scrollTop = logClone.scrollHeight;
-    })
-    
-    // Update PJ Name
-    const PNameBox = document.getElementById("PNameBox");
-    PNameBox.addEventListener("change", function(){
-        mainData.META[0].PROJECTNAME = this.value.trim();
-        log(`プロジェクト名を [${this.value.trim()}] に変更しました`)
-    })
-
-
-}
-
-
+// Update PJ Name
+const PNameBox = document.getElementById("PNameBox");
+PNameBox.addEventListener("change", function(){
+    mainData.META[0].PROJECTNAME = this.value.trim();
+    log(`プロジェクト名を [${this.value.trim()}] に変更しました`)
+})
 
 
 
@@ -814,6 +540,9 @@ function Init(){
     // 開発用
     if(debug) mainData = mainData_TEST;
 
+    // パッチ適用
+    applyPatch();
+
     // メニューソース（２階層まで。別メニューの名前がまるごと入るのはNG。名前をキーにindexOf検索してフォーカスしているため）
     menuData = 
     {
@@ -825,6 +554,7 @@ function Init(){
                     // {"name": "フローチャート",  "id": WORK_FLOW, "icon":svg_brain,"bootSys": bootSys_WORK_FLOW},
                     {"name": "雑多メモ",   "id": WORK_MEMO, "icon":svg_memo,"bootSys": bootSys_WORK_MEMO},
                     {"name": "PGビューアー",  "id": WORK_PGVIEWR, "icon":svg_map,"bootSys": bootSys_WORK_PGVIEWR},
+                    {"name": "ツール管理",  "id": WORK_TOOLMANAGER, "icon":svg_android,"bootSys": bootSys_WORK_TOOLMANAGER},
                     {"name": "外部リンク",  "id": WORK_LINK, "icon":svg_link,"bootSys": null},
                 ]
             },
@@ -835,15 +565,11 @@ function Init(){
                     {"name": "プログラム情報","id": MASTER_PGINFO, "icon":svg_info,"bootSys": bootSys_MASTER_PGINFO},
                     {"name": "作業カテゴリ", "id": MASTER_WORKCATEGORY, "icon":svg_category,"bootSys": bootSys_MASTER_WORKCATEGORY},
                     {"name": "タグ管理",    "id": MASTER_TAGMANAGER, "icon":svg_tag,"bootSys": bootSys_MASTER_TAGMANAGER},
-                    {"name": "ツール管理",  "id": MASTER_TOOLMANAGER, "icon":svg_android,"bootSys": null},
                     {"name": "設定",  "id": MASTER_SETTING, "icon":svg_setting,"bootSys": null},
                 ]
             },
         ]
     };
-
-    // イベントリスナー開始
-    bootEvents();
     
     // メニュー構築
     buildMenu();
@@ -857,6 +583,7 @@ function Init(){
         bootSys_WORK_TASK(true); // タスク管理
         bootSys_WORK_FLOW(true); // フローチャート
         bootSys_WORK_MEMO(true); // 雑多メモ
+        bootSys_WORK_TOOLMANAGER(true); // ツール管理
     }
 
     // プロジェクト名
@@ -2147,7 +1874,7 @@ function bootSys_WORK_TASK(isFirst=false){
 
 
 
-// region ワーク-雑多メモ
+// region ワーク-雑多メモ *******************************************************************************************************************************
 
 // dom
 
@@ -2263,6 +1990,15 @@ function createExpObj_memo(obj, isRebuild = false){
                 }
             }
         }
+        // statusIcon
+        let statusIcon = createDOM("span");
+        if(isRebuild && obj["statusIcon"]!=null) {
+            statusIcon.innerHTML = obj["statusIcon"].replace(`fill="#F3F3F3"`,`fill="#383838ff"`);;
+            {
+                statusIcon.classList.add("iconButton");
+                statusIcon.style.marginLeft = "auto";
+            }
+        }
         if(!isRebuild){
             // crate Data
             let dataObj = 
@@ -2273,6 +2009,7 @@ function createExpObj_memo(obj, isRebuild = false){
                 "id": objId,
                 "parentCSV": container.id,
                 "sortNo":0,
+                "statusIcon":null,
             }
             mainData.WORK[0].WORK_MEMO.push(dataObj);
         }
@@ -2295,7 +2032,7 @@ function createExpObj_memo(obj, isRebuild = false){
                 let orderArr = [
                     {"printName":"フォルダを作成", "icon":svg_folder, "func":()=> createExpObj_memo( {"type": "folder", "parent": container} ), },
                     {"printName":"ファイルを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": container} ), },
-                    {"printName":"リネーム", "icon":svg_gabage, "func":()=>rename_memo(id,li), },
+                    {"printName":"リネーム", "icon":svg_pencil, "func":()=>rename_memo(id,li), },
                     {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
                 ];
                 createMenu(orderArr);
@@ -2313,6 +2050,7 @@ function createExpObj_memo(obj, isRebuild = false){
                 // 右クリックメニュー
                 e.preventDefault();
                 let orderArr = [
+                    {"printName":"アイコン", "icon":svg_category, "func":()=>statusIcon_memo(id, li), },
                     {"printName":"リネーム", "icon":svg_pencil, "func":()=>rename_memo(id,li), },
                     {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
                 ];
@@ -2338,6 +2076,7 @@ function createExpObj_memo(obj, isRebuild = false){
             });
         }
         li.prepend(icon);
+        if(isRebuild) li.appendChild(statusIcon)
         container.appendChild(li);
         parent.appendChild(container);
     }
@@ -2363,13 +2102,201 @@ function rename_memo(objId, li){
     let newName = prompt("新しい名称を入力してください",li.textContent);
     if(newName && newName.trim()){
         mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==objId)["name"] = newName;
+        const icon = createDOM("span");
+        {
+            icon.innerHTML = (mainData.WORK[0].WORK_MEMO.find(a => a.id == objId)["type"]=="file" ? svg_file_black : svg_folder_black);
+            icon.classList.add("iconButton");
+            icon.style.marginRight = "5px";
+        }
+        let statusIcon = createDOM("span");
+        if(mainData.WORK[0].WORK_MEMO.find(a => a.id == objId)["statusIcon"] != null){
+            statusIcon.innerHTML = mainData.WORK[0].WORK_MEMO.find(a => a.id == objId)["statusIcon"].replace(`fill="#F3F3F3"`,`fill="#383838ff"`);
+            statusIcon.classList.add("iconButton");
+            statusIcon.style.marginLeft = "auto";
+        }
         li.textContent = newName;
+        li.appendChild(statusIcon);
+        li.prepend(icon);
+    }
+}
+// status icon
+function statusIcon_memo(objId, li){
+    let obj = mainData.WORK[0].WORK_MEMO.find(a => a["id"]==objId);
+    // ※色はreplace変換するため#F3F3F3のみ可能
+    let orderArr = [
+        {"icon":svg_lock, "printName":(obj["statusIcon"] == svg_lock ? "ロック   ✓" : "ロック"), "func":() => upd_status_memo(obj, svg_lock, li)},
+        {"icon":svg_code, "printName":(obj["statusIcon"] == svg_code ? "コード ✓" : "コード"), "func":() => upd_status_memo(obj, svg_code, li)},
+        {"icon":svg_edit, "printName":(obj["statusIcon"] == svg_edit ? "編集中 ✓" : "編集中"), "func":() => upd_status_memo(obj, svg_edit, li)},
+        {"icon":svg_calendar, "printName":(obj["statusIcon"] == svg_calendar ? "管理 ✓" : "管理"), "func":() => upd_status_memo(obj, svg_calendar, li)},
+    ];
+    createMenu(orderArr);
+}
+// update icon data
+function upd_status_memo(obj, newSvg, li){
+    // clear
+    var cnt = 0;
+    for(let tmp of li.children){
+        if(tmp.classList.contains("iconButton")){
+            // ファイルアイコンを退避
+            if(cnt >= 1)tmp.remove();
+            cnt++;
+        }
+    }
+    if(obj["statusIcon"] == newSvg){
+        // clear
+        obj["statusIcon"] = null;
+    }else{
+        // set
+        obj["statusIcon"] = newSvg;
+        let icon = createDOM("span");
+        {
+            icon.innerHTML = newSvg.replace(`fill="#F3F3F3"`,`fill="#383838ff"`);
+            icon.classList.add("iconButton");
+            icon.style.marginLeft = "auto";
+        }
+        li.appendChild(icon);
     }
 }
 
 
 
-// region ワーク - フローチャート
+
+
+
+// region ワーク-ツール管理 *******************************************************************************************************************************
+
+// get dom
+const exp_tool = getDOM("exp_tool");
+const tree_tool = getDOM("tree_tool");
+const fileNameBox_tool = getDOM("fileNameBox_tool");
+const working_div_tool = getDOM("working_div_tool");
+let keyId_tool = "";
+
+function bootSys_WORK_TOOLMANAGER(isFirst){
+    tree_tool.innerHTML = "";
+    if(isFirst){
+        // イベント付与
+        exp_tool.addEventListener("contextmenu",function(e){
+            // 右クリックメニュー
+            e.preventDefault();
+            let orderArr = [
+                {"printName":"新規作成", "icon":svg_spanner, "func":()=> createObj_tool(), },
+            ];
+            createMenu(orderArr);
+        })
+    }else{
+        for(let obj of mainData.WORK[0].WORK_TOOLMANAGER){
+            createObj_tool(obj);
+        }
+    }
+}
+// 作成 or 再構築
+function createObj_tool(rebuildObj=null){
+    let isRebuild = (rebuildObj != null);
+    // new
+    let objName = "";
+    if(!isRebuild){
+        let newName = prompt("新規ツール名を入力してください")
+        if(newName!=null && newName.trim()) objName = newName;
+        else return;
+    }else{
+        objName = rebuildObj["name"];
+    }
+    let li = createDOM("li");
+    let icon = createDOM("span");
+    let objId = getRandomString20(mainData.WORK[0].WORK_TOOLMANAGER);
+    li.textContent = objName;
+    li.classList.add("folder");
+    li.style.display = "flex";
+    icon.style.marginRight = "5px";
+    icon.innerHTML = svg_spanner_gray;
+    icon.classList.add("iconButton");
+    {
+        // event
+        li.addEventListener("contextmenu",function(e){
+            // 右クリックメニュー
+            e.preventDefault();
+            e.stopPropagation();
+            let orderArr = [
+                {"printName":"リネーム", "icon":svg_edit, "func":() => rename_tool(objId, li), },
+                {"printName":"削除", "icon":svg_gabage, "func":() => delete_tool(objId, li), },
+            ];
+            createMenu(orderArr);
+        })
+        li.addEventListener("click",function(e){
+            // クリック
+            e.preventDefault();
+            e.stopPropagation();
+            keyId_tool = objId;
+            // 実行
+            run_tool(objId);
+        })
+    }
+    {
+        // create data
+        if(!isRebuild){
+           let obj =  {"id":objId, "name":objName, "code":"", "memo":""};
+           mainData.WORK[0].WORK_TOOLMANAGER.push(obj);
+        }
+    }
+    li.prepend(icon);
+    tree_tool.appendChild(li);
+    if(!isRebuild) log();
+}
+// delete
+function delete_tool(objId, li){
+    // data
+    let obj = mainData.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId);
+    if(confirm(`[${obj["name"]}]を削除しますか？`)){
+        mainData.WORK[0].WORK_TOOLMANAGER = mainData.WORK[0].WORK_TOOLMANAGER.filter(a => a["id"] != obj["id"]);
+        li.remove();
+        {
+            // clear
+            keyId_tool = ""; // 先にキークリア
+            fileNameBox_tool.value = "";
+            working_div_tool.innerHTML = "";
+        }
+    }
+}
+// rename
+function rename_tool(objId, li){
+    // data
+    let newName = prompt("新しい名称を入力してください",li.textContent);
+    if(newName && newName.trim()){
+        mainData.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId)["name"] = newName;
+        const icon = createDOM("span");
+        {
+            icon.innerHTML = svg_spanner_gray;
+            icon.classList.add("iconButton");
+            icon.style.marginRight = "5px";
+        }
+        li.textContent = newName;
+        li.prepend(icon);
+    }
+}
+// ツールクリックイベント
+function run_tool(objId){
+    // フレームDOM洗い替え
+    working_div_tool.innerHTML = "";
+    let obj = mainData.WORK[0].WORK_TOOLMANAGER.find(a => a["id"] == objId);
+    fileNameBox_tool.value = obj["name"]
+    const container = createDOM("div");
+    const frame = createDOM("iframe");
+    // prop
+    {
+        // container
+        // container.style
+    }
+    frame.srcdoc = obj["code"];
+
+
+    working_div_tool.appendChild(container);
+}
+
+
+
+
+// region ワーク - フローチャート *******************************************************************************************************************************
 // （１回しか通してはならないもの➤DOM取得、永続DOMのイベント設置）
 
 const tree_createMode_flow = getDOM("tree_createMode_flow");
@@ -3352,11 +3279,13 @@ function createMenu(orderArr){
             button.style.display = "flex";
             button.style.margin = "0.1";
             icon.classList.add("iconButton");
+            icon.style.marginRight = "5px";
             if(obj["icon"]) icon.innerHTML = obj["icon"];
             if(obj["func"]){
-                button.addEventListener("click", function(){
-                    obj["func"]();
+                button.addEventListener("click", function(e){
+                    e.stopPropagation();
                     container.remove();
+                    obj["func"]();
                 })
             }
         }
@@ -3370,3 +3299,397 @@ function createMenu(orderArr){
     },{once:true});
 }
 
+
+
+
+
+
+
+
+// region テストデータ
+var mainData_TEST = 
+{
+  "WORK": [
+    {
+      "WORK_TASK": [
+        {
+          "id": "KGDFLguQvpqwYuJipMfF",
+          "addedDate": "2025-09-16",
+          "workCategory": "9MXyNpIdoCQ2XTYwOJwJ",
+          "pgInfo": "製造> データ照会> 製造伝票照会 [CP801010_00]",
+          "pgObjId": "BkoEifYZCmVGTPCCLlXo",
+          "content": "特になし",
+          "dueDate": "2025-09-15",
+          "progress": "64",
+          "actHours": 0,
+          "compDate": "",
+          "memos": []
+        },
+        {
+          "id": "k1Aowp15tM0gm8CJsqao",
+          "addedDate": "2025-09-15",
+          "workCategory": "2AehAj90npZ3s7OvWbhi",
+          "pgInfo": "仕入> 日時処理> 用途仕分入力 [CB209000_00]",
+          "pgObjId": "tI05ExkjNKA8wG7tHGVJ",
+          "content": "DSIMPができないバグ対応",
+          "dueDate": "2025-09-17",
+          "progress": 0,
+          "actHours": 0,
+          "compDate": "",
+          "memos": []
+        },
+        {
+          "id": "VVxKmT3JQhjJD10ZJpMc",
+          "addedDate": "2025-09-15",
+          "workCategory": "FVeexTroVIFHwoqNhw1x",
+          "pgInfo": "製造> データ照会> 製造伝票照会 [CP801010_00]",
+          "pgObjId": "BkoEifYZCmVGTPCCLlXo",
+          "content": "テスト仕様書以下パスにあり",
+          "dueDate": "2025-09-15",
+          "progress": 0,
+          "actHours": 0,
+          "compDate": "",
+          "memos": []
+        },
+        {
+          "id": "M56ADBZa581Z0Azp8ibe",
+          "addedDate": "2025-09-15",
+          "workCategory": "HHIjISPrx7z6NaHKqfRB",
+          "pgInfo": "仕入> 日時処理> 入札データ取込 [CB209040_00]",
+          "pgObjId": "1UmD7NQoAAXzHATnOQ6N",
+          "content": "色々と曖昧",
+          "dueDate": "2025-09-15",
+          "progress": 0,
+          "actHours": 0,
+          "compDate": "",
+          "memos": []
+        }
+      ],
+      "WORK_MEMO": [
+        {
+          "type": "folder",
+          "name": "画面別",
+          "content": "",
+          "id": "w0V96AGb8zogPNPHpBpK",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK",
+          "sortNo": 0,
+          "statusIcon": null
+        },
+        {
+          "type": "folder",
+          "name": "用途入力",
+          "content": "",
+          "id": "uUznwiXaB4XwMBGMXanB",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK,uUznwiXaB4XwMBGMXanB",
+          "sortNo": 0,
+          "statusIcon": null
+        },
+        {
+          "type": "folder",
+          "name": "仕入入力",
+          "content": "",
+          "id": "UdpcdxuPgDtS9pHb5ECS",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK,UdpcdxuPgDtS9pHb5ECS",
+          "sortNo": 0,
+          "statusIcon": null
+        },
+        {
+          "type": "file",
+          "name": "残りタスク",
+          "content": "",
+          "id": "Xsvfw9oE378S05Q16Yqz",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK,Xsvfw9oE378S05Q16Yqz",
+          "sortNo": 0,
+          "statusIcon": "<svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\" viewBox=\"0 -960 960 960\" width=\"24px\" fill=\"#F3F3F3\"><path d=\"M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z\"/></svg>"
+        },
+        {
+          "type": "file",
+          "name": "概要",
+          "content": "定義書を参照",
+          "id": "A0hQd0gzEC265dLna5La",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK,uUznwiXaB4XwMBGMXanB,A0hQd0gzEC265dLna5La",
+          "sortNo": 0,
+          "statusIcon": null
+        },
+        {
+          "type": "file",
+          "name": "保留",
+          "content": "排他チェック動確",
+          "id": "yT41LaGMnUZxPENtNVal",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK,uUznwiXaB4XwMBGMXanB,yT41LaGMnUZxPENtNVal",
+          "sortNo": 0,
+          "statusIcon": null
+        },
+        {
+          "type": "file",
+          "name": "SQL",
+          "content": "SELECT \n    MAX(DSMID)\nFROM DSH\nLEFT JOIN DSM ON DSMDSHID = DSHID\n    AND DSMMKCID = DSHMKCID\n    AND DSMNEND0 = DSHNEND0\nWHERE 1=1\n    AND DSHDENNO = 1720\nGROUP BY \n    DSHID",
+          "id": "K8QJrx6hLPRn77O0Hhac",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK,uUznwiXaB4XwMBGMXanB,K8QJrx6hLPRn77O0Hhac",
+          "sortNo": 0,
+          "statusIcon": null
+        },
+        {
+          "type": "file",
+          "name": "概要",
+          "content": "キャッシュ対応",
+          "id": "njpqScAFD86nFP2zHy36",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK,UdpcdxuPgDtS9pHb5ECS,njpqScAFD86nFP2zHy36",
+          "sortNo": 0,
+          "statusIcon": null
+        },
+        {
+          "type": "file",
+          "name": "保留",
+          "content": "とくになし",
+          "id": "PiqJaYFiXHTlozIdqsP4",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK,UdpcdxuPgDtS9pHb5ECS,PiqJaYFiXHTlozIdqsP4",
+          "sortNo": 0,
+          "statusIcon": null
+        },
+        {
+          "type": "file",
+          "name": "SQL",
+          "content": "SLEECT COUNT(*)\nFROM DSH",
+          "id": "v7lpRLmfceUZdYpz0Jj1",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK,UdpcdxuPgDtS9pHb5ECS,v7lpRLmfceUZdYpz0Jj1",
+          "sortNo": 0,
+          "statusIcon": null
+        },
+        {
+          "type": "file",
+          "name": "備忘",
+          "content": "ワーク絡みはすべて、キャッシュ分岐する共通関数へ渡せる形へ加工\n",
+          "id": "32FIwvheZkKzvcxL3DXJ",
+          "parentCSV": "w0V96AGb8zogPNPHpBpK,UdpcdxuPgDtS9pHb5ECS,32FIwvheZkKzvcxL3DXJ",
+          "sortNo": 0,
+          "statusIcon": null
+        }
+      ],
+      //*** ツール管理*************************************** /
+      WORK_TOOLMANAGER:[
+            
+      ],
+    }
+  ],
+  "MASTER": [
+    {
+      "MASTER_PGCATEGORY": [
+        {
+          "kaisoCount": "2"
+        },
+        {
+          "kaiso1": [
+            {
+              "id": "GCu1qThs00Vo0wJaNzAg",
+              "name": "製造"
+            },
+            {
+              "id": "mU24w6lgTR16xztoRaHD",
+              "name": "仕入"
+            },
+            {
+              "id": "wWhKsCGwhpOyMx9q3y4H",
+              "name": "在庫"
+            },
+            {
+              "id": "66SmE4kWZnEInT9WyS2R",
+              "name": "マスタ"
+            }
+          ]
+        },
+        {
+          "kaiso2": [
+            {
+              "id": "lLcVZtE1zEpo9nD3y94h",
+              "name": "月次処理",
+              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg"
+            },
+            {
+              "id": "76ehunl80GBggiBLKVl8",
+              "name": "日時処理",
+              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg"
+            },
+            {
+              "id": "jJsj7RWlpJBEa9UPOV74",
+              "name": "データ照会",
+              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg"
+            },
+            {
+              "id": "TEZDpSKvzB060KtJfGUp",
+              "name": "日時処理",
+              "kaiso1ID": "mU24w6lgTR16xztoRaHD"
+            },
+            {
+              "id": "MAkyW6Hy38GpiN0a5svn",
+              "name": "月次処理",
+              "kaiso1ID": "mU24w6lgTR16xztoRaHD"
+            },
+            {
+              "id": "p7GNdldOzgpzc53TFKNV",
+              "name": "データ照会",
+              "kaiso1ID": "mU24w6lgTR16xztoRaHD"
+            },
+            {
+              "id": "RQZfoCaYhD8jDPk0Uxa9",
+              "name": "日時処理",
+              "kaiso1ID": "wWhKsCGwhpOyMx9q3y4H"
+            },
+            {
+              "id": "NEe94akwbPnxp0VhoJJI",
+              "name": "月次処理",
+              "kaiso1ID": "wWhKsCGwhpOyMx9q3y4H"
+            },
+            {
+              "id": "ytYAd7zAoTYXGNDyxlZV",
+              "name": "データ照会",
+              "kaiso1ID": "wWhKsCGwhpOyMx9q3y4H"
+            }
+          ]
+        },
+        {
+          "kaiso3": [
+            {
+              "id": "B7wPrZHtc7Lh8jlOl2Fr",
+              "name": "処理締め",
+              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg",
+              "kaiso2ID": "lLcVZtE1zEpo9nD3y94h"
+            },
+            {
+              "id": "BjTuYNv2R1IHtCyN5KYd",
+              "name": "製造登録",
+              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg",
+              "kaiso2ID": "76ehunl80GBggiBLKVl8"
+            },
+            {
+              "id": "a7ChzT6r1o1stqAUTUrl",
+              "name": "製造登録２",
+              "kaiso1ID": "GCu1qThs00Vo0wJaNzAg",
+              "kaiso2ID": "76ehunl80GBggiBLKVl8"
+            }
+          ]
+        },
+        {
+          "kaiso4": []
+        }
+      ],
+      "MASTER_PGINFO": [
+        {
+          "id": "BkoEifYZCmVGTPCCLlXo",
+          "pgid": "CP801010_00",
+          "name": "製造伝票照会",
+          "kaisoCSV": "GCu1qThs00Vo0wJaNzAg,jJsj7RWlpJBEa9UPOV74",
+          "remark": "CSV対応済み"
+        },
+        {
+          "id": "AJA8LdxpBgUvSiyy1QKo",
+          "pgid": "CB100000_00",
+          "name": "締め処理",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,MAkyW6Hy38GpiN0a5svn",
+          "remark": ""
+        },
+        {
+          "id": "tWgLjyfQt5UebAhuj5yh",
+          "pgid": "CB203030_00",
+          "name": "仕入入力",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "tI05ExkjNKA8wG7tHGVJ",
+          "pgid": "CB209000_00",
+          "name": "用途仕分入力",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "1UmD7NQoAAXzHATnOQ6N",
+          "pgid": "CB209040_00",
+          "name": "入札データ取込",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "rAewwnOpDUQRIjVPxk7D",
+          "pgid": "1",
+          "name": "1",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "K9AfnNjBO9Yq0JIoIZDf",
+          "pgid": "2",
+          "name": "2",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "y9WzlaXF12ScrykwLDMy",
+          "pgid": "3",
+          "name": "3",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "sHFwpZhxPnM3yS1zvDzD",
+          "pgid": "4",
+          "name": "4",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "9AmYduBU1gZsWEIrYiHe",
+          "pgid": "5",
+          "name": "5",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "m4PgC8Yy5M6edzs4uYYK",
+          "pgid": "6",
+          "name": "6",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "bMGf5GJ8bGvbu4jCRWXg",
+          "pgid": "7",
+          "name": "7",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        },
+        {
+          "id": "dyAdbzDQ4ODnVAIortvp",
+          "pgid": "8",
+          "name": "8",
+          "kaisoCSV": "mU24w6lgTR16xztoRaHD,TEZDpSKvzB060KtJfGUp",
+          "remark": ""
+        }
+      ],
+      "MASTER_WORKCATEGORY": [
+        {
+          "id": "9MXyNpIdoCQ2XTYwOJwJ",
+          "name": "新規作成"
+        },
+        {
+          "id": "2AehAj90npZ3s7OvWbhi",
+          "name": "改修"
+        },
+        {
+          "id": "FVeexTroVIFHwoqNhw1x",
+          "name": "テスト"
+        },
+        {
+          "id": "HHIjISPrx7z6NaHKqfRB",
+          "name": "詳細設計"
+        }
+      ],
+      "MASTER_TAGMANAGER": [],
+    }
+  ],
+  "META": [
+    {
+      "PROJECTNAME": "茶管"
+    }
+  ]
+}
