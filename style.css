@@ -975,3 +975,44 @@ input:checked + .slider:before {
 /* 雑多メモ end *********************************************/
 
 
+.code-editor-area {
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    color: #5fe25f;
+    background-color: #2b2f3a;
+    border: 1px solid #444b5a;
+    border-radius: 6px;
+    padding: 10px;
+    resize: none;
+    outline: none;
+    line-height: 1.5;
+    box-sizing: border-box;
+    overflow: auto;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+/* フォーカス時（アクティブ時） */
+.code-editor-area:focus {
+    border-color: #5b8def;
+    background-color: #2f3542;
+}
+
+/* スクロールバー */
+.code-editor-area::-webkit-scrollbar {
+    width: 10px;
+}
+.code-editor-area::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 5px;
+}
+.code-editor-area::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.bg-color-selection{
+  background-color: #d4e4f5 !important;
+  border-right: solid 1px gray;
+  border-top: solid 1px gray;
+  border-bottom: solid 1px gray;
+}

@@ -130,11 +130,13 @@ const svg_category = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" view
 const svg_info = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
 const svg_category2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M120-240v-80h240v80H120Zm0-200v-80h480v80H120Zm0-200v-80h720v80H120Z"/></svg>`;
 const svg_memo = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M280-280h84l240-238-86-86-238 238v86Zm352-266 42-44q6-6 6-14t-6-14l-56-56q-6-6-14-6t-14 6l-44 42 86 86ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h168q13-36 43.5-58t68.5-22q38 0 68.5 22t43.5 58h168q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm280-590q13 0 21.5-8.5T510-820q0-13-8.5-21.5T480-850q-13 0-21.5 8.5T450-820q0 13 8.5 21.5T480-790ZM200-200v-560 560Z"/></svg>`
+const svg_memo_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="M280-280h84l240-238-86-86-238 238v86Zm352-266 42-44q6-6 6-14t-6-14l-56-56q-6-6-14-6t-14 6l-44 42 86 86ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h168q13-36 43.5-58t68.5-22q38 0 68.5 22t43.5 58h168q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm280-590q13 0 21.5-8.5T510-820q0-13-8.5-21.5T480-850q-13 0-21.5 8.5T450-820q0 13 8.5 21.5T480-790ZM200-200v-560 560Z"/></svg>`
 const svg_link = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z"/></svg>`;
 const svg_setting = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"/></svg>`;
 const svg_map = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M640-560v-126 126ZM174-132q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v337q-15-23-35.5-42T760-528v-204l-120 46v126q-21 0-41 3.5T560-546v-140l-160-56v523l-226 87Zm26-96 120-46v-468l-120 40v474Zm440-12q34 0 56.5-20t23.5-60q1-34-22.5-57T640-400q-34 0-57 23t-23 57q0 34 23 57t57 23Zm0 80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 23-5.5 43.5T778-238l102 102-56 56-102-102q-18 11-38.5 16.5T640-160ZM320-742v468-468Z"/></svg>`;
 const svg_edit = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T903-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v120h-80v-80H520v-200H240v640h240v80H240Zm280-400Zm241 199-19-18 37 37-18-19Z"/></svg>`;
 const svg_edit_color2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#61a6dfff"><path d="M560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T903-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v120h-80v-80H520v-200H240v640h240v80H240Zm280-400Zm241 199-19-18 37 37-18-19Z"/></svg>`;
+const svg_edit_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="M560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T903-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v120h-80v-80H520v-200H240v640h240v80H240Zm280-400Zm241 199-19-18 37 37-18-19Z"/></svg>`;
 const svg_brain = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M440-400h80v-280h-80v280Zm120-60h80v-180h-80v180Zm-240-20h80v-160h-80v160ZM240-80v-172q-57-52-88.5-121.5T120-520q0-150 105-255t255-105q125 0 221.5 73.5T827-615l52 205q5 19-7 34.5T840-360h-80v120q0 33-23.5 56.5T680-160h-80v80h-80v-160h160v-200h108l-38-155q-23-91-98-148t-172-57q-116 0-198 81t-82 197q0 60 24.5 114t69.5 96l26 24v208h-80Zm254-360Z"/></svg>`;
 const svg_shapes2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#61a6dfff"><path d="M600-360ZM320-242q10 1 19.5 1.5t20.5.5q11 0 20.5-.5T400-242v82h400v-400h-82q1-10 1.5-19.5t.5-20.5q0-11-.5-20.5T718-640h82q33 0 56.5 23.5T880-560v400q0 33-23.5 56.5T800-80H400q-33 0-56.5-23.5T320-160v-82Zm40-78q-117 0-198.5-81.5T80-600q0-117 81.5-198.5T360-880q117 0 198.5 81.5T640-600q0 117-81.5 198.5T360-320Zm0-80q83 0 141.5-58.5T560-600q0-83-58.5-141.5T360-800q-83 0-141.5 58.5T160-600q0 83 58.5 141.5T360-400Zm0-200Z"/></svg>`;
 const svg_square2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#61a6dfff"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0 0v-560 560Z"/></svg>`;
@@ -150,6 +152,8 @@ const svg_lock = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox=
 const svg_code = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M320-240 80-480l240-240 57 57-184 184 183 183-56 56Zm320 0-57-57 184-184-183-183 56-56 240 240-240 240Z"/></svg>`;
 const svg_spanner = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="m620-284 56-56q6-6 6-14t-6-14L540-505q4-11 6-22t2-25q0-57-40.5-97.5T410-690q-17 0-34 4.5T343-673l94 94-56 56-94-94q-8 16-12.5 33t-4.5 34q0 57 40.5 97.5T408-412q13 0 24.5-2t22.5-6l137 136q6 6 14 6t14-6ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
 const svg_spanner_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#383838ff"><path d="m620-284 56-56q6-6 6-14t-6-14L540-505q4-11 6-22t2-25q0-57-40.5-97.5T410-690q-17 0-34 4.5T343-673l94 94-56 56-94-94q-8 16-12.5 33t-4.5 34q0 57 40.5 97.5T408-412q13 0 24.5-2t22.5-6l137 136q6 6 14 6t14-6ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
+const svg_play_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="m380-300 280-180-280-180v360ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
+
 
 
 //#region 共通関数
@@ -2168,12 +2172,11 @@ function upd_status_memo(obj, newSvg, li){
 // get dom
 const exp_tool = getDOM("exp_tool");
 const tree_tool = getDOM("tree_tool");
-const fileNameBox_tool = getDOM("fileNameBox_tool");
 const working_div_tool = getDOM("working_div_tool");
-let keyId_tool = "";
 
 function bootSys_WORK_TOOLMANAGER(isFirst){
     tree_tool.innerHTML = "";
+    working_div_tool.innerHTML = `<label style="margin: 20px;">ツールが選択されていません...</label>`;
     if(isFirst){
         // イベント付与
         exp_tool.addEventListener("contextmenu",function(e){
@@ -2205,6 +2208,7 @@ function createObj_tool(rebuildObj=null){
     let li = createDOM("li");
     let icon = createDOM("span");
     let objId = getRandomString20(mainData.WORK[0].WORK_TOOLMANAGER);
+    if(isRebuild) objId = rebuildObj["id"];
     li.textContent = objName;
     li.classList.add("folder");
     li.style.display = "flex";
@@ -2227,7 +2231,10 @@ function createObj_tool(rebuildObj=null){
             // クリック
             e.preventDefault();
             e.stopPropagation();
-            keyId_tool = objId;
+            for(let tmp of tree_tool.children){
+                if(tmp.classList.contains("bg-color-selection")) tmp.classList.remove("bg-color-selection");
+            }
+            this.classList.add("bg-color-selection")
             // 実行
             run_tool(objId);
         })
@@ -2241,7 +2248,7 @@ function createObj_tool(rebuildObj=null){
     }
     li.prepend(icon);
     tree_tool.appendChild(li);
-    if(!isRebuild) log();
+    if(!isRebuild) log("新規ツールが登録されました");
 }
 // delete
 function delete_tool(objId, li){
@@ -2253,7 +2260,6 @@ function delete_tool(objId, li){
         {
             // clear
             keyId_tool = ""; // 先にキークリア
-            fileNameBox_tool.value = "";
             working_div_tool.innerHTML = "";
         }
     }
@@ -2279,18 +2285,120 @@ function run_tool(objId){
     // フレームDOM洗い替え
     working_div_tool.innerHTML = "";
     let obj = mainData.WORK[0].WORK_TOOLMANAGER.find(a => a["id"] == objId);
-    fileNameBox_tool.value = obj["name"]
-    const container = createDOM("div");
-    const frame = createDOM("iframe");
-    // prop
+    // タブ生成
+    const workArea = createDOM("div");
+    const tabContainer = createDOM("div");
+
+    const button_run = createDOM("button");
+    const button_edit = createDOM("button");
+    const button_memo = createDOM("button");
+
+    const icon_run = createDOM("span");
+    const icon_edit = createDOM("span");
+    const icon_memo = createDOM("span");
     {
-        // container
-        // container.style
+        tabContainer.style.width = "100%";
+        tabContainer.classList.add("tabs");
+        button_run.classList.add("active");
+        button_run.textContent = "Run";
+        button_edit.textContent = "Edit";
+        button_memo.textContent = "Memo";
+
+        workArea.style.width = "62vw";
+        workArea.style.height = "62vh";
+        workArea.style.margin = "12px";
+
+        icon_run.classList.add("iconButton");
+        icon_edit.classList.add("iconButton");
+        icon_memo.classList.add("iconButton");
+
+        button_run.style.display = "flex";
+        button_edit.style.display = "flex";
+        button_memo.style.display = "flex";
+
+        icon_run.style.marginRight = "5px";
+        icon_edit.style.marginRight = "5px";
+        icon_memo.style.marginRight = "5px";
+
+        icon_run.innerHTML = svg_play_gray;
+        icon_edit.innerHTML = svg_edit_gray;
+        icon_memo.innerHTML = svg_memo_gray;
+
+        button_run.prepend(icon_run);
+        button_edit.prepend(icon_edit);
+        button_memo.prepend(icon_memo);
     }
-    frame.srcdoc = obj["code"];
+    // append
+    tabContainer.appendChild(button_run);
+    tabContainer.appendChild(button_edit);
+    tabContainer.appendChild(button_memo);
+    working_div_tool.appendChild(tabContainer);
+    working_div_tool.appendChild(workArea);
 
+    // 起動
+    const frame = createDOM("iframe");
+    {
+        frame.style.width = "100%";
+        frame.style.height = "100%";
+        // 例外スロー（そもそも親に影響はないがログが荒れないよう）
+        // let code = obj["code"].replaceAll(`<script>`,`<script> try{`)
+        // code = code.replaceAll(`</script>`,`}catch(e){} </script>`)
+        frame.srcdoc = obj["code"];
+    }
+    workArea.appendChild(frame);
 
-    working_div_tool.appendChild(container);
+    // 開け閉め
+    function toggleTab(target){
+        for(let tmp of tabContainer.children){
+            if(tmp.classList.contains("active")) tmp.classList.remove("active");
+        }
+        target.classList.add("active");
+        // clear
+        workArea.innerHTML = "";
+    }
+    // イベントー起動
+    button_run.addEventListener("click", function(e){
+        toggleTab(this);
+        // 再起動・洗い替え
+        run_tool(objId);
+    })
+    // イベントー編集
+    button_edit.addEventListener("click", function(e){
+        toggleTab(this);
+        const editor = createDOM("textarea");
+        editor.classList.add("code-editor-area");
+        workArea.appendChild(editor);
+        {
+            editor.value = obj["code"];
+            editor.placeholder = "コードを入力...";
+            editor.spellcheck = false; 
+            editor.autoComplete = false; 
+            // update code
+            editor.addEventListener("change", function(e){
+                mainData.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId)["code"] = this.value;
+            })
+        }
+    })
+    // イベントー注釈
+    button_memo.addEventListener("click", function(e){
+        toggleTab(this);
+        const memoArea = createDOM("textarea");
+        memoArea.classList.add("code-editor-area");
+        workArea.appendChild(memoArea);
+        {
+            memoArea.value = obj["memo"];
+            memoArea.placeholder = "メモを入力...";
+            memoArea.style.color = "black";
+            memoArea.style.backgroundColor = "#fff";
+            memoArea.style.border = "none";
+            memoArea.spellcheck = false; 
+            memoArea.autoComplete = false; 
+            // update code
+            memoArea.addEventListener("change", function(e){
+                mainData.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId)["memo"] = this.value;
+            })
+        }
+    })
 }
 
 
