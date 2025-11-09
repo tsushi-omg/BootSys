@@ -153,7 +153,8 @@ const svg_code = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox=
 const svg_spanner = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="m620-284 56-56q6-6 6-14t-6-14L540-505q4-11 6-22t2-25q0-57-40.5-97.5T410-690q-17 0-34 4.5T343-673l94 94-56 56-94-94q-8 16-12.5 33t-4.5 34q0 57 40.5 97.5T408-412q13 0 24.5-2t22.5-6l137 136q6 6 14 6t14-6ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
 const svg_spanner_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#383838ff"><path d="m620-284 56-56q6-6 6-14t-6-14L540-505q4-11 6-22t2-25q0-57-40.5-97.5T410-690q-17 0-34 4.5T343-673l94 94-56 56-94-94q-8 16-12.5 33t-4.5 34q0 57 40.5 97.5T408-412q13 0 24.5-2t22.5-6l137 136q6 6 14 6t14-6ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
 const svg_play_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="m380-300 280-180-280-180v360ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
-
+const svg_CrossWord = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M400-160h160v-160H400v160ZM160-400h160v-160H160v160Zm240 0h160v-160H400v160Zm240 0h160v-160H640v160Zm0-240h160v-160H640v160ZM320-80v-240H80v-320h480v-240h320v560H640v240H320Z"/></svg>`;
+const svg_CrossWord_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="M400-160h160v-160H400v160ZM160-400h160v-160H160v160Zm240 0h160v-160H400v160Zm240 0h160v-160H640v160Zm0-240h160v-160H640v160ZM320-80v-240H80v-320h480v-240h320v560H640v240H320Z"/></svg>`;
 
 
 //#region 共通関数
@@ -428,6 +429,10 @@ JSONReader.addEventListener("change", function(event){
             log("JSONデータの読み込みに成功しました")
             // 既存データパッチ
             applyPatch();
+            {
+                // マスタデータの絡まない画面はopen時にリビルドしない仕様のため手動でリビルド
+                bootSys_WORK_MEMO(false, true); // 雑多メモ
+            }
         }else{
             JSONReader.value = "";
         }
@@ -533,6 +538,26 @@ PNameBox.addEventListener("change", function(){
     log(`プロジェクト名を [${this.value.trim()}] に変更しました`)
 })
 
+// マウスドラッグ
+function mouseDrag(element) {
+    element.onpointermove = function(event) {
+        // 要素のサイズを取得
+        const elementRect = this.getBoundingClientRect();
+        // 右から20pxの範囲内にマウスがあるか確認
+        if (event.clientX > elementRect.right - 20) {
+            // 右端20pxはドラッグを無効にする
+            return;
+        }
+        if (event.buttons) {
+            this.style.left     = this.offsetLeft + event.movementX + 'px';
+            this.style.top      = this.offsetTop  + event.movementY + 'px';
+            this.style.position = 'absolute';
+            this.draggable      = false;
+            this.setPointerCapture(event.pointerId);
+        }
+    };
+}
+
 
 
 
@@ -570,6 +595,11 @@ function Init(){
                     {"name": "作業カテゴリ", "id": MASTER_WORKCATEGORY, "icon":svg_category,"bootSys": bootSys_MASTER_WORKCATEGORY},
                     {"name": "タグ管理",    "id": MASTER_TAGMANAGER, "icon":svg_tag,"bootSys": bootSys_MASTER_TAGMANAGER},
                     {"name": "設定",  "id": MASTER_SETTING, "icon":svg_setting,"bootSys": null},
+                ]
+            },
+            {
+                // 保留時、bootSys : nullでok
+                "name": "AI", "nextMenu": [
                 ]
             },
         ]
@@ -1895,14 +1925,41 @@ const pathLabel_memo = getDOM("pathLabel_memo");
 const memoTextarea_memo = getDOM("memoTextarea_memo");
 {
     memoTextarea_memo.addEventListener("change", function(){
-        if(keyId!=""){
-            mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==keyId)["content"] = this.value;
+        if(keyId_memo!=""){
+            mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==keyId_memo)["content"] = this.value;
         }
     })
 }
-
-
-function bootSys_WORK_MEMO(isFirst){
+// メモシートDIV
+const memoSheet_memo = getDOM("memoSheet_memo");
+// プッシュ用ボックス
+const text_pusher_box_memo = getDOM("text_pusher_box_memo");
+{
+    text_pusher_box_memo.addEventListener("keydown", function(e){
+        // エンターでプッシュ発火
+        if(e.key==="Enter"){
+            text_pusher_button_memo.dispatchEvent(new MouseEvent("click"))
+        }
+    })
+    // クリック
+    text_pusher_box_memo.addEventListener("click", function(e){
+        e.stopPropagation();
+    })
+}
+// プッシュ用ボタン
+const text_pusher_button_memo = getDOM("text_pusher_button_memo");
+{
+    text_pusher_button_memo.addEventListener("click",function(e){
+        // プッシュイベント
+        e.stopPropagation();
+        let props = {"value": text_pusher_box_memo.value}
+        push_memo("card",props);
+        text_pusher_box_memo.value = "";
+        text_pusher_box_memo.focus();
+    })
+}
+//*雑多メモーbootSys********************************************************************* ************/
+function bootSys_WORK_MEMO(isFirst, blnRebuild = false){
     if(isFirst){
         // イベント付与
         exp_memo.addEventListener("contextmenu",function(e){
@@ -1910,7 +1967,8 @@ function bootSys_WORK_MEMO(isFirst){
             e.preventDefault();
             let orderArr = [
                 {"printName":"フォルダを作成", "icon":svg_folder, "func":()=> createExpObj_memo( {"type": "folder", "parent": null} ), },
-                {"printName":"ファイルを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": null} ), },
+                {"printName":"シートを作成", "icon":svg_CrossWord, "func":()=> createExpObj_memo( {"type": "sheet", "parent": null} ), },
+                {"printName":"ノートを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": null} ), },
             ];
             createMenu(orderArr);
         })
@@ -1933,7 +1991,8 @@ function bootSys_WORK_MEMO(isFirst){
             createExpObj_memo(obj, true)
         }
     }
-    rebuild();
+    // マスタデータが絡まないため、データ読み込み時のみリビルト
+    if(blnRebuild) rebuild();
 }
 // メニュー呼び出し用にパブリックスコープにて宣言
 // メニュー作成（）
@@ -1942,7 +2001,19 @@ function createExpObj_memo(obj, isRebuild = false){
         createObjDOM(obj, obj["name"], true);
         return;
     }
-    var typeName = obj["type"]=="folder" ? "フォルダ" : "ファイル";
+    var typeName = "";
+    switch(obj["type"]){
+        
+        case "folder":
+            typeName = "フォルダ"
+            break;
+        case "sheet":
+            typeName = "シート"
+            break;
+        case "file":
+            typeName = "ノート"
+            break;
+    }
     var objName = prompt(`${typeName}名を入力してください ※カンマ区切り`);
     if(!objName || !(objName.trim())) return;
     // カンマ区切り
@@ -1975,14 +2046,20 @@ function createExpObj_memo(obj, isRebuild = false){
                     container.id = objId; //*** */
                 }
             }
-            li.classList.add(obj["type"]);
+            if(obj["type"] == "folder"){
+                li.classList.add("folder");
+            }else{
+                li.classList.add("file");
+            }
             li.textContent = name;
             li.style.display = "flex";
             icon.classList.add("iconButton")
             if(obj["type"]=="folder") {
                 // icon.innerHTML = svg_folder_black;
-            }else{
+            }else if(obj["type"]=="file"){
                 icon.innerHTML = svg_file_black;
+            }else if(obj["type"]=="sheet"){
+                icon.innerHTML = svg_CrossWord_gray;
             }
             icon.style.marginRight = "5px";
             container.classList.add("pgviewer-kaisofolder-container");
@@ -2035,7 +2112,8 @@ function createExpObj_memo(obj, isRebuild = false){
                 e.preventDefault();
                 let orderArr = [
                     {"printName":"フォルダを作成", "icon":svg_folder, "func":()=> createExpObj_memo( {"type": "folder", "parent": container} ), },
-                    {"printName":"ファイルを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": container} ), },
+                    {"printName":"シートを作成", "icon":svg_CrossWord, "func":()=> createExpObj_memo( {"type": "sheet", "parent": container} ), },
+                    {"printName":"ノートを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": container} ), },
                     {"printName":"リネーム", "icon":svg_pencil, "func":()=>rename_memo(id,li), },
                     {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
                 ];
@@ -2048,7 +2126,7 @@ function createExpObj_memo(obj, isRebuild = false){
                 }
                 e.stopPropagation();
             });
-        }else{
+        }else if(obj["type"]=="file"){
             // file
             li.addEventListener("contextmenu", function(e){
                 // 右クリックメニュー
@@ -2062,9 +2140,49 @@ function createExpObj_memo(obj, isRebuild = false){
                 e.stopPropagation();
             });
             li.addEventListener("click", function(e){
-                keyId = id;
+                // visible
+                memoTextarea_memo.hidden = false;
+                memoSheet_memo.hidden = true;
+
+                keyId_memo = id;
                 fileNameBox_memo.value = mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["name"];
                 memoTextarea_memo.value = mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["content"];
+                let strPath = "";
+                for(let tmp of mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["parentCSV"].split(`,`)){
+                    if(tmp!=id){
+                        strPath += `${strPath=="" ? "" : "> "}${mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==tmp)["name"]}`;
+                    }
+                }
+                pathLabel_memo.textContent = strPath;
+                // class
+                for (let element of document.getElementsByClassName("selected-tree-obj-memo")){
+                    element.classList.remove("selected-tree-obj-memo");
+                }
+                this.classList.add("selected-tree-obj-memo");
+            });
+        // シート
+        }else if(obj["type"]=="sheet"){
+            // sheet
+            li.addEventListener("contextmenu", function(e){
+                // 右クリックメニュー
+                e.preventDefault();
+                let orderArr = [
+                    {"printName":"アイコン", "icon":svg_category, "func":()=>statusIcon_memo(id, li), },
+                    {"printName":"リネーム", "icon":svg_pencil, "func":()=>rename_memo(id,li), },
+                    {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
+                ];
+                createMenu(orderArr);
+                e.stopPropagation();
+            });
+            li.addEventListener("click", function(e){
+                // visible
+                memoTextarea_memo.hidden = true;
+                memoSheet_memo.hidden = false;
+
+                keyId_memo = id;
+                fileNameBox_memo.value = mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["name"];
+                // 復元
+                // memoTextarea_memo.value = mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["content"];
                 let strPath = "";
                 for(let tmp of mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["parentCSV"].split(`,`)){
                     if(tmp!=id){
@@ -2160,6 +2278,67 @@ function upd_status_memo(obj, newSvg, li){
         }
         li.appendChild(icon);
     }
+}
+
+// プッシュイベント
+function push_memo(mode, propsObj){
+    switch(mode){
+        // カード挿入
+        case "card":{
+            const card = createDOM("textarea");
+            {
+                // prop
+                card.classList.add("like-card-white");
+                card.value = propsObj["value"];
+                card.style.position = "absolute";
+                card.style.fontSize = "16px";
+                if(propsObj["value"] != "") card.style.width = 16 * propsObj["value"].length + "px";
+                card.style.top = "20%";
+                card.spellcheck = false; 
+                card.autoComplete = false; 
+                mouseDrag(card);
+            }
+            {
+                card.addEventListener("click", function(e){
+                    e.stopPropagation();
+                })
+            }
+            memoSheet_memo.appendChild(card);
+        }
+    }
+}
+
+// シートイベント
+{
+    memoSheet_memo.addEventListener("click", function(e){
+        e.stopPropagation();
+        // クリックでテキスト挿入
+        const textarea = createDOM("textarea");
+        {
+            // prop
+            textarea.classList.add("box-trans");
+            textarea.style.position = "absolute";
+            textarea.style.fontSize = "16px";
+            // 相対マウス位置
+            textarea.style.top = e.offsetY + "px";
+            textarea.style.left = e.offsetX + "px";
+            textarea.spellcheck = false; 
+            textarea.autoComplete = false; 
+            mouseDrag(textarea);
+        }
+        {
+            // ロストフォーカス
+            textarea.addEventListener("blur",function(e){
+                if(this.value == "") this.remove();
+            })
+            // クリック
+            textarea.addEventListener("click",function(e){
+                e.stopPropagation();
+            })
+        }
+        memoSheet_memo.appendChild(textarea);
+        textarea.focus();
+    })
 }
 
 
@@ -2259,7 +2438,6 @@ function delete_tool(objId, li){
         li.remove();
         {
             // clear
-            keyId_tool = ""; // 先にキークリア
             working_div_tool.innerHTML = "";
         }
     }

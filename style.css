@@ -1016,3 +1016,18 @@ input:checked + .slider:before {
   border-top: solid 1px gray;
   border-bottom: solid 1px gray;
 }
+
+.box-soft{
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.box-trans{
+  border: none;
+  border-radius: 4px;
+}
+
+
+
+

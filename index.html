@@ -501,7 +501,13 @@
                     <input type="text" id="fileNameBox_memo" class="box-2" placeholder="ファイル名..." style="margin: 20px; width: 22%; font-size: 16px;" autocomplete="off" spellcheck="false">
                     <label style="color: gray;" id="pathLabel_memo"></label>
                     <p>
-                    <textarea id="memoTextarea_memo" class="focus-trans-back" placeholder="メモを入力..." style="height:58vh; width: 95%; margin: 20px; margin-top: -10px; font-size: 16px; resize: none; border: none;" autocomplete="off" spellcheck="false"></textarea>
+                    <textarea id="memoTextarea_memo" class="focus-trans-back" placeholder="メモを入力..." style="height:58vh; width: 95%; margin: 20px; margin-top: -10px; font-size: 16px; resize: none; border: none;" autocomplete="off" spellcheck="false" hidden></textarea>
+                    <div id="memoSheet_memo" class="focus-trans-back" placeholder="メモを入力..." style="height:58vh; width: 95%; margin: 20px; margin-top: -10px; font-size: 16px; border: none; overflow-y: auto; position: relative;" >
+                        <div style="position: fixed; z-index: 10;">
+                            <input type="text" class="box-soft" id="text_pusher_box_memo" placeholder="テキスト..." autocomplete="off" spellcheck="false" />
+                            <button class="mini-btn" id="text_pusher_button_memo">プッシュ</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
