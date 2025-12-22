@@ -1,6 +1,9 @@
+
 //#region PGID
 
+//========================================
 // ワーク
+//========================================
 const WORK_DAILY = "WORK_DAILY";    // デイリー記録
 const WORK_TASK = "WORK_TASK";      // タスク管理
 const WORK_FLOW = "WORK_FLOW";      // フローチャート
@@ -9,19 +12,24 @@ const WORK_PGVIEWR = "WORK_PGVIEWR";      //PGビューアー
 const WORK_TOOLMANAGER = "WORK_TOOLMANAGER";    // ツール管理
 const WORK_LINK = "WORK_LINK";      // 外部リンク
 
+//========================================
 // リソース
+//========================================
 const MASTER_PGCATEGORY = "MASTER_PGCATEGORY";      // プログラム分類
 const MASTER_PGINFO = "MASTER_PGINFO";              // プログラム情報
 const MASTER_WORKCATEGORY = "MASTER_WORKCATEGORY";  // 作業カテゴリ
 const MASTER_TAGMANAGER = "MASTER_TAGMANAGER";      // タグ管理
 const MASTER_SETTING = "MASTER_SETTING";            // 設定
 
+//========================================
 // 開発用
+//========================================
 let debug = false;
-// debug = true;
+debug = true;
 
-//tmp
+//========================================
 // クイックダウンロード
+//========================================
 document.addEventListener("keydown", function(e) {
     if (e.ctrlKey && e.key === "s" || e.ctrlKey && e.key === "S") {
         e.preventDefault();
@@ -32,9 +40,12 @@ document.addEventListener("keydown", function(e) {
     }
 });
 
+
 //#region パブリック変数
 
+//========================================
 // メインデータ
+//========================================
 var mainData = 
 {
     "WORK": [
@@ -125,6 +136,7 @@ const svg_android = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewB
 const svg_tag = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h440q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H160Zm0-80h440l180-240-180-240H160v480Zm220-240Z"/></svg>`;
 const svg_calendar = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z"/></svg>';
 const svg_task = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z"/></svg>`;
+const svg_task_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z"/></svg>`;
 const svg_task_color2 = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#61a6dfff"><path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z"/></svg>`;
 const svg_category = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="m260-520 220-360 220 360H260ZM700-80q-75 0-127.5-52.5T520-260q0-75 52.5-127.5T700-440q75 0 127.5 52.5T880-260q0 75-52.5 127.5T700-80Zm-580-20v-320h320v320H120Zm580-60q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm-500-20h160v-160H200v160Zm202-420h156l-78-126-78 126Zm78 0ZM360-340Zm340 80Z"/></svg>`;
 const svg_info = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
@@ -155,15 +167,19 @@ const svg_spanner_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" 
 const svg_play_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="m380-300 280-180-280-180v360ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
 const svg_CrossWord = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M400-160h160v-160H400v160ZM160-400h160v-160H160v160Zm240 0h160v-160H400v160Zm240 0h160v-160H640v160Zm0-240h160v-160H640v160ZM320-80v-240H80v-320h480v-240h320v560H640v240H320Z"/></svg>`;
 const svg_CrossWord_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="M400-160h160v-160H400v160ZM160-400h160v-160H160v160Zm240 0h160v-160H400v160Zm240 0h160v-160H640v160Zm0-240h160v-160H640v160ZM320-80v-240H80v-320h480v-240h320v560H640v240H320Z"/></svg>`;
+const svg_magnet= `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M480-80q-83 0-141.5-58.5T280-280q0-83 58.5-141.5T480-480q83 0 141.5 58.5T680-280q0 83-58.5 141.5T480-80Zm0-80q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM280-474 80-674q80-80 183.5-123T480-840q113 0 216.5 43T880-674L680-474q-41-41-92-63.5T480-560q-57 0-108 22.5T280-474Zm6-106q42-30 91.5-45T480-640q53 0 101.5 14.5T674-582l88-88q-62-44-133.5-67T480-760q-77 0-148.5 23T198-670l88 90Zm194-60Zm0 360Z"/></svg>`;
 
 
 //#region 共通関数
 
+//======================================================================================================================
 // メニュー構築（２階層まで。別メニューの名前がまるごと入るのはNG。名前をキーにindexOf検索してフォーカスしているため）
+//======================================================================================================================
 let menuData = {};
 
 const menuItemsContainer = document.getElementById("menuItemsContainer");
 const tabContainer = document.getElementById("tabContainer");
+
 function buildMenu(){
 
     // clear
@@ -302,7 +318,31 @@ function buildMenu(){
     }
 }
 
+//========================================
+// キーが押されているかどうかの判定**
+//========================================
+
+// キーダウンbool値　※押下ごとにキー追加
+let pressedKeys = {};
+
+// キーダウン　bool値
+document.addEventListener("keydown", function(e){
+    pressedKeys[e.key] = true;
+})
+
+// キーアップ
+document.addEventListener("keyup", function(e){
+    pressedKeys[e.key] = false;
+})
+
+// キーが押されているかどうかの判定**
+function keydown(keyName){
+    return pressedKeys[keyName];
+}
+
+//========================================
 // ログ出力
+//========================================
 const appLog = document.getElementById("appLog");
 function log(message){
     // 現在年月日時分秒
@@ -320,18 +360,24 @@ ${message}`;
     logText = "";
 }
 
+//========================================
 // 整形されたJSON出力
+//========================================
 function writeDataLog(){
     log(`
 ${JSON.stringify(mainData, null, 2)}`)
 }
 
+//========================================
 // ログ開閉
+//========================================
 function toggleLogsVisible(){
     appLog.hidden = !appLog.hidden;
 }
 
+//======================================================================================================================
 // 20桁ランダム英数字種痘（ランダム英数） 指定した配列内オブジェクトのプロパティ"id"を見て一意生成
+//======================================================================================================================
 function getRandomString20(repo=null){
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
@@ -353,7 +399,9 @@ function getRandomString20(repo=null){
     else return getRandomString20(repo);
 }
 
+//========================================
 // 簡略化用関数（getElementByID）
+//========================================
 function getDOM(targetID, byName = false){
     if(byName){
         try{
@@ -363,19 +411,25 @@ function getDOM(targetID, byName = false){
     return document.getElementById(targetID);
 }
 
+//========================================
 // 簡略化用関数（createElement）
+//========================================
 function createDOM(type){
     return document.createElement(type);
 }
 
+//========================================
 // valueをクリア
+//========================================
 function clearValue(DOMIDsCSV){
     for(let domid of DOMIDsCSV.split(',')){
         if(domid != "") getDOM(domid).value = "";
     }
 }
 
+//========================================
 // マウス位置取得
+//========================================
 var mouseX = 0;
 var mouseY = 0;
 document.addEventListener("mousemove", function(e){
@@ -383,7 +437,19 @@ document.addEventListener("mousemove", function(e){
     mouseY = e.clientY;
 });
 
+//========================================
+// 正確なポジション取得
+//========================================
+function getPosition(e, parent){
+    const rect = parent.getBoundingClientRect();
+    const x = e.clientX - rect.left + parent.scrollLeft;
+    const y = e.clientY - rect.top  + parent.scrollTop;
+    return { x, y };
+}
+
+//========================================
 // JSONファイル作成＆ダウンロード
+//========================================
 function downLoadJSON(){
     if (!mainData || typeof mainData !== "object") {
         alert("エクスポートするデータがありません。");
@@ -412,7 +478,9 @@ function downLoadJSON(){
     log("JSONファイルの作成に成功しました")
 }
 
+//========================================
 // JSONファイル読込
+//========================================
 const JSONReader = document.getElementById("JSONReader");
 JSONReader.addEventListener("change", function(event){
     const file = event.target.files[0];
@@ -444,38 +512,46 @@ JSONReader.addEventListener("change", function(event){
     reader.readAsText(file);
 })
 
+//========================================
 // 既存データパッチ**
+//========================================
 function applyPatch(){
-    let msg = false;
-    // 雑多メモデータ領域
-    if (!mainData.WORK[0].hasOwnProperty("WORK_MEMO")) {
-        mainData.WORK[0].WORK_MEMO = []; 
-        log("パッチが適用されました [雑多メモ：データ領域を作成]");
-    }
-    // 雑多メモデータ　ステータスアイコンデータ領域
-    msg = false
-    for(let obj of mainData.WORK[0].WORK_MEMO){
-        if(! (obj.hasOwnProperty("statusIcon"))){
-            obj["statusIcon"] = null;
-            msg = true;
+    try{
+        let msg = false;
+        // 雑多メモデータ領域
+        if (!mainData.WORK[0].hasOwnProperty("WORK_MEMO")) {
+            mainData.WORK[0].WORK_MEMO = []; 
+            log("パッチが適用されました [雑多メモ：データ領域を作成]");
         }
-    }
-    if(msg) log("パッチが適用されました [雑多メモ：ステータスアイコンデータを作成]");
-    // ツール管理データ領域
-    if (!mainData.WORK[0].hasOwnProperty("WORK_TOOLMANAGER")) {
-        mainData.WORK[0].WORK_TOOLMANAGER = []; 
-        log("パッチが適用されました [ツール管理：データ領域を作成]");
-    }
+        // 雑多メモデータ　ステータスアイコンデータ領域
+        msg = false
+        for(let obj of mainData.WORK[0].WORK_MEMO){
+            if(! (obj.hasOwnProperty("statusIcon"))){
+                obj["statusIcon"] = null;
+                msg = true;
+            }
+        }
+        if(msg) log("パッチが適用されました [雑多メモ：ステータスアイコンデータを作成]");
+        // ツール管理データ領域
+        if (!mainData.WORK[0].hasOwnProperty("WORK_TOOLMANAGER")) {
+            mainData.WORK[0].WORK_TOOLMANAGER = []; 
+            log("パッチが適用されました [ツール管理：データ領域を作成]");
+        }
+    }catch(e){alert("パッチ適用に失敗しました")}
 
 }
 
+//========================================
 // 表示切替
+//========================================
 function toggleVisible(DOMID){
     var target = document.getElementById(DOMID);
     target.hidden = !target.hidden;
 }
 
+//========================================
 // タスク管理　登録フォーム表示切替
+//========================================
 function toggleVisible_TaskManager(){
     const registerForm = getDOM("register-form-taskManager");
     const tableForm = getDOM("table-container-task-manager");
@@ -486,16 +562,18 @@ function toggleVisible_TaskManager(){
         tableForm.style.height = "40vh";
     }
 }
-
+//====================
 // 終了時に確認
+//====================
 window.addEventListener('beforeunload', function(event) {
     if(!debug)
     event.preventDefault(); // デフォルト動作を防ぐ（必須）
     event.returnValue = ""; // これを設定しないと動かない（固定メッセージ）
 });
 
-
+//====================
 // ログ拡大
+//====================
 appLog.addEventListener("dblclick", function(){
     const logClone = document.createElement("textarea");
     const modal = document.createElement("div");
@@ -531,14 +609,18 @@ appLog.addEventListener("dblclick", function(){
     logClone.scrollTop = logClone.scrollHeight;
 })
 
+//========================================
 // Update PJ Name
+//========================================
 const PNameBox = document.getElementById("PNameBox");
 PNameBox.addEventListener("change", function(){
     mainData.META[0].PROJECTNAME = this.value.trim();
     log(`プロジェクト名を [${this.value.trim()}] に変更しました`)
 })
 
-// マウスドラッグ
+//========================================
+// マウスドラッグ（shift）
+//========================================
 function mouseDrag(element) {
     element.onpointermove = function(event) {
         // 要素のサイズを取得
@@ -548,7 +630,7 @@ function mouseDrag(element) {
             // 右端20pxはドラッグを無効にする
             return;
         }
-        if (event.buttons) {
+        if (event.buttons && keydown("Shift")) {
             this.style.left     = this.offsetLeft + event.movementX + 'px';
             this.style.top      = this.offsetTop  + event.movementY + 'px';
             this.style.position = 'absolute';
@@ -557,12 +639,43 @@ function mouseDrag(element) {
         }
     };
 }
+//==================================================
+// enterで指定DOMにフォーカス（列挙順、shftで戻し）
+//==================================================
+function setupNextFocus(domArr){
+    let arr = domArr;
+    let index = 0;
+    for(let el of arr){
+        // index
+        let nextIdx = index != arr.length-1 ? index + 1 : null;
+        let prevIdx = index != 0 ? index - 1 : null;
+        // next
+        if(nextIdx != null){
+            el.addEventListener("keydown", function(e){
+                if(e.key == "Enter"){
+                    // e.preventDefault();
+                    arr[nextIdx].focus()
+                }
+            })
+        }
+        // prev
+        if(prevIdx != null){
+            el.addEventListener("keydown", function(e){
+                if(e.key == "Enter" && e.shiftKey){
+                    // e.preventDefault();
+                    arr[prevIdx].focus()
+                }
+            })
+        }
+        index++;
+    }
+}
 
 
 
-
-
+//========================================
 //#region 初期化
+//========================================
 
 function Init(){
 
@@ -1377,6 +1490,7 @@ function bootSys_MASTER_WORKCATEGORY(isFirst)
 
 // tree
 const pg_viewer_tree = getDOM("pg-viewer-tree")
+const pg_viewer_work = getDOM("pg-viewer-work")
 
 function bootSys_WORK_PGVIEWR(isFirst){
 
@@ -1389,11 +1503,14 @@ function bootSys_WORK_PGVIEWR(isFirst){
 
         // clear
         pg_viewer_tree.innerHTML = "";
+        pg_viewer_work.innerHTML = "";
 
         // bool
         var maxKaiso = cloneRepo_kaiso.find(a => a.hasOwnProperty("kaisoCount"))["kaisoCount"];
 
-        // create kaiso folder
+        // ===========================
+        // 1:create kaiso folder
+        // ===========================
         for(let index = 1; index <= maxKaiso; index++){
             
             let keyName = `kaiso${index}`;
@@ -1402,32 +1519,38 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 const container = createDOM("div");
                 const button = createDOM("button");
                 const icon = createDOM("span");
+                const counter = createDOM("input");
                 container.style.display = (index == 1 ? "block" : "none");
                 // props
                 {
                     container.id = target["id"] + "_pgviewer";
+                    counter.id = target["id"] + "_hiddenCounter_pgviewer";
+                    counter.type = "hidden";
+                    counter.value = 0;
                     container.style.marginLeft = "15px";
-                    // if(index > 1) container.classList.add("pgviewer-kaisofolder-container");
+                    container.style.backgroundColor = "#f3f6fa";
                     container.classList.add("pgviewer-kaisofolder-container");
                     button.textContent = target.name;
                     button.style.display = "flex";
                     button.style.userSelect = "none";
                     button.classList.add("pgviewer-kaisofolder");
-                    icon.innerHTML = svg_task;
+                    button.classList.add("bool-viewer-kaiso");
+                    // icon.innerHTML = svg_task_gray;
                     icon.style.marginRight = "10px";
                     icon.classList.add("iconButton")
-                    // button.style.minWidth = (button.style.minWidth.replace("px", "") - 15 * (index-1)) + "px !important";
-                    if(index==1) button.style.fontWeight = "bold";
+                    // if(index==1) button.style.fontWeight = "bold";
                 }
 
                 // append
                 container.appendChild(button);
+                container.appendChild(counter);
                 button.prepend(icon);
 
                 // event listener
                 {
-                    // toggle visible
-                    button.addEventListener("click", function toggleChildrenVisible(){
+                    button.addEventListener("dblclick", function(){
+
+                        // toggle visible
                         for(let tmp of this.parentElement.children){
                             if(tmp != this){
                                 let state = tmp.style.display == "block" ? "none" : "block"
@@ -1435,14 +1558,32 @@ function bootSys_WORK_PGVIEWR(isFirst){
                             }
                         }
                     })
+                    button.addEventListener("click", function(e){
+
+                        // edit
+                        editViewer("KAISO", target, (index == maxKaiso), index);
+
+                        // style
+                        for(let k of document.getElementsByClassName("bool-viewer-kaiso")){
+                            k.classList.remove("selected-kaiso-viewer")
+                        }
+                        this.classList.add("selected-kaiso-viewer")
+                    })
                 }
+                // 従属カウンタ
+                if(index != 1){
+                    let parentHidden = getDOM(target[`kaiso${index-1}ID`] + "_hiddenCounter_pgviewer");
+                    parentHidden.value = parseInt(parentHidden.value) + 1;
+                }
+
                 // append to tree or parentKaiso (id_pgviewer)
                 const parentDOM = (index == 1 ? pg_viewer_tree : getDOM(target[`kaiso${index-1}ID`] + "_pgviewer"));
                 parentDOM.appendChild(container);
             }
         }
-
-        // create pg element
+        // ===========================
+        // 2:create pg element
+        // ===========================
         for(let target of cloneRepo_pginfo){
 
             const container = createDOM("div");
@@ -1473,7 +1614,7 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 remarkInput.style.border = "none";
                 remarkInput.style.color = "gray";
                 remarkInput.style.borderBottom = "solid gray 1px";
-                icon.innerHTML = svg_edit;
+                // icon.innerHTML = svg_edit_gray;
                 icon.style.marginRight = "10px";
                 icon.classList.add("iconButton")
             }
@@ -1484,21 +1625,362 @@ function bootSys_WORK_PGVIEWR(isFirst){
             // event listener
             {
                 // copy pgid
-                button.addEventListener("click", function copyPGID(){
-                    try{navigator.clipboard.writeText(target.pgid).then(() => {
+                button.addEventListener("dblclick", function copyPGID(){
+                    try{
+                        navigator.clipboard.writeText(target.pgid).then(() => {
                             log(`クリップボードにコピーしました [${target["pgid"]}]`);
                         });
                     }catch(e){}
                 })
+                button.addEventListener("click", function(e){
+                    // edit
+                    editViewer("PG", target);
+                })
+            }
+            // hidden従属カウンタをインクリメント
+            if(parentIDList){
+                let parentHidden = getDOM(parentIDList[parentIDList.length-1] + "_hiddenCounter_pgviewer");
+                parentHidden.value = parseInt(parentHidden.value) + 1;
             }
             // append
             try{
-                (!parentIDList ? pg_viewer_tree : getDOM(parentIDList[parentIDList.length-1] + "_pgviewer")).appendChild(container);
+                // (!parentIDList ? pg_viewer_tree : getDOM(parentIDList[parentIDList.length-1] + "_pgviewer")).appendChild(container);
             }catch(e){
                 log(`[${target["pgid"]}:${target["name"]}] は所属階層が削除済みのため、ビューアーに生成されませんでした`);
             }
         }
 
+        // ===========================
+        // other:従属カウンタ反映
+        // ===========================
+        for(let index = 1; index <= maxKaiso; index++){
+            let keyName = `kaiso${index}`;
+            for(let target of cloneRepo_kaiso.find(a => a.hasOwnProperty(keyName))[keyName]){
+
+                let container =  getDOM(target["id"] + "_pgviewer");
+                for(let el of container.children){
+                    if(el.tagName == "BUTTON"){
+                        let span = createDOM("span");
+                        let tmpCnt = getDOM(target["id"] + "_hiddenCounter_pgviewer").value;
+                        span.innerHTML = `　${tmpCnt}件　`;
+                        if(index == maxKaiso) span.innerHTML += "➤";
+                        {
+                            span.style.backgroundColor = "#d6e0ea";  // 淡いブルーグレー
+                            span.style.color = "#2f3b48";            // 本文と同系
+                            span.style.borderRadius = "10px";
+                            span.style.padding = "2px 8px";
+                            span.style.fontSize = "12px";
+                            span.style.marginLeft = "8px";
+                            // span.style.textDecoration = "underline";
+                            // span.style.border = "1px solid #c7c7c7ff";
+                        }
+                        el.appendChild(span);
+                        break;
+                    }
+                }
+            }
+        }
+        // =============================================================================
+        // 関数名  ：editViewer
+        // 呼び出し：ビューアー階層クリック・ワークPGクリック
+        // 機能１  ：階層・PG情報の登録・編集機能を提供
+        // 機能２  ：PG付随メモのメイン編集画面を提供
+        // =============================================================================
+        function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
+            
+            // MODE
+            let MODE = {
+                
+                // 最上層・通常階層・PG
+                // "FIRST_KAISO"   : kaisoIndex == 0,
+                "MAX_KAISO"     : isMaxKaiso,
+                "NORMAL_KAISO"  : !isMaxKaiso,
+                "PG"            : kbn == "PG",
+            };
+
+            // clear
+            pg_viewer_work.innerHTML = "";
+
+            // innerHTML
+            let tempHeader = "";
+            let tempBody = "";
+            let tempFooter = "";
+
+            // -----------------
+            // region 階層
+            // -----------------
+            if(MODE.MAX_KAISO || MODE.NORMAL_KAISO){
+
+                // header
+                tempHeader = `<div class="pg-work-header" id="pg-viewer-work-header"></div>`;
+
+                // body
+                tempBody = 
+                    `<div class="like-card-white" id="pg-viewer-work-body">
+                        <div class="tag-table-wrapper-viewer" >
+                            <table class="tag-table">
+                                <tbody id="pg-viewr-editor-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>`;
+
+                // footer
+                tempFooter = 
+                    `<div class="pg-work-footer" id="pg-viewer-work-footer">
+                        <div class="pg-work-footer-title">クイック登録</div>
+                        <div class="pg-work-form">
+                            <input type="text" class="pg-input" id="nameBox_viewer" placeholder="名称">`
+                            
+                            // PGID
+                            if(MODE.MAX_KAISO) tempFooter += `<input type="text" class="pg-input" id="idBox_viewer" placeholder="PGID">`
+                            
+                            tempFooter += `<button class="pg-work-add" id="quick_register_viewer">登録</button>
+                        </div>
+                    </div>`;
+
+                    pg_viewer_work.innerHTML = (tempHeader + tempBody + tempFooter);
+
+                // dom取得
+                const pg_viewer_work_header = getDOM("pg-viewer-work-header")
+                const viewr_editor_tbody = getDOM("pg-viewr-editor-body")
+                
+                // ----------------------------------
+                // region kaiso-header
+                // ----------------------------------
+
+                // show
+                let nameLabel = createDOM("div");
+                let pathLabel = createDOM("div");
+
+                // path取得用
+                let kaisoCSVString = "";
+
+                // 階層{index}より連結
+                // if(!MODE.MAX_KAISO){ // 最上階層ならパスなし
+                    for(let tmpIdx = 1; tmpIdx < parseInt(kaisoIndex); tmpIdx++){
+                        kaisoCSVString += targetObj[`kaiso${tmpIdx}ID`] + ",";
+                    // }
+                }
+
+                // idから名称へ変換
+                let kaisoPath = "";
+                if(kaisoCSVString != ""){
+                    let kaisoIndex = 1;
+                    for(let tmpId of kaisoCSVString.split(',')){
+                        if(!tmpId) continue;// 最後のカンマ
+                        let kaisoName = mainData.MASTER[0].MASTER_PGCATEGORY
+                                        .find(a => a["kaiso" + kaisoIndex])
+                                        ["kaiso" + kaisoIndex]
+                                        .find(b => b.id == tmpId)["name"];
+                        kaisoPath += (kaisoPath != "" ? "> " :  "") + kaisoName;
+                        kaisoIndex ++;
+                    }
+                }
+                
+                // props
+                let state = isMaxKaiso ? "所属PG" : "従属階層";
+                nameLabel.innerHTML = targetObj.name + `（${state}）`;
+                pathLabel.innerHTML = kaisoPath;
+                nameLabel.classList.add("pg-work-title");
+                pathLabel.classList.add("pg-work-path");
+
+                // append
+                pg_viewer_work_header.appendChild(nameLabel);
+                pg_viewer_work_header.appendChild(pathLabel);
+
+                // ----------------------------------
+                // region kaiso-body
+                // ----------------------------------
+
+                // 従属照会・編集
+                let rowNum = 1;
+
+                // 最下層なら所属PG照会
+                if(MODE.MAX_KAISO){
+                    
+                    for(let tmpObj of mainData.MASTER[0].MASTER_PGINFO){
+
+                        // 直下のPGのみ取得
+                        let arr = tmpObj["kaisoCSV"].split(",");
+                        
+                        if(arr[arr.length-1] == targetObj["id"]){
+                            
+                            // table row
+                            const tr = createDOM("tr");
+                            const td = createDOM("td");
+                            const pgnameInput = createDOM("input")
+                            const pgidInput = createDOM("input")
+                            const td2 = createDOM("td");
+                            const td3 = createDOM("td");
+                            const delButton = createDOM("button")
+
+                            // props
+                            td.textContent = rowNum;
+                            pgnameInput.type = "text";
+                            pgnameInput.value = tmpObj["name"];
+                            pgnameInput.style.borderBottom = "none";
+                            pgidInput.style.borderTop = "dotted #d4d4d4ff 1px";
+                            pgidInput.value = tmpObj["pgid"];
+                            delButton.textContent = "削除";
+                            delButton.classList.add("medium-button-red");
+                            
+                            // --------------
+                            // event
+                            // --------------
+                            
+                            // update name
+                            pgnameInput.addEventListener("change", function(){
+                                if(this.value.trim()){
+                                    tmpObj["name"] = this.value;
+                                }
+                            })
+                            // update id
+                            pgidInput.addEventListener("change", function(){
+                                if(this.value.trim()){
+                                    tmpObj["pgid"] = this.value;
+                                }
+                            })
+                            // delete data
+                            delButton.addEventListener("click", function(){
+
+                                if(confirm(`[${tmpObj["name"]}] を削除しますか？`)){
+
+                                    // delete
+                                    mainData.MASTER[0].MASTER_PGINFO = mainData.MASTER[0].MASTER_PGINFO.filter(a => a["pgid"] != tmpObj["pgid"]);
+
+                                    // upd view
+                                    editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
+                                }
+                            })
+
+                            // append
+                            td2.appendChild(pgnameInput);
+                            td2.appendChild(pgidInput);
+                            td3.appendChild(delButton);
+                            tr.appendChild(td);
+                            tr.appendChild(td2);
+                            tr.appendChild(td3);
+                            viewr_editor_tbody.appendChild(tr);
+                            rowNum++;
+                        }
+                    }
+
+                // 直下の階層を表示
+                }else{
+                    
+                    let arr = mainData.MASTER[0].MASTER_PGCATEGORY.find(a=>a[`kaiso${kaisoIndex+1}`])[`kaiso${kaisoIndex+1}`].filter(b=>b[`kaiso${kaisoIndex}ID`]==targetObj["id"]);
+
+                    for(let tmpObj of arr){
+                        const tr = createDOM("tr");
+                        const td = createDOM("td");
+                        const input = createDOM("input")
+                        const td2 = createDOM("td");
+                        const td3 = createDOM("td");
+                        const button = createDOM("button")
+                        {
+                            td.textContent = rowNum;
+                            input.type = "text";
+                            input.value = tmpObj["name"];
+                            input.style.borderBottom = "none";
+                            button.textContent = "削除";
+                            button.classList.add("medium-button-red");
+                        }
+                        td2.appendChild(input);
+                        td3.appendChild(button);
+                        tr.appendChild(td);
+                        tr.appendChild(td2);
+                        tr.appendChild(td3);
+                        viewr_editor_tbody.appendChild(tr);
+                        rowNum++;
+                    }
+                }
+                // ----------------------------------
+                // region KAISO-FOOTER
+                // ----------------------------------
+
+                // DOM
+                let regButton = getDOM("quick_register_viewer");
+                let nameBox = getDOM("nameBox_viewer");
+                let idBox;
+                if(MODE.MAX_KAISO) idBox = getDOM("idBox_viewer");
+
+                // enterフォーカスセットアップ
+                if(MODE.MAX_KAISO) setupNextFocus([nameBox, idBox, regButton]);
+                else if(MODE.NORMAL_KAISO) setupNextFocus([nameBox, regButton]);
+
+                // REGISTER PGINFO
+                if(MODE.MAX_KAISO){
+                    
+                    regButton.addEventListener("click", function(){
+                        
+                        // どちらか入力
+                        if(nameBox.value.trim() || idBox.value.trim()){
+
+                            let repo = mainData.MASTER[0].MASTER_PGINFO;
+                            
+                            // PUSH
+                            let obj = 
+                            {
+                                "id": getRandomString20(repo),
+                                "pgid":idBox.value.trim(),
+                                "name": nameBox.value.trim(),
+                                "kaisoCSV":kaisoCSVString + targetObj["id"],
+                                "remark": ""
+                            };
+                            repo.push(obj)
+
+                            // UPD VIEW
+                            editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
+
+                        }else{alert("名称かPGIDを入力してください")}
+                    })
+
+                // REGISTER KAISO
+                }else if(MODE.NORMAL_KAISO){
+                    regButton.addEventListener("click", function(){
+                        
+                        // 必須入力
+                        if(nameBox.value.trim()){
+
+                            let kaisoKey = "kaiso" + (kaisoIndex + 1);
+                            let repo = mainData.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey];
+                            
+                            // DATA
+                            let obj = 
+                            {
+                                "id": getRandomString20(repo),
+                                "name": nameBox.value.trim(),
+                            };
+
+                            // PARENT ROOT
+                            for(let rootIndex = 1; rootIndex <= kaisoIndex; rootIndex++){
+                                let val = rootIndex == kaisoIndex
+                                            ? targetObj["id"]
+                                            : kaisoCSVString.split(',')[rootIndex-1];
+                                obj["kaiso" + rootIndex + "ID"] = val;
+                            }
+
+                            // PUSH
+                            repo.push(obj)
+
+                            // UPD VIEW
+                            editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
+
+                        }else{alert("名称を入力してください")}
+                    })
+                }
+
+                // 初期フォーカス
+                nameBox.focus();
+                
+            // -----------------
+            // region PG情報
+            // -----------------
+            }else if(MODE.PG){
+
+            }
+        }
     }
     create();
 }
@@ -1913,6 +2395,22 @@ function bootSys_WORK_TASK(isFirst=false){
 // dom
 
 let keyId_memo = "";
+// 操作ログオブジェクト
+let logObj_memo = {
+//     sheetId: 
+//     [
+//         {"type":controllTypes.CREATE, "targetID": sjhdfuhas},{}
+//     ], 
+//     sheetId: 
+//     [
+//          ...
+//     ],
+}; 
+// 操作種別
+let controllTypes = {
+    "CREATE":1,
+    "DELETE":2,
+}
 // エクスプローラー
 const exp_memo = getDOM("exp_memo");
 // ツリー
@@ -1932,32 +2430,7 @@ const memoTextarea_memo = getDOM("memoTextarea_memo");
 }
 // メモシートDIV
 const memoSheet_memo = getDOM("memoSheet_memo");
-// プッシュ用ボックス
-const text_pusher_box_memo = getDOM("text_pusher_box_memo");
-{
-    text_pusher_box_memo.addEventListener("keydown", function(e){
-        // エンターでプッシュ発火
-        if(e.key==="Enter"){
-            text_pusher_button_memo.dispatchEvent(new MouseEvent("click"))
-        }
-    })
-    // クリック
-    text_pusher_box_memo.addEventListener("click", function(e){
-        e.stopPropagation();
-    })
-}
-// プッシュ用ボタン
-const text_pusher_button_memo = getDOM("text_pusher_button_memo");
-{
-    text_pusher_button_memo.addEventListener("click",function(e){
-        // プッシュイベント
-        e.stopPropagation();
-        let props = {"value": text_pusher_box_memo.value}
-        push_memo("card",props);
-        text_pusher_box_memo.value = "";
-        text_pusher_box_memo.focus();
-    })
-}
+
 //*雑多メモーbootSys********************************************************************* ************/
 function bootSys_WORK_MEMO(isFirst, blnRebuild = false){
     if(isFirst){
@@ -1967,7 +2440,7 @@ function bootSys_WORK_MEMO(isFirst, blnRebuild = false){
             e.preventDefault();
             let orderArr = [
                 {"printName":"フォルダを作成", "icon":svg_folder, "func":()=> createExpObj_memo( {"type": "folder", "parent": null} ), },
-                {"printName":"シートを作成", "icon":svg_CrossWord, "func":()=> createExpObj_memo( {"type": "sheet", "parent": null} ), },
+                // {"printName":"シートを作成", "icon":svg_CrossWord, "func":()=> createExpObj_memo( {"type": "sheet", "parent": null} ), },
                 {"printName":"ノートを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": null} ), },
             ];
             createMenu(orderArr);
@@ -1982,6 +2455,8 @@ function bootSys_WORK_MEMO(isFirst, blnRebuild = false){
             fileNameBox_memo.value = "";
             pathLabel_memo.textContent = "";
             memoTextarea_memo.value = "";
+            memoSheet_memo.hidden = true;
+            memoTextarea_memo.hidden = true;
         }
         // 親から生成できるようソート（破壊的メソッド）
         mainData.WORK[0].WORK_MEMO.sort((a, b) => {
@@ -2112,7 +2587,7 @@ function createExpObj_memo(obj, isRebuild = false){
                 e.preventDefault();
                 let orderArr = [
                     {"printName":"フォルダを作成", "icon":svg_folder, "func":()=> createExpObj_memo( {"type": "folder", "parent": container} ), },
-                    {"printName":"シートを作成", "icon":svg_CrossWord, "func":()=> createExpObj_memo( {"type": "sheet", "parent": container} ), },
+                    // {"printName":"シートを作成", "icon":svg_CrossWord, "func":()=> createExpObj_memo( {"type": "sheet", "parent": container} ), },
                     {"printName":"ノートを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": container} ), },
                     {"printName":"リネーム", "icon":svg_pencil, "func":()=>rename_memo(id,li), },
                     {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
@@ -2215,6 +2690,8 @@ function delete_memo(objId, container){
             fileNameBox_memo.value = "";
             pathLabel_memo.textContent = "";
             memoTextarea_memo.value = "";
+            memoSheet_memo.hidden = true;
+            memoTextarea_memo.hidden = true;
         }
     }
 }
@@ -2279,68 +2756,302 @@ function upd_status_memo(obj, newSvg, li){
         li.appendChild(icon);
     }
 }
+//=======================
+// シートイベント
+//=======================
 
-// プッシュイベント
-function push_memo(mode, propsObj){
-    switch(mode){
-        // カード挿入
-        case "card":{
-            const card = createDOM("textarea");
-            {
-                // prop
-                card.classList.add("like-card-white");
-                card.value = propsObj["value"];
-                card.style.position = "absolute";
-                card.style.fontSize = "16px";
-                if(propsObj["value"] != "") card.style.width = 16 * propsObj["value"].length + "px";
-                card.style.top = "20%";
-                card.spellcheck = false; 
-                card.autoComplete = false; 
-                mouseDrag(card);
+// クリック
+memoSheet_memo.addEventListener("click", function(e){
+    // e.stopPropagation();
+    if(!keydown("Shift")) createInput_sheet(e);
+})
+// 右クリック
+memoSheet_memo.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+    let orderArr = [
+        {"icon":svg_pencil, "printName":(lineMode ? "ラインモード   ✓" : "ラインモード"), "func":() => toggle_LineMode()},
+        {"icon":svg_magnet, "printName":"吸着範囲", "func":() => change_snapRange()},
+    ];
+    createMenu(orderArr);
+})
+
+function createInput_sheet(e, top = null, left = null){
+    // クリックでテキスト挿入
+    const textarea = createDOM("textarea");
+    let pos = getPosition(e, memoSheet_memo);
+    {
+        // prop
+        textarea.classList.add("box-trans");
+        textarea.classList.add("box-not-focus");
+        textarea.style.resize = "none";
+        textarea.style.fontSize = "16px";
+        textarea.style.position = "absolute";
+        textarea.style.fontSize = "16px";
+        // 相対マウス位置
+        textarea.style.top = (top ? top : pos.y) + "px";
+        textarea.style.left = (left ? left : pos.x) + "px";
+        textarea.spellcheck = false; 
+        textarea.autoComplete = false; 
+        mouseDrag(textarea);
+    }
+    {
+        // ロストフォーカス
+        textarea.addEventListener("blur",function(e){
+            if(this.value.replaceAll("\n","") == "") this.remove();
+        })
+        // クリック
+        textarea.addEventListener("click",function(e){
+            e.stopPropagation();
+        })
+        // ホバー
+        textarea.addEventListener("mouseenter",function(e){
+            if(keydown("Shift")) this.classList.add("soft-borer");
+        })
+        // ホバー終了
+        textarea.addEventListener("mouseleave",function(e){
+            this.classList.remove("soft-borer");
+        })
+        // オードリサイズ（縦横）
+        textarea.addEventListener("input",function(e){
+            let fs = parseFloat(window.getComputedStyle(textarea).fontSize);
+            let maxLength = 0;
+            for(let tmp of this.value.split("\n")){
+                // 半角文字は約0.55倍、全角は1倍と仮定
+                let len = 0;
+                for (let c of tmp) {
+                    len += (c.charCodeAt(0) <= 0xFF ? 0.55 : 1);
+                }
+                if (len > maxLength) maxLength = len;
+            };
+            this.style.width = fs * maxLength + "px";
+            this.style.height = (this.value.split("\n").length + 1 ) * fs + "px";
+        })
+    }
+    memoSheet_memo.appendChild(textarea);
+    textarea.focus();
+}
+
+// 線を引く*****************************************************************
+let drawing = false;
+let sTop = 0;
+let sLeft = 0;
+let activeLine = null;
+let snapRange = 50;
+
+//========
+// down
+//========
+memoSheet_memo.addEventListener("mousedown", function(e){
+    if(keydown("Shift") || !lineMode) return;
+    const line = createDOM("div");
+    let pos = getPosition(e, memoSheet_memo);
+    {
+        line.style.position = "absolute";
+        line.style.top = pos.y + "px";
+        line.style.left = pos.x + "px";
+        line.classList.add("line");
+        mouseDrag(line);
+        // ホバー
+        line.addEventListener("mouseenter",function(e){
+            if(keydown("Shift")) this.classList.add("soft-borer");
+        })
+        // ホバー終了
+        line.addEventListener("mouseleave",function(e){
+            this.classList.remove("soft-borer");
+        })
+    }
+    drawing = true;
+    sTop = pos.y;
+    sLeft = pos.x;
+    activeLine = line;
+    memoSheet_memo.appendChild(line);
+})
+//========
+// move
+//========
+memoSheet_memo.addEventListener("mousemove", function(e){
+    if(drawing){
+
+        // 追従******************************************
+        // 縦横判断
+        let pos = getPosition(e, memoSheet_memo);
+        let widthLen = sLeft < pos.x ? pos.x - sLeft : sLeft - pos.x;
+        let heightLen = sTop < pos.y ? pos.y - sTop : sTop - pos.y;
+        // 4方向判定**
+        let directions = {
+            "RIGHT":widthLen > heightLen && sLeft < pos.x,
+            "LEFT":widthLen > heightLen && sLeft > pos.x,
+            "TOP":widthLen < heightLen && sTop < pos.y,
+            "BOTTOM":widthLen < heightLen && sTop > pos.y,
+        }
+        if(widthLen > heightLen){
+            // 横
+            activeLine.style.height = "5px"
+            activeLine.style.width = widthLen + "px"
+            // 左方向にドラッグした場合は left を調整
+            if(pos.x < sLeft){
+                activeLine.style.left = pos.x + "px";
             }
-            {
-                card.addEventListener("click", function(e){
-                    e.stopPropagation();
-                })
+        }else{
+            // 縦
+            activeLine.style.width = "5px"
+            activeLine.style.height = heightLen + "px"
+            // 下方向にドラッグした場合は top を調整
+            if(pos.y < sTop){
+                activeLine.style.top = pos.y + "px";
             }
-            memoSheet_memo.appendChild(card);
+        }
+        
+        // 面吸着******************************************
+        let lines = Array.from(document.getElementsByClassName("line")).filter(el => el != activeLine);
+        if(lines.length > 0){
+            for(let el of lines){
+                // element props
+                let es = window.getComputedStyle(el);
+                let elLeft   = parseFloat(es.left);
+                let elTop    = parseFloat(es.top);
+                let elWidth  = parseFloat(es.width);
+                let elHeight = parseFloat(es.height);
+
+                // 縦横判定
+                let isVertical = elHeight > elWidth;
+                // 横線　描画時
+                if(directions.RIGHT || directions.LEFT){
+                    // 近くの縦線に吸着
+                    if(isVertical){
+                        // 縦線の幅内に現在位置があるかどうか
+                        if(pos.y > elTop && pos.y < elTop + elHeight){
+                            if(Math.abs(pos.x-elLeft) < snapRange){
+                                // →
+                                if(directions.RIGHT) {
+                                    if(elLeft < pos.x){
+                                        // はみ出しあり
+                                        activeLine.style.width = parseFloat(activeLine.style.width) - Math.abs(pos.x-elLeft) + "px";
+                                    }else{
+                                        // はみ出しなし
+                                        activeLine.style.width = parseFloat(activeLine.style.width) + Math.abs(pos.x-elLeft) + "px";
+                                    }
+                                }
+                                // ←
+                                else {
+                                    if(elLeft > pos.x){
+                                        // はみ出しあり
+                                        activeLine.style.width = parseFloat(activeLine.style.width) - Math.abs(pos.x-elLeft) + "px";
+                                        activeLine.style.left = parseFloat(activeLine.style.left) + Math.abs(pos.x-elLeft) + "px";
+                                    }else{
+                                        // はみ出しなし
+                                        activeLine.style.width = parseFloat(activeLine.style.width) + Math.abs(pos.x-elLeft) + "px";
+                                        activeLine.style.left = parseFloat(activeLine.style.left) - Math.abs(pos.x-elLeft) + "px";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                // 縦線　描画時
+                }else if(directions.TOP || directions.BOTTOM){
+                    // 近くの横線に吸着
+                    if(!isVertical){
+                        // 横線の幅内に現在位置があるかどうか
+                        if(pos.x > elLeft && pos.x < elLeft + elWidth){
+                            if(Math.abs(pos.y-elTop) < snapRange){
+                                // ↑
+                                if(directions.TOP) {
+                                    if(elTop < pos.y){
+                                        // はみ出しあり
+                                        activeLine.style.height = parseFloat(activeLine.style.height) - Math.abs(pos.y-elTop) + "px";
+                                    }else{
+                                        // はみ出しなし
+                                        activeLine.style.height = parseFloat(activeLine.style.height) + Math.abs(pos.y-elTop) + "px";
+                                    }
+                                }
+                                // ↓
+                                else {
+                                    if(elTop > pos.y){
+                                        // はみ出しあり
+                                        activeLine.style.height = parseFloat(activeLine.style.height) - Math.abs(pos.y-elTop) + "px";
+                                        activeLine.style.top = parseFloat(activeLine.style.top) + Math.abs(pos.y-elTop) + "px";
+                                    }else{
+                                        // はみ出しなし
+                                        activeLine.style.height = parseFloat(activeLine.style.height) + Math.abs(pos.y-elTop) + "px";
+                                        activeLine.style.top = parseFloat(activeLine.style.top) - Math.abs(pos.y-elTop) + "px";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
-}
-
-// シートイベント
-{
-    memoSheet_memo.addEventListener("click", function(e){
-        e.stopPropagation();
-        // クリックでテキスト挿入
-        const textarea = createDOM("textarea");
-        {
-            // prop
-            textarea.classList.add("box-trans");
-            textarea.style.position = "absolute";
-            textarea.style.fontSize = "16px";
-            // 相対マウス位置
-            textarea.style.top = e.offsetY + "px";
-            textarea.style.left = e.offsetX + "px";
-            textarea.spellcheck = false; 
-            textarea.autoComplete = false; 
-            mouseDrag(textarea);
+})
+//========
+// up
+//========
+memoSheet_memo.addEventListener("mouseup", function(e){
+    if(drawing){
+        // 最低ライン****************************************************
+        let pos = getPosition(e, memoSheet_memo);
+        let widthLen = sLeft < pos.x ? pos.x - sLeft : sLeft - pos.x;
+        let heightLen = sTop < pos.y ? pos.y - sTop : sTop - pos.y;
+        // 4方向判定**
+        let directions = {
+            "RIGHT":widthLen > heightLen && sLeft < pos.x,
+            "LEFT":widthLen > heightLen && sLeft > pos.x,
+            "TOP":widthLen < heightLen && sTop < pos.y,
+            "BOTTOM":widthLen < heightLen && sTop > pos.y,
         }
-        {
-            // ロストフォーカス
-            textarea.addEventListener("blur",function(e){
-                if(this.value == "") this.remove();
-            })
-            // クリック
-            textarea.addEventListener("click",function(e){
-                e.stopPropagation();
-            })
+        if(directions.RIGHT || directions.LEFT){
+            // 横
+            if(parseFloat(activeLine.offsetWidth) < 30) {
+                activeLine.remove();
+                drawing = false;
+                return;
+            };
+        }else{
+            // 縦
+            if(parseFloat(activeLine.offsetHeight) < 30) {
+                activeLine.remove();
+                drawing = false;
+                return;
+            };
         }
-        memoSheet_memo.appendChild(textarea);
-        textarea.focus();
-    })
-}
 
+        // clone******************************************
+        // let clone = activeLine.cloneNode(true);
+        // {
+        //     clone.style.cssText = activeLine.style.cssText;
+        //     clone.style.top = sTop + parseFloat(window.getComputedStyle(activeLine).fontSize) * 2.5 + "px"; 
+        //     mouseDrag(clone);
+        // }
+        // memoSheet_memo.appendChild(clone);
+        // // 間にインプット挿入
+        // setTimeout(() => {
+        //     createInput_sheet(e, sTop + parseFloat(window.getComputedStyle(activeLine).fontSize) * 0.9 , sLeft)
+        // }, 10);// ms
+
+        drawing = false;
+    }
+})
+// ******************************************************************************
+
+// lineモードオンオフ
+let lineMode = true;
+function toggle_LineMode(){
+    lineMode = !lineMode;
+}
+// 吸着範囲　変更
+function change_snapRange(){
+    let newVal = prompt("ライン同士の吸着範囲値を入力...（デフォルト：50）",snapRange)
+    if(newVal != null && newVal){
+        newVal = parseFloat(newVal);
+        if(isNaN(newVal) || newVal < 0){
+            alert("数値として認識できませんでした")
+            return;
+        }
+        else snapRange = newVal;
+        log(`吸着範囲を${snapRange}pxに変更しました`)
+    }
+}
 
 
 

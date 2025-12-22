@@ -621,6 +621,12 @@ button{
   width: 35%;
 }
 
+.tag-table-wrapper-viewer {
+  height: 50vh;
+  overflow-y: auto;
+  width:50vw;
+}
+
 .tag-table {
   border-collapse: collapse;
   background: #fff;
@@ -712,7 +718,7 @@ input:checked + .slider:before {
 
 
 /* pg viewer *******************************************************************/
-.pgviewer-kaisofolder{
+/* .pgviewer-kaisofolder{
     display: block;
     width: 100%;
     padding: 10px;
@@ -728,7 +734,33 @@ input:checked + .slider:before {
 
 .pgviewer-kaisofolder:hover {
     background: #6b87a3;
+} */
+
+.pgviewer-kaisofolder {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 9px 10px;
+    margin: 4px 0;
+
+    border: 1px solid #d5dbe5;
+    border-left: 3px solid #8fa1b5;
+    border-radius: 4px;
+
+    background: #eef2f7;
+    color: #1f2d3d;
+
+    cursor: pointer;
+    text-align: left;
+    font-size: 13px;
 }
+
+.pgviewer-kaisofolder:hover {
+    background: #e3eaf3;
+    border-left-color: #5b9bd5;
+}
+
+
 
 .pgviewer-kaisofolder-container{
   border-top: none;
@@ -738,12 +770,12 @@ input:checked + .slider:before {
   border-color: rgb(205, 211, 218);
 }
 
-.pgviewer-pgelement {
+/* .pgviewer-pgelement {
     width: 100%;
-    background-color: #6f87a5; /* 階層より少し明るめ */
+    background-color: #6f87a5;
     color: white;
     padding: 6px 10px;
-    margin: 2px 0 2px 0px; /* 階層より少し右に寄せる */
+    margin: 2px 0 2px 0px;
     border-radius: 2px;
     border: none;
     font-weight: normal;
@@ -755,7 +787,28 @@ input:checked + .slider:before {
 }
 .pgviewer-pgelement:focus {
     background: #809cbe;
+} */
+
+.pgviewer-pgelement {
+    width: 100%;
+    background-color: #eaf0f6;   /* フォルダよりかなり淡く */
+    color: #2f3b48;              /* 白文字をやめて可読性UP */
+    padding: 6px 10px;
+    margin: 2px 0 2px 0;
+    border-radius: 2px;
+    border: none;
+    font-weight: normal;
+    cursor: pointer;
+    text-align: left;
+
+    /* subtle */
+    border-left: 3px solid #9fb1c7;
 }
+
+.pgviewer-pgelement:hover {
+    background-color: #dde7f2;
+}
+
 
 .setting-form {
   margin-bottom: 20px;
@@ -954,6 +1007,7 @@ input:checked + .slider:before {
     border-left: 4px solid transparent;
     border-radius: 4px;
     font-size: 14px;
+    border: whitesmoke 1px solid;
     transition: 
         background 0.15s ease,
         border-left-color 0.15s ease,
@@ -1024,10 +1078,254 @@ input:checked + .slider:before {
 }
 
 .box-trans{
+  /* border: 1px solid rgb(240, 240, 240); */
   border: none;
   border-radius: 4px;
+  background-color: transparent;
+}
+
+.soft-borer{
+  /* border: 1px solid #ccc; */
+  /* border-radius: 4px; */
+  background-color: #dbe5f0 !important;
+}
+
+.box-not-focus{}
+
+.box-not-focus:focus{
+  background-color: transparent !important;
+}
+
+.line {
+  height: 7px;      /* 線の太さ */
+  background-color: #a7a7a7; /* 線の色 */
+  /* margin: 10px 0; */
+}
+
+
+/* コマンド */
+
+/* 背景オーバーレイ */
+.command-palette-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 30, 0.35);
+  backdrop-filter: blur(2px);
+  z-index: 9999;
+}
+
+/* 本体 */
+.command-palette {
+  width: 640px;
+  margin: 60px auto 0;
+  background: #1f2f3f;
+  border-radius: 6px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+  overflow: hidden;
+  border: 1px solid #2f455c;
+}
+
+/* 入力欄 */
+.command-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  background: #162330;
+  border: none;
+  outline: none;
+  color: #fff;
+}
+
+.command-input::placeholder {
+  color: #8fa3b8;
+}
+
+.command-input:focus {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  background: #162330;
+  border: none;
+  outline: none;
+  color: #fff;
+}
+
+/* コマンド一覧 */
+.command-list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.command-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-top: 1px solid #2a3f55;
+}
+
+.command-item:hover {
+  background: #2c435c;
+}
+
+.command-title {
+  display: block;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.command-desc {
+  display: block;
+  font-size: 12px;
+  color: #9bb0c5;
+  margin-top: 2px;
+}
+
+/* 非表示 */
+.hidden {
+  display: none;
 }
 
 
 
+/* ⇧コマンド */
 
+/* ===== 全体 ===== */
+.pg-work {
+  height: 99%;
+  width: 60%;
+  margin-left: 2.5%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+/* ===== ① ヘッダー ===== */
+.pg-work-header {
+  padding: 14px 18px;
+  background: #f4f6f8;
+  border-bottom: 1px solid #dcdfe3;
+}
+
+.pg-work-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2d3d;
+}
+
+.pg-work-path {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #6b7785;
+}
+
+/* ===== ② 従属照会リスト ===== */
+.pg-work-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 14px;
+  background: #ffffff;
+}
+
+/* 行 */
+.pg-work-row {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  background: #eef3fb; /* タスク一覧の淡いブルー */
+  border: 1px solid #dde3ec;
+  border-radius: 4px;
+}
+
+.pg-work-row:hover {
+  background: #e3ebf8;
+}
+
+/* 名称 */
+.pg-work-name {
+  font-size: 13px;
+  color: #1f2d3d;
+}
+
+.pg-work-box {
+  font-size: 13px;
+  color: #1f2d3d;
+}
+
+/* 削除ボタン */
+.pg-work-delete {
+  border: none;
+  background: #e74c3c;
+  color: #ffffff;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.pg-work-delete:hover {
+  background: #c0392b;
+}
+
+/* ===== ③ フッター（クイック登録） ===== */
+.pg-work-footer {
+  padding: 14px 18px;
+  background: #f4f6f8;
+  border-top: 1px solid #dcdfe3;
+}
+
+.pg-work-footer-title {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1f2d3d;
+}
+
+/* フォーム */
+.pg-work-form {
+  display: flex;
+  gap: 8px;
+}
+
+/* 入力欄（タスク画面と統一） */
+.pg-input {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 13px;
+  background: #ffffff;
+  border: 1px solid #cfd6e0;
+  border-radius: 3px;
+  color: #1f2d3d;
+}
+
+.pg-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(91,155,213,0.2);
+}
+
+/* 登録ボタン（濃紺系） */
+.pg-work-add {
+  padding: 6px 14px;
+  font-size: 13px;
+  background: #2c3e50;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.pg-work-add:hover {
+  background: #1f2d3d;
+}
+
+
+.bool-viewer-kaiso{}
+
+.selected-kaiso-viewer{
+  background-color: #2e3c4d !important;
+  color: #fff !important;
+  border-left: #4d8ac4 5px solid;
+}

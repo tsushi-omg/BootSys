@@ -445,8 +445,45 @@
         <!-- PGビューアー start --------------------------------------------------------------------------------------------------------------->  
         <div id="WORK_PGVIEWR_PANEL" class="tab-panel">
             <h2 class="page-title">PGビューアー</h2>
-            <div class="pg-viewer-menu like-card-white" style="height: 70vh;">
+            <div class="pg-viewer-menu like-card-white" style="height: 70vh; display: flex; flex-shrink: 0;">
                 <div id="pg-viewer-tree" style="height: 99%; overflow: auto; width: 35%;"></div>
+                <!-- 編集ブロック -->
+                <div id="pg-viewer-work" class="pg-work">
+
+                    <!-- ① ヘッダー -->
+                    <!-- <div class="pg-work-header" id="pg-viewer-work-header"> -->
+                        <!-- <div class="pg-work-title">製造</div>
+                        <div class="pg-work-path">ワーク / 製造 / データ照会</div> -->
+                    <!-- </div> -->
+
+                    <!-- ② 従属照会テーブル -->
+                    <!-- <div class="like-card-white" id="pg-viewer-work-body">
+                        <div class="tag-table-wrapper-viewer" >
+                            <table class="tag-table">
+                                <tbody id="pg-viewr-editor-body"> -->
+                                    <!-- <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <input type="text" value="#開発">
+                                        </td>
+                                        <td><button class="medium-button-red" style="width:100%">削除</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                            <input type="text" value="#テスト">
+                                        </td>
+                                        <td><button class="medium-button-red" style="width:100%">削除</button></td>
+                                    </tr> -->
+                                <!-- </tbody>
+                            </table>
+                        </div>
+                    </div> -->
+
+                    <!-- ③ フッター：クイック登録 -->
+                    <!-- <div class="pg-work-footer" id="pg-viewer-work-footer"></div> -->
+                </div>
+                <!--  -->
             </div>
         </div>
 
@@ -502,11 +539,7 @@
                     <label style="color: gray;" id="pathLabel_memo"></label>
                     <p>
                     <textarea id="memoTextarea_memo" class="focus-trans-back" placeholder="メモを入力..." style="height:58vh; width: 95%; margin: 20px; margin-top: -10px; font-size: 16px; resize: none; border: none;" autocomplete="off" spellcheck="false" hidden></textarea>
-                    <div id="memoSheet_memo" class="focus-trans-back" placeholder="メモを入力..." style="height:58vh; width: 95%; margin: 20px; margin-top: -10px; font-size: 16px; border: none; overflow-y: auto; position: relative;" hidden >
-                        <div style="position: fixed; z-index: 10;">
-                            <input type="text" class="box-soft" id="text_pusher_box_memo" placeholder="テキスト..." autocomplete="off" spellcheck="false" />
-                            <button class="mini-btn" id="text_pusher_button_memo">プッシュ</button>
-                        </div>
+                    <div id="memoSheet_memo" class="focus-trans-back" placeholder="メモを入力..." style="height:58vh; width: 95%; margin: 20px; margin-top: -10px; font-size: 16px; border: none; overflow-y: auto; position: relative;" >
                     </div>
                 </div>
             </div>
@@ -571,6 +604,37 @@
             <!-- * -->
         </div>
 
+        <!-- コマンドパレット -->
+         <!-- コマンドパレット -->
+        <div class="command-palette-overlay hidden" id="commandOverlay">
+            <div class="command-palette">
+
+                <input
+                type="text"
+                class="command-input"
+                placeholder="コマンドを入力（例: タスク登録, PGビューア）"
+                autofocus
+                />
+
+                <div class="command-list">
+                <div class="command-item">
+                    <span class="command-title">タスク登録</span>
+                    <span class="command-desc">新しいタスクを追加</span>
+                </div>
+                <div class="command-item">
+                    <span class="command-title">PGビューアを開く</span>
+                    <span class="command-desc">対象PGを表示</span>
+                </div>
+                <div class="command-item">
+                    <span class="command-title">雑多メモを開く</span>
+                    <span class="command-desc">メモ画面へ移動</span>
+                </div>
+                </div>
+
+            </div>
+        </div>
+
+
         
 
     </div>
@@ -582,4 +646,3 @@
   </script>
 </body>
 </html>
-
