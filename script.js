@@ -25,7 +25,7 @@ const MASTER_SETTING = "MASTER_SETTING";            // 設定
 // 開発用
 //========================================
 let debug = false;
-debug = true;
+// debug = true;
 
 //========================================
 // クイックダウンロード
@@ -4689,4 +4689,5 @@ var mainData_TEST =
       "PROJECTNAME": "茶管"
     }
   ]
+
 }
