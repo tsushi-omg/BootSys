@@ -1872,22 +1872,55 @@ function bootSys_WORK_PGVIEWR(isFirst){
                     let arr = mainData.MASTER[0].MASTER_PGCATEGORY.find(a=>a[`kaiso${kaisoIndex+1}`])[`kaiso${kaisoIndex+1}`].filter(b=>b[`kaiso${kaisoIndex}ID`]==targetObj["id"]);
 
                     for(let tmpObj of arr){
+
+                        // TABLE ROW
                         const tr = createDOM("tr");
                         const td = createDOM("td");
-                        const input = createDOM("input")
+                        const kaisoNameInput = createDOM("input")
                         const td2 = createDOM("td");
                         const td3 = createDOM("td");
-                        const button = createDOM("button")
+                        const delButton = createDOM("button")
                         {
                             td.textContent = rowNum;
-                            input.type = "text";
-                            input.value = tmpObj["name"];
-                            input.style.borderBottom = "none";
-                            button.textContent = "削除";
-                            button.classList.add("medium-button-red");
+                            kaisoNameInput.type = "text";
+                            kaisoNameInput.value = tmpObj["name"];
+                            kaisoNameInput.style.borderBottom = "none";
+                            delButton.textContent = "削除";
+                            delButton.classList.add("medium-button-red");
                         }
-                        td2.appendChild(input);
-                        td3.appendChild(button);
+
+                        // --------------
+                        // EVENT
+                        // --------------
+                        
+                        // UPDATE NAME
+                        kaisoNameInput.addEventListener("change", function(){
+                            if(this.value.trim()){
+                                tmpObj["name"] = this.value;
+                            }
+                        })
+                        // DELETE DATA
+                        delButton.addEventListener("click", function(){
+
+                            if(confirm(`[${tmpObj["name"]}] を削除しますか？`)){
+
+                                // DELETE KAISO
+                                let kaisoKey = "kaiso" + (parseInt(kaisoIndex) + 1);
+                                mainData.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey] 
+                                    = mainData.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey].filter(a => a["id"] != tmpObj["id"]);
+
+                                // DELETE PG
+                                mainData.MASTER[0].MASTER_PGINFO = 
+                                    mainData.MASTER[0].MASTER_PGINFO.filter(a => a["kaisoCSV"].split(',')[a["kaisoCSV"].split(',').length-1] != tmpObj["id"]);
+
+                                // UPD VIEW
+                                editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
+                            }
+                        })
+
+                        // APPEND
+                        td2.appendChild(kaisoNameInput);
+                        td3.appendChild(delButton);
                         tr.appendChild(td);
                         tr.appendChild(td2);
                         tr.appendChild(td3);
@@ -4689,5 +4722,4 @@ var mainData_TEST =
       "PROJECTNAME": "茶管"
     }
   ]
-
 }
