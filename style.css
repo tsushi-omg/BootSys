@@ -1329,3 +1329,154 @@ input:checked + .slider:before {
   color: #fff !important;
   border-left: #4d8ac4 5px solid;
 }
+
+
+.pg-tab-header {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 8px;
+}
+
+.pg-tab {
+  padding: 6px 14px;
+  font-size: 13px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+.pg-tab.active {
+  color: #1f2d3d;
+  font-weight: bold;
+  border-bottom: 2px solid #1f2d3d;
+}
+
+
+.pg-tab-body {
+  width: 100%;
+}
+
+.pg-tab-panel {
+  display: none;
+}
+
+.pg-tab-panel.active {
+  display: block;
+}
+
+.pg-memo-area {
+  width: 100%;
+  min-height: 180px;
+  resize: vertical;
+  padding: 8px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.pg-tab-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 8px;
+}
+
+.pg-tab {
+  padding: 6px 14px;
+  font-size: 13px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+.pg-tab.active {
+  color: #1f2d3d;
+  font-weight: bold;
+  border-bottom: 2px solid #1f2d3d;
+}
+
+.pg-tab-add {
+  margin-left: auto;
+  padding: 4px 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.pg-task-assign {
+  font-size: 12px;
+}
+
+
+.pg-memo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.pg-page-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.pg-memo-date {
+  font-size: 12px;
+  color: #666;
+}
+
+.pg-memo-title {
+  width: 100%;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 6px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+}
+
+.pg-memo-body {
+  width: 100%;
+  min-height: 200px;
+  font-size: 13px;
+  line-height: 1.8;
+  padding: 8px;
+  resize: vertical;
+
+  /* ノート風 */
+  background-image: linear-gradient(
+    to bottom,
+    #f5f5f5 1px,
+    transparent 1px
+  );
+  background-size: 100% 28px;
+
+  background-color: transparent !important;
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+.notice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+
+  margin-left: 10px;
+
+  background-color: #e53935; /* 赤 */
+  color: #fff;              /* 白文字 */
+  font-size: 11px;
+  font-weight: bold;
+
+  border-radius: 999px;     /* 丸 */
+  line-height: 1;
+}

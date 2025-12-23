@@ -1509,7 +1509,7 @@ function bootSys_WORK_PGVIEWR(isFirst){
         var maxKaiso = cloneRepo_kaiso.find(a => a.hasOwnProperty("kaisoCount"))["kaisoCount"];
 
         // ===========================
-        // 1:create kaiso folder
+        // 1:CREATE KAISO FOLDER
         // ===========================
         for(let index = 1; index <= maxKaiso; index++){
             
@@ -1582,7 +1582,7 @@ function bootSys_WORK_PGVIEWR(isFirst){
             }
         }
         // ===========================
-        // 2:create pg element
+        // 2:CREATE PG ELEMENT
         // ===========================
         for(let target of cloneRepo_pginfo){
 
@@ -1607,6 +1607,7 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 button.style.display = "flex";
                 button.style.userSelect = "none";
                 button.classList.add("pgviewer-pgelement");
+                button.classList.add("bool-viewer-kaiso");
                 remarkLabel.textContent = "備考：";
                 remarkInput.placeholder = "メモを入力…";
                 remarkInput.value = target["remark"];
@@ -1618,6 +1619,18 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 icon.style.marginRight = "10px";
                 icon.classList.add("iconButton")
             }
+
+            // TASK COUNT（残タスク通知）
+            let taskCount = 0;
+            for(let taskObj of mainData.WORK[0].WORK_TASK){
+                // 進捗率100未満のみ対象
+                if(parseInt(taskObj["progress"]) == 100) continue;
+                if(taskObj["pgObjId"] == target["id"]) taskCount++;
+            }
+            let notice = createDOM("span");
+            notice.classList.add("notice");
+            notice.innerHTML = taskCount;
+            if(taskCount) button.appendChild(notice);
 
             button.prepend(icon);
             container.appendChild(button);
@@ -1635,6 +1648,12 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 button.addEventListener("click", function(e){
                     // edit
                     editViewer("PG", target);
+
+                    // style
+                    for(let k of document.getElementsByClassName("bool-viewer-kaiso")){
+                        k.classList.remove("selected-kaiso-viewer")
+                    }
+                    this.classList.add("selected-kaiso-viewer")
                 })
             }
             // hidden従属カウンタをインクリメント
@@ -1644,7 +1663,7 @@ function bootSys_WORK_PGVIEWR(isFirst){
             }
             // append
             try{
-                // (!parentIDList ? pg_viewer_tree : getDOM(parentIDList[parentIDList.length-1] + "_pgviewer")).appendChild(container);
+                (!parentIDList ? pg_viewer_tree : getDOM(parentIDList[parentIDList.length-1] + "_pgviewer")).appendChild(container);
             }catch(e){
                 log(`[${target["pgid"]}:${target["name"]}] は所属階層が削除済みのため、ビューアーに生成されませんでした`);
             }
@@ -1675,6 +1694,24 @@ function bootSys_WORK_PGVIEWR(isFirst){
                             // span.style.border = "1px solid #c7c7c7ff";
                         }
                         el.appendChild(span);
+                        
+                        // ============================~~
+                        // TASK COUNT（残タスク通知）
+                        // ============================~~
+                        let taskCount = 0;
+                        for(let taskObj of mainData.WORK[0].WORK_TASK){
+                            // 進捗率100未満のみ対象
+                            if(parseInt(taskObj["progress"]) == 100) continue;
+                            let tmpPgObj = mainData.MASTER[0].MASTER_PGINFO
+                                                .find(a => a["id"] == taskObj["pgObjId"]);
+                            // 階層IDをパスに含む、未完了タスクのPGID
+                            if(tmpPgObj && tmpPgObj["kaisoCSV"].includes(target["id"])) taskCount++;
+                        }
+                        let notice = createDOM("span");
+                        notice.classList.add("notice");
+                        notice.innerHTML = taskCount;
+                        if(taskCount) el.appendChild(notice);
+                        
                         break;
                     }
                 }
@@ -1693,8 +1730,8 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 
                 // 最上層・通常階層・PG
                 // "FIRST_KAISO"   : kaisoIndex == 0,
-                "MAX_KAISO"     : isMaxKaiso,
-                "NORMAL_KAISO"  : !isMaxKaiso,
+                "MAX_KAISO"     : kbn == "KAISO" && isMaxKaiso,
+                "NORMAL_KAISO"  : kbn == "KAISO" && !isMaxKaiso,
                 "PG"            : kbn == "PG",
             };
 
@@ -1757,10 +1794,8 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 let kaisoCSVString = "";
 
                 // 階層{index}より連結
-                // if(!MODE.MAX_KAISO){ // 最上階層ならパスなし
-                    for(let tmpIdx = 1; tmpIdx < parseInt(kaisoIndex); tmpIdx++){
-                        kaisoCSVString += targetObj[`kaiso${tmpIdx}ID`] + ",";
-                    // }
+                for(let tmpIdx = 1; tmpIdx < parseInt(kaisoIndex); tmpIdx++){
+                    kaisoCSVString += targetObj[`kaiso${tmpIdx}ID`] + ",";
                 }
 
                 // idから名称へ変換
@@ -2011,7 +2046,320 @@ function bootSys_WORK_PGVIEWR(isFirst){
             // region PG情報
             // -----------------
             }else if(MODE.PG){
+                
+                // header
+                tempHeader = `<div class="pg-work-header" id="pg-viewer-work-header"></div>`;
 
+                // body（PG VIEW）
+                tempBody =
+`<div class="like-card-white" id="pg-viewer-work-body">
+
+    <!-- TAB -->
+    <div class="pg-tab-header">
+        <button class="pg-tab active" data-tab="task">タスク</button>
+        <button class="pg-tab" data-tab="memo">メモ</button>
+
+        <!-- ADD -->
+        <button class="pg-tab-add" id="pg-add-btn">＋</button>
+    </div>
+
+    <!-- TAB BODY -->
+    <div class="pg-tab-body">
+
+        <!-- ================= -->
+        <!-- TASK -->
+        <!-- ================= -->
+        <div class="pg-tab-panel active" id="pg-tab-task">
+
+            <div class="tag-table-wrapper-viewer">
+                <table class="tag-table">
+                    <tbody>
+
+                        <tr>
+                            <td>1</td>
+                            <td>見積書作成</td>
+                            <td>
+                                <select class="pg-task-assign">
+                                    <option>自分</option>
+                                    <option>田中</option>
+                                    <option>佐藤</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="checkbox">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>上長確認</td>
+                            <td>
+                                <select class="pg-task-assign">
+                                    <option>自分</option>
+                                    <option selected>田中</option>
+                                    <option>佐藤</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="checkbox">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- ================= -->
+        <!-- MEMO -->
+        <!-- ================= -->
+        <div class="pg-tab-panel" id="pg-tab-memo">
+
+            <!-- PAGE -->
+            <div class="pg-memo-header">
+                <button class="pg-page-btn">◀</button>
+                <div class="pg-memo-date">34/99</div>
+                <button class="pg-page-btn">▶</button>
+            </div>
+
+            <!-- TITLE -->
+            <input
+                type="text"
+                class="pg-memo-title"
+                value="伺書作成メモ"
+                placeholder="メモタイトル">
+
+            <!-- BODY -->
+            <textarea
+                class="pg-memo-body"
+                placeholder="本文を入力">
+・〇〇部に事前確認  
+・金額上限に注意  
+・決裁ルート確認
+            </textarea>
+
+        </div>
+
+    </div>
+</div>`;
+
+
+                pg_viewer_work.innerHTML = (tempHeader + tempBody);
+
+
+                // ----------------------------------------------------------------
+                document.querySelectorAll(".pg-tab").forEach(tab => {
+                    tab.addEventListener("click", () => {
+                        
+                        // tab header
+                        document.querySelectorAll(".pg-tab")
+                        .forEach(t => t.classList.remove("active"));
+                        tab.classList.add("active");
+                        
+                        // tab body
+                        document.querySelectorAll(".pg-tab-panel")
+                        .forEach(p => p.classList.remove("active"));
+                        getDOM("pg-tab-" + tab.dataset.tab).classList.add("active");
+                    });
+                });
+                // ----------------------------------------------------------------
+
+
+                // // dom取得
+                const pg_viewer_work_header = getDOM("pg-viewer-work-header")
+                // const viewr_editor_tbody = getDOM("pg-viewr-editor-body")
+                
+                // ----------------------------------
+                // region KAISO FOLDER
+                // ----------------------------------
+
+                // show
+                let nameLabel = createDOM("div");
+                let pathLabel = createDOM("div");
+
+                // path取得用
+                let kaisoCSVString = targetObj["kaisoCSV"];
+                
+                // idから名称へ変換
+                let kaisoPath = "";
+                if(kaisoCSVString != ""){
+                    let kaisoIndex = 1;
+                    for(let tmpId of kaisoCSVString.split(',')){
+                        if(!tmpId) continue;// 最後のカンマ
+                        let kaisoName = mainData.MASTER[0].MASTER_PGCATEGORY
+                                        .find(a => a["kaiso" + kaisoIndex])
+                                        ["kaiso" + kaisoIndex]
+                                        .find(b => b.id == tmpId)["name"];
+                        kaisoPath += (kaisoPath != "" ? "> " :  "") + kaisoName;
+                        kaisoIndex ++;
+                    }
+                }
+                
+                // props
+                nameLabel.innerHTML = targetObj.name;
+                pathLabel.innerHTML = kaisoPath;
+                nameLabel.classList.add("pg-work-title");
+                pathLabel.classList.add("pg-work-path");
+
+                // append
+                pg_viewer_work_header.appendChild(nameLabel);
+                pg_viewer_work_header.appendChild(pathLabel);
+
+                // // ----------------------------------
+                // // region kaiso-body
+                // // ----------------------------------
+
+                // // 従属照会・編集
+                // let rowNum = 1;
+
+                // // 最下層なら所属PG照会
+                    
+                // for(let tmpObj of mainData.MASTER[0].MASTER_PGINFO){
+
+                //     // 直下のPGのみ取得
+                //     let arr = tmpObj["kaisoCSV"].split(",");
+                    
+                //     if(arr[arr.length-1] == targetObj["id"]){
+                        
+                //         // table row
+                //         const tr = createDOM("tr");
+                //         const td = createDOM("td");
+                //         const pgnameInput = createDOM("input")
+                //         const pgidInput = createDOM("input")
+                //         const td2 = createDOM("td");
+                //         const td3 = createDOM("td");
+                //         const delButton = createDOM("button")
+
+                //         // props
+                //         td.textContent = rowNum;
+                //         pgnameInput.type = "text";
+                //         pgnameInput.value = tmpObj["name"];
+                //         pgnameInput.style.borderBottom = "none";
+                //         pgidInput.style.borderTop = "dotted #d4d4d4ff 1px";
+                //         pgidInput.value = tmpObj["pgid"];
+                //         delButton.textContent = "削除";
+                //         delButton.classList.add("medium-button-red");
+                        
+                //         // --------------
+                //         // event
+                //         // --------------
+                        
+                //         // update name
+                //         pgnameInput.addEventListener("change", function(){
+                //             if(this.value.trim()){
+                //                 tmpObj["name"] = this.value;
+                //             }
+                //         })
+                //         // update id
+                //         pgidInput.addEventListener("change", function(){
+                //             if(this.value.trim()){
+                //                 tmpObj["pgid"] = this.value;
+                //             }
+                //         })
+                //         // delete data
+                //         delButton.addEventListener("click", function(){
+
+                //             if(confirm(`[${tmpObj["name"]}] を削除しますか？`)){
+
+                //                 // delete
+                //                 mainData.MASTER[0].MASTER_PGINFO = mainData.MASTER[0].MASTER_PGINFO.filter(a => a["pgid"] != tmpObj["pgid"]);
+
+                //                 // upd view
+                //                 editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
+                //             }
+                //         })
+
+                //         // append
+                //         td2.appendChild(pgnameInput);
+                //         td2.appendChild(pgidInput);
+                //         td3.appendChild(delButton);
+                //         tr.appendChild(td);
+                //         tr.appendChild(td2);
+                //         tr.appendChild(td3);
+                //         viewr_editor_tbody.appendChild(tr);
+                //         rowNum++;
+                //     }
+                // }
+
+                // // ----------------------------------
+                // // region KAISO-FOOTER
+                // // ----------------------------------
+
+                // // DOM
+                // let regButton = getDOM("quick_register_viewer");
+                // let nameBox = getDOM("nameBox_viewer");
+                // let idBox;
+                // if(MODE.MAX_KAISO) idBox = getDOM("idBox_viewer");
+
+                // // enterフォーカスセットアップ
+                // if(MODE.MAX_KAISO) setupNextFocus([nameBox, idBox, regButton]);
+                // else if(MODE.NORMAL_KAISO) setupNextFocus([nameBox, regButton]);
+
+                // // REGISTER PGINFO
+                // if(MODE.MAX_KAISO){
+                    
+                //     regButton.addEventListener("click", function(){
+                        
+                //         // どちらか入力
+                //         if(nameBox.value.trim() || idBox.value.trim()){
+
+                //             let repo = mainData.MASTER[0].MASTER_PGINFO;
+                            
+                //             // PUSH
+                //             let obj = 
+                //             {
+                //                 "id": getRandomString20(repo),
+                //                 "pgid":idBox.value.trim(),
+                //                 "name": nameBox.value.trim(),
+                //                 "kaisoCSV":kaisoCSVString + targetObj["id"],
+                //                 "remark": ""
+                //             };
+                //             repo.push(obj)
+
+                //             // UPD VIEW
+                //             editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
+
+                //         }else{alert("名称かPGIDを入力してください")}
+                //     })
+
+                // // REGISTER KAISO
+                // }else if(MODE.NORMAL_KAISO){
+                //     regButton.addEventListener("click", function(){
+                        
+                //         // 必須入力
+                //         if(nameBox.value.trim()){
+
+                //             let kaisoKey = "kaiso" + (kaisoIndex + 1);
+                //             let repo = mainData.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey];
+                            
+                //             // DATA
+                //             let obj = 
+                //             {
+                //                 "id": getRandomString20(repo),
+                //                 "name": nameBox.value.trim(),
+                //             };
+
+                //             // PARENT ROOT
+                //             for(let rootIndex = 1; rootIndex <= kaisoIndex; rootIndex++){
+                //                 let val = rootIndex == kaisoIndex
+                //                             ? targetObj["id"]
+                //                             : kaisoCSVString.split(',')[rootIndex-1];
+                //                 obj["kaiso" + rootIndex + "ID"] = val;
+                //             }
+
+                //             // PUSH
+                //             repo.push(obj)
+
+                //             // UPD VIEW
+                //             editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
+
+                //         }else{alert("名称を入力してください")}
+                //     })
+                // }
+
+                // // 初期フォーカス
+                // nameBox.focus();
             }
         }
     }
