@@ -2052,7 +2052,7 @@ function bootSys_WORK_PGVIEWR(isFirst){
 
                 // body（PG VIEW）
                 tempBody =
-`<div class="like-card-white" id="pg-viewer-work-body">
+`<div class="like-card-white" id="pg-viewer-work-body" style="height: 70%">
 
     <!-- TAB -->
     <div class="pg-tab-header">
@@ -2070,45 +2070,11 @@ function bootSys_WORK_PGVIEWR(isFirst){
         <!-- TASK -->
         <!-- ================= -->
         <div class="pg-tab-panel active" id="pg-tab-task">
-
             <div class="tag-table-wrapper-viewer">
                 <table class="tag-table">
-                    <tbody>
-
-                        <tr>
-                            <td>1</td>
-                            <td>見積書作成</td>
-                            <td>
-                                <select class="pg-task-assign">
-                                    <option>自分</option>
-                                    <option>田中</option>
-                                    <option>佐藤</option>
-                                </select>
-                            </td>
-                            <td>
-                                <input type="checkbox">
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td>上長確認</td>
-                            <td>
-                                <select class="pg-task-assign">
-                                    <option>自分</option>
-                                    <option selected>田中</option>
-                                    <option>佐藤</option>
-                                </select>
-                            </td>
-                            <td>
-                                <input type="checkbox">
-                            </td>
-                        </tr>
-
-                    </tbody>
+                    <tbody id="task_tbody_viewer"></tbody>
                 </table>
             </div>
-
         </div>
 
         <!-- ================= -->
@@ -2144,8 +2110,17 @@ function bootSys_WORK_PGVIEWR(isFirst){
     </div>
 </div>`;
 
+                // footer
+                tempFooter = 
+                    `<div class="pg-work-footer" id="pg-viewer-work-footer">
+                        <div class="pg-work-footer-title">クイック登録</div>
+                        <div class="pg-work-form">
+                            <textarea class="pg-memo-body" style="min-height: 20%" id="contentBox_viewer" placeholder="内容" spellcheck="false"></textarea>
+                            <button class="pg-work-add" id="quick_register_viewer">登録</button>
+                        </div>
+                    </div>`;
 
-                pg_viewer_work.innerHTML = (tempHeader + tempBody);
+                pg_viewer_work.innerHTML = (tempHeader + tempBody + tempFooter);
 
 
                 // ----------------------------------------------------------------
@@ -2166,9 +2141,8 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 // ----------------------------------------------------------------
 
 
-                // // dom取得
+                // dom取得
                 const pg_viewer_work_header = getDOM("pg-viewer-work-header")
-                // const viewr_editor_tbody = getDOM("pg-viewr-editor-body")
                 
                 // ----------------------------------
                 // region KAISO FOLDER
@@ -2206,160 +2180,136 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 pg_viewer_work_header.appendChild(nameLabel);
                 pg_viewer_work_header.appendChild(pathLabel);
 
-                // // ----------------------------------
-                // // region kaiso-body
-                // // ----------------------------------
+                // ----------------------------------
+                // region KAISO-BODY
+                // ----------------------------------
 
-                // // 従属照会・編集
-                // let rowNum = 1;
+                // DOM
+                let task_tbody_viewer = getDOM("task_tbody_viewer");
+                let rowCnt = 1;
 
-                // // 最下層なら所属PG照会
-                    
-                // for(let tmpObj of mainData.MASTER[0].MASTER_PGINFO){
+                // TABLE
+                for(let cnt = 1; cnt <= 2; cnt++){
 
-                //     // 直下のPGのみ取得
-                //     let arr = tmpObj["kaisoCSV"].split(",");
-                    
-                //     if(arr[arr.length-1] == targetObj["id"]){
+                    for(let tmpObj of mainData.WORK[0].WORK_TASK){
+
+                        // アクセスキー
+                        let pKey = cnt + "_" + rowCnt
+
+                        // 対象のタスクを取得
+                        if(tmpObj["pgObjId"] != targetObj["id"]) continue;
+
+                        // 進捗率（未完了➤完了）
+                        if(cnt == 1 && parseInt(tmpObj["progress"]) == 100) continue;
+                        else if(cnt == 2 && parseInt(tmpObj["progress"]) != 100) continue;
+
+                        // 強調表示
+                        let bgColor = (cnt==1) ? "background-color: #ffd3d3ff;" : "";
+
+                        // ➤表示要否
+                        let arrowIcon = (parseInt(tmpObj["progress"])==100) ? "" : "➤";
+
+                        // TABLE ROW（DOM保持可能なinnerHTML）
+                        task_tbody_viewer.insertAdjacentHTML("beforeend",
+                            `<tr style="width: 100%; ${bgColor}" id="viewer_task_tr_${pKey}">
+                                <td>${rowCnt}</td>
+                                <td>
+                                    <input type="range" value="${tmpObj["progress"]}" id="viewer-task-range_${pKey}" min="0" max="100">
+                                    <div class="task-range-row">
+                                        <span id="viewer-task-range-num_${pKey}" style="color: #727272ff">${arrowIcon + tmpObj["progress"]}%</span>
+                                        <button class="mini-btn" onclick="bootSub_taskMemos('${tmpObj["id"]}');">メモ</button>
+                                    </div>
+                                </td>
+                                <td style="width: 70%">
+                                    <textarea class="pg-memo-body" style="min-height: 20%; background-color: #fff !important;" id="viewer-task-textarea_${pKey}" spellcheck="false">${tmpObj["content"]}</textarea>
+                                </td>
+                            </tr>`);
+
+                        // ADD EVENT
+                        let tr = getDOM(`viewer_task_tr_${pKey}`);
+                        let range = getDOM(`viewer-task-range_${pKey}`);
+                        let rangeSpan = getDOM(`viewer-task-range-num_${pKey}`);
+                        let contentBox = getDOM(`viewer-task-textarea_${pKey}`);
+
+                        // RANGE
+                        range.addEventListener("input", function(){
+
+                            // SAVE
+                            let prevProgress = tmpObj["progress"];
+
+                            // UPD DATA
+                            tmpObj["progress"] = `${this.value}`;
+
+                            // UPD VIEW
+                            if(this.value==100) {
+                                rangeSpan.innerHTML = `${this.value}%`;
+                                tr.style.backgroundColor = "#ffff";
+                            }
+                            else{ 
+                                rangeSpan.innerHTML = `➤${this.value}%`;
+                                tr.style.backgroundColor = "#ffd3d3ff";
+
+                            }
+
+                            // REOPEN
+                            // if(this.value==100) editViewer(kbn, targetObj);
+                        })
+
+                        // CONTENT
+                        contentBox.addEventListener("change", function(){
+
+                            // UPD DATA
+                            tmpObj["content"] = this.value;
+                        })
+
+                        // 連番
+                        rowCnt++;
+                    }
+                }
+
+
+                // ----------------------------------
+                // region KAISO-FOOTER
+                // ----------------------------------
+
+                // DOM
+                let regButton = getDOM("quick_register_viewer");
+                let contenRegistertBox = getDOM("contentBox_viewer");
+
+                // REGISTER TASK
+                regButton.addEventListener("click", function(){
                         
-                //         // table row
-                //         const tr = createDOM("tr");
-                //         const td = createDOM("td");
-                //         const pgnameInput = createDOM("input")
-                //         const pgidInput = createDOM("input")
-                //         const td2 = createDOM("td");
-                //         const td3 = createDOM("td");
-                //         const delButton = createDOM("button")
+                    // 必須
+                    if(contenRegistertBox.value.trim()){
 
-                //         // props
-                //         td.textContent = rowNum;
-                //         pgnameInput.type = "text";
-                //         pgnameInput.value = tmpObj["name"];
-                //         pgnameInput.style.borderBottom = "none";
-                //         pgidInput.style.borderTop = "dotted #d4d4d4ff 1px";
-                //         pgidInput.value = tmpObj["pgid"];
-                //         delButton.textContent = "削除";
-                //         delButton.classList.add("medium-button-red");
+                        let repo = mainData.WORK[0].WORK_TASK;
+
+                        let today = new Date().toISOString().split("T")[0];
                         
-                //         // --------------
-                //         // event
-                //         // --------------
-                        
-                //         // update name
-                //         pgnameInput.addEventListener("change", function(){
-                //             if(this.value.trim()){
-                //                 tmpObj["name"] = this.value;
-                //             }
-                //         })
-                //         // update id
-                //         pgidInput.addEventListener("change", function(){
-                //             if(this.value.trim()){
-                //                 tmpObj["pgid"] = this.value;
-                //             }
-                //         })
-                //         // delete data
-                //         delButton.addEventListener("click", function(){
+                        // PUSH
+                        let obj = {
+                            "id":getRandomString20(repo),
+                            "addedDate":today,
+                            "workCategory":"",
+                            "pgInfo":kaisoPath + `> ${targetObj["name"]} [${targetObj["pgid"]}]`,
+                            "pgObjId":targetObj["id"],
+                            "content":contenRegistertBox.value,
+                            "dueDate":today,
+                            "progress":0,
+                            "actHours":0,
+                            "compDate":"",
+                            "memos":[],
+                        }
+                        repo.push(obj)
 
-                //             if(confirm(`[${tmpObj["name"]}] を削除しますか？`)){
+                        // UPD VIEW
+                        editViewer(kbn, targetObj);
 
-                //                 // delete
-                //                 mainData.MASTER[0].MASTER_PGINFO = mainData.MASTER[0].MASTER_PGINFO.filter(a => a["pgid"] != tmpObj["pgid"]);
+                    }else{alert("名称かPGIDを入力してください")}
+                })
 
-                //                 // upd view
-                //                 editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
-                //             }
-                //         })
-
-                //         // append
-                //         td2.appendChild(pgnameInput);
-                //         td2.appendChild(pgidInput);
-                //         td3.appendChild(delButton);
-                //         tr.appendChild(td);
-                //         tr.appendChild(td2);
-                //         tr.appendChild(td3);
-                //         viewr_editor_tbody.appendChild(tr);
-                //         rowNum++;
-                //     }
-                // }
-
-                // // ----------------------------------
-                // // region KAISO-FOOTER
-                // // ----------------------------------
-
-                // // DOM
-                // let regButton = getDOM("quick_register_viewer");
-                // let nameBox = getDOM("nameBox_viewer");
-                // let idBox;
-                // if(MODE.MAX_KAISO) idBox = getDOM("idBox_viewer");
-
-                // // enterフォーカスセットアップ
-                // if(MODE.MAX_KAISO) setupNextFocus([nameBox, idBox, regButton]);
-                // else if(MODE.NORMAL_KAISO) setupNextFocus([nameBox, regButton]);
-
-                // // REGISTER PGINFO
-                // if(MODE.MAX_KAISO){
-                    
-                //     regButton.addEventListener("click", function(){
-                        
-                //         // どちらか入力
-                //         if(nameBox.value.trim() || idBox.value.trim()){
-
-                //             let repo = mainData.MASTER[0].MASTER_PGINFO;
-                            
-                //             // PUSH
-                //             let obj = 
-                //             {
-                //                 "id": getRandomString20(repo),
-                //                 "pgid":idBox.value.trim(),
-                //                 "name": nameBox.value.trim(),
-                //                 "kaisoCSV":kaisoCSVString + targetObj["id"],
-                //                 "remark": ""
-                //             };
-                //             repo.push(obj)
-
-                //             // UPD VIEW
-                //             editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
-
-                //         }else{alert("名称かPGIDを入力してください")}
-                //     })
-
-                // // REGISTER KAISO
-                // }else if(MODE.NORMAL_KAISO){
-                //     regButton.addEventListener("click", function(){
-                        
-                //         // 必須入力
-                //         if(nameBox.value.trim()){
-
-                //             let kaisoKey = "kaiso" + (kaisoIndex + 1);
-                //             let repo = mainData.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey];
-                            
-                //             // DATA
-                //             let obj = 
-                //             {
-                //                 "id": getRandomString20(repo),
-                //                 "name": nameBox.value.trim(),
-                //             };
-
-                //             // PARENT ROOT
-                //             for(let rootIndex = 1; rootIndex <= kaisoIndex; rootIndex++){
-                //                 let val = rootIndex == kaisoIndex
-                //                             ? targetObj["id"]
-                //                             : kaisoCSVString.split(',')[rootIndex-1];
-                //                 obj["kaiso" + rootIndex + "ID"] = val;
-                //             }
-
-                //             // PUSH
-                //             repo.push(obj)
-
-                //             // UPD VIEW
-                //             editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
-
-                //         }else{alert("名称を入力してください")}
-                //     })
-                // }
-
-                // // 初期フォーカス
-                // nameBox.focus();
+                // 初期フォーカス
+                contenRegistertBox.focus();
             }
         }
     }
