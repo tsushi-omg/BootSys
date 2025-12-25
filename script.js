@@ -168,7 +168,7 @@ const svg_play_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" vie
 const svg_CrossWord = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M400-160h160v-160H400v160ZM160-400h160v-160H160v160Zm240 0h160v-160H400v160Zm240 0h160v-160H640v160Zm0-240h160v-160H640v160ZM320-80v-240H80v-320h480v-240h320v560H640v240H320Z"/></svg>`;
 const svg_CrossWord_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="M400-160h160v-160H400v160ZM160-400h160v-160H160v160Zm240 0h160v-160H400v160Zm240 0h160v-160H640v160Zm0-240h160v-160H640v160ZM320-80v-240H80v-320h480v-240h320v560H640v240H320Z"/></svg>`;
 const svg_magnet= `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M480-80q-83 0-141.5-58.5T280-280q0-83 58.5-141.5T480-480q83 0 141.5 58.5T680-280q0 83-58.5 141.5T480-80Zm0-80q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM280-474 80-674q80-80 183.5-123T480-840q113 0 216.5 43T880-674L680-474q-41-41-92-63.5T480-560q-57 0-108 22.5T280-474Zm6-106q42-30 91.5-45T480-640q53 0 101.5 14.5T674-582l88-88q-62-44-133.5-67T480-760q-77 0-148.5 23T198-670l88 90Zm194-60Zm0 360Z"/></svg>`;
-
+const svg_close_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1E124A"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>`
 
 //#region 共通関数
 
@@ -670,7 +670,36 @@ function setupNextFocus(domArr){
         index++;
     }
 }
+//==================================================
+// 対象の残タスク数を数値返却
+//==================================================
+function getTaskCount(kbn, objId){
+    let taskCount = 0;
+    switch(kbn){
 
+        // 階層
+        case "KAISO":
+            for(let taskObj of mainData.WORK[0].WORK_TASK){
+                // 進捗率100未満のみ対象
+                if(parseInt(taskObj["progress"]) == 100) continue;
+                let tmpPgObj = mainData.MASTER[0].MASTER_PGINFO
+                                    .find(a => a["id"] == taskObj["pgObjId"]);
+                // 階層IDをパスに含む、未完了タスクのPGID
+                if(tmpPgObj && tmpPgObj["kaisoCSV"].includes(objId)) taskCount++;
+            }
+        break;
+
+        // PG
+        case "PG":
+            for(let taskObj of mainData.WORK[0].WORK_TASK){
+                // 進捗率100未満のみ対象
+                if(parseInt(taskObj["progress"]) == 100) continue;
+                if(taskObj["pgObjId"] == objId) taskCount++;
+            }
+        break;
+    }
+    return taskCount;
+}
 
 
 //========================================
@@ -1550,13 +1579,21 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 {
                     button.addEventListener("dblclick", function(){
 
+                        // 親通知表示切替
+                        let notice = getDOM(target["id"] + "_notice_pgviewer"); // null判定必須
+                        let noticeHidden = false;
+
                         // toggle visible
                         for(let tmp of this.parentElement.children){
-                            if(tmp != this){
+                            if(tmp != this && tmp != notice){
                                 let state = tmp.style.display == "block" ? "none" : "block"
                                 tmp.style.display=state;
+                                if(state == "block") noticeHidden = true;
                             }
                         }
+
+                        // 親通知
+                        if(notice) notice.style.display = noticeHidden ? "none" : "inline-flex";
                     })
                     button.addEventListener("click", function(e){
 
@@ -1708,6 +1745,7 @@ function bootSys_WORK_PGVIEWR(isFirst){
                             if(tmpPgObj && tmpPgObj["kaisoCSV"].includes(target["id"])) taskCount++;
                         }
                         let notice = createDOM("span");
+                        notice.id = target["id"] + "_notice_pgviewer";
                         notice.classList.add("notice");
                         notice.innerHTML = taskCount;
                         if(taskCount) el.appendChild(notice);
@@ -1717,9 +1755,18 @@ function bootSys_WORK_PGVIEWR(isFirst){
                 }
             }
         }
+        // ================================================================================================================
+        // 関数名  rebuildViewer
+        // 呼び出し：データの更新時
+        // 呼び出し：最新データでビューアー再描画・画面情報保持。PGのdisplay保持ではなく階層のdispatch（追加PGがあぶれるため）
+        // ================================================================================================================
+        function rebuildViewer(){
+
+        }
+
         // =============================================================================
         // 関数名  ：editViewer
-        // 呼び出し：ビューアー階層クリック・ワークPGクリック
+        // 呼び出し：ビューアー階層/PGクリック
         // 機能１  ：階層・PG情報の登録・編集機能を提供
         // 機能２  ：PG付随メモのメイン編集画面を提供
         // =============================================================================
@@ -1849,6 +1896,13 @@ function bootSys_WORK_PGVIEWR(isFirst){
                             const td2 = createDOM("td");
                             const td3 = createDOM("td");
                             const delButton = createDOM("button")
+                            const pgOpenButton = createDOM("button")
+                            const notice = createDOM("span");
+                            let taskCount = getTaskCount("PG", tmpObj["id"]);
+                            if(taskCount){
+                                notice.innerHTML = taskCount;
+                                notice.classList.add("notice");
+                            }
 
                             // props
                             td.textContent = rowNum;
@@ -1859,6 +1913,8 @@ function bootSys_WORK_PGVIEWR(isFirst){
                             pgidInput.value = tmpObj["pgid"];
                             delButton.textContent = "削除";
                             delButton.classList.add("medium-button-red");
+                            pgOpenButton.textContent = "詳細";
+                            pgOpenButton.classList.add("medium-button-dark");
                             
                             // --------------
                             // event
@@ -1888,11 +1944,17 @@ function bootSys_WORK_PGVIEWR(isFirst){
                                     editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
                                 }
                             })
+                            // OPEN PG
+                            pgOpenButton.addEventListener("click", function(){
+                                editViewer("PG",tmpObj)
+                            })
 
                             // append
                             td2.appendChild(pgnameInput);
                             td2.appendChild(pgidInput);
                             td3.appendChild(delButton);
+                            td3.appendChild(pgOpenButton);
+                            if(taskCount) td3.appendChild(notice);
                             tr.appendChild(td);
                             tr.appendChild(td2);
                             tr.appendChild(td3);
@@ -1915,6 +1977,13 @@ function bootSys_WORK_PGVIEWR(isFirst){
                         const td2 = createDOM("td");
                         const td3 = createDOM("td");
                         const delButton = createDOM("button")
+                        const childOpenButton = createDOM("button")
+                        const notice = createDOM("span");
+                        let taskCount = getTaskCount("KAISO", tmpObj["id"]);
+                        if(taskCount){
+                            notice.innerHTML = taskCount;
+                            notice.classList.add("notice");
+                        }
                         {
                             td.textContent = rowNum;
                             kaisoNameInput.type = "text";
@@ -1922,6 +1991,8 @@ function bootSys_WORK_PGVIEWR(isFirst){
                             kaisoNameInput.style.borderBottom = "none";
                             delButton.textContent = "削除";
                             delButton.classList.add("medium-button-red");
+                            childOpenButton.textContent = "詳細";
+                            childOpenButton.classList.add("medium-button-dark");
                         }
 
                         // --------------
@@ -1952,10 +2023,17 @@ function bootSys_WORK_PGVIEWR(isFirst){
                                 editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
                             }
                         })
+                        // OPEN CHILD
+                        childOpenButton.addEventListener("click", function(){
+                            let tmpIsMaxKaiso = parseInt(kaisoIndex + 1) == parseInt(cloneRepo_kaiso.find(a => a.hasOwnProperty("kaisoCount"))["kaisoCount"]);
+                            editViewer("KAISO", tmpObj, tmpIsMaxKaiso, kaisoIndex + 1);
+                        })
 
                         // APPEND
                         td2.appendChild(kaisoNameInput);
                         td3.appendChild(delButton);
+                        td3.appendChild(childOpenButton);
+                        if(taskCount) td3.appendChild(notice);
                         tr.appendChild(td);
                         tr.appendChild(td2);
                         tr.appendChild(td3);
@@ -2217,7 +2295,7 @@ function bootSys_WORK_PGVIEWR(isFirst){
                                     <input type="range" value="${tmpObj["progress"]}" id="viewer-task-range_${pKey}" min="0" max="100">
                                     <div class="task-range-row">
                                         <span id="viewer-task-range-num_${pKey}" style="color: #727272ff">${arrowIcon + tmpObj["progress"]}%</span>
-                                        <button class="mini-btn" onclick="bootSub_taskMemos('${tmpObj["id"]}');">メモ</button>
+                                        <button class="mini-btn" onclick="bootSub_taskMemos('${tmpObj["id"]}', true);">メモ</button>
                                     </div>
                                 </td>
                                 <td style="width: 70%">
@@ -2233,9 +2311,6 @@ function bootSys_WORK_PGVIEWR(isFirst){
 
                         // RANGE
                         range.addEventListener("input", function(){
-
-                            // SAVE
-                            let prevProgress = tmpObj["progress"];
 
                             // UPD DATA
                             tmpObj["progress"] = `${this.value}`;
@@ -4393,7 +4468,38 @@ function bootSub_refViewer(targetDOM, hiddenIDInput = null, afterFunc = null){
 
 
 // #region サブ：タスクメモ（param：タスクID）
-function bootSub_taskMemos(taskObjID){
+function bootSub_taskMemos(taskObjID, miniMode = false){
+
+    // CONFIG
+    let CONFIG = {
+        // SUB WINDOW
+        "SUBWINDOW_WIDTH": "80vw",
+        "SUBWINDOW_MAXWIDTH": "80vw",
+        "SUBWINDOW_HEIGHT": "85vh",
+        "SUBWINDOW_MAXHEIGHT": "85vh",
+        // ROW CNT
+        "ROWCNT": "3",
+        // POSITION
+        "LEFT": "10vw",
+    }
+
+    // 簡易モード用
+    if(miniMode){
+        CONFIG = {
+            // SUB WINDOW
+            "SUBWINDOW_WIDTH": "29vw",
+            "SUBWINDOW_MAXWIDTH": "29vw",
+            "SUBWINDOW_HEIGHT": "85vh",
+            "SUBWINDOW_MAXHEIGHT": "85vh",
+            // ROW CNT
+            "ROWCNT": "1",
+            // POSITION
+            "LEFT": "15vw",
+        }
+    }
+
+    // RESET
+    if(getDOM("bootSub_taskMemos_SubWindow")) getDOM("bootSub_taskMemos_SubWindow").remove();
 
     // clone for work
     var cloneRepo = mainData.WORK[0].WORK_TASK;
@@ -4402,34 +4508,52 @@ function bootSub_taskMemos(taskObjID){
     const modal = createDOM("div");
     const subWindow = createDOM("div");
     const container = createDOM("div");
-    const title = createDOM("h1");
+    const title = createDOM("input");
+    const path = createDOM("h1");
     const sheetAddButton = createDOM("button");
+    const closeButton = createDOM("span");
 
     // prop
     modal.style.zIndex = 100;
+    subWindow.id = "bootSub_taskMemos_SubWindow";
     subWindow.style.zIndex = 120;
     container.style.zIndex = 120;
     modal.classList.add("modal");
-    title.style.color = "#fff";
+    title.type = "text";
+    title.readOnly = true;
+    title.style.border = "none";
+    title.style.backgroundColor = "transparent";
+    title.style.fontWeight = "bold";
+    title.style.width = "80%";
+    title.style.color = "black";
+    path.style.color = "#777777ff";
+    title.style.fontSize = "16px";
+    path.style.fontSize = "12px";
     sheetAddButton.textContent = "３枚追加";
     sheetAddButton.classList.add("mini-btn");
     sheetAddButton.style.position = "absolute";
     sheetAddButton.style.right = "3%";
     sheetAddButton.style.bottom = "0.7%";
-    sheetAddButton.style.fontSize = "15px";
+    sheetAddButton.style.fontSize = "12px";
     subWindow.classList.add("like-card-white");
+    closeButton.style.position = "absolute";
+    closeButton.innerHTML = svg_close_gray;
+    closeButton.style.cursor = "pointer";
+    closeButton.style.top = "2%";
+    closeButton.style.right = "2%";
     {
         subWindow.style.position="absolute";
-        subWindow.style.border="none";
+        subWindow.style.border="1px gray solid";
+        subWindow.style.boxShadow="0 4px 6px -4px rgba(0, 0, 0, 0.3)";
         subWindow.style.top = "5vh";
-        subWindow.style.left = "10vw";
-        subWindow.style.height = "85vh";
-        subWindow.style.maxHeight = "85vh";
-        subWindow.style.width = "80vw";
+        subWindow.style.left = CONFIG.LEFT;
+        subWindow.style.height = CONFIG.SUBWINDOW_HEIGHT;
+        subWindow.style.maxHeight = CONFIG.SUBWINDOW_MAXHEIGHT;
+        subWindow.style.width = CONFIG.SUBWINDOW_WIDTH;
         container.style.maxHeight = "90%";
         container.style.overflowY = "auto";
-        container.style.backgroundColor = "#2c3e50";
-        subWindow.style.backgroundColor = "#2c3e50";
+        container.style.backgroundColor = "#f4f6f8";
+        subWindow.style.backgroundColor = "#f4f6f8";
         sheetAddButton.addEventListener("click", function(){
             // メモ追加・再構築
             pushJSON_emptyMemos(3);
@@ -4439,18 +4563,27 @@ function bootSub_taskMemos(taskObjID){
             bootSub_taskMemos(taskObjID);
         })
     }
-    title.textContent = `作業メモ ${cloneRepo.find(a => a.id == taskObjID)["pgInfo"] ? "["+cloneRepo.find(a => a.id == taskObjID)["pgInfo"]+"]" : ""}`;
+    title.value = `${cloneRepo.find(a => a.id == taskObjID)["content"] ? cloneRepo.find(a => a.id == taskObjID)["content"] : ""}`;
+    path.textContent = `${cloneRepo.find(a => a.id == taskObjID)["pgInfo"] ? cloneRepo.find(a => a.id == taskObjID)["pgInfo"] : ""}`;
     title.classList.add("page-title")
 
     // append
     subWindow.appendChild(title);
-    subWindow.appendChild(sheetAddButton);
+    subWindow.appendChild(path);
+    if(!miniMode)subWindow.appendChild(sheetAddButton);
+    subWindow.appendChild(closeButton);
     subWindow.appendChild(container);
-    document.body.appendChild(modal);
+    // 簡易モードならフリーに動かせる仕様
+    if(!miniMode) document.body.appendChild(modal);
     document.body.appendChild(subWindow);
 
     // event
     modal.addEventListener("click", function(e){
+        end();
+    })
+
+    // close
+    closeButton.addEventListener("click", function(e){
         end();
     })
 
@@ -4480,9 +4613,17 @@ function bootSub_taskMemos(taskObjID){
         for(let target of cloneRepo.find(a => a.id == taskObjID)["memos"]){
             // td
             // if(index%2 == 1){
-            if(index%3 == 1){
+            let rowCnt = parseInt(CONFIG.ROWCNT);
+            // 一列
+            if(rowCnt == 1){
                 tr = createDOM("tr")
                 tbody.appendChild(tr);
+            // 複数列
+            }else{
+                if(index % 3 == 1){
+                    tr = createDOM("tr")
+                    tbody.appendChild(tr);
+                }
             }
             const td = createDOM("td");
             const div_input = createDOM("div");
@@ -4497,22 +4638,21 @@ function bootSub_taskMemos(taskObjID){
                 input.style.padding = "6px";
                 input.style.border = "none";
                 input.style.borderRadius = "4px";
+                input.style.border = "1px #d6d6d6ff solid";
                 input.style.borderLeft = "4px solid #4090ff";
-                input.style.backgroundColor = " #34495e";
+                input.style.backgroundColor = " #fff";
                 input.placeholder = "タイトル...";
-                input.style.color = " #fff";
                 input.style.margin = "3px";
                 textarea.value = target.memoText;
-                textarea.style.backgroundColor = " #34495e";
-                textarea.style.color = " #fff";
-                textarea.style.border = "none";
+                textarea.style.border = "1px #d6d6d6ff solid";
                 textarea.spellcheck = "off";
                 textarea.style.width = "24vw";
                 textarea.style.height = "30vh";
-                textarea.spellcheck = "off";
+                textarea.spellcheck = false;
                 // textarea.style.resize = "vertical";
                 textarea.style.resize = "none";
-                textarea.classList.add("like-card-white");
+                // textarea.classList.add("like-card-white");
+                textarea.classList.add("pg-memo-body");
 
                 // event
                 input.addEventListener("change", function(){
