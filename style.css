@@ -1500,3 +1500,160 @@ input:checked + .slider:before {
   align-items: center;
   gap: 7px; /* ➤ と ボタンの間隔 */
 }
+
+
+/* ============================
+   階層パス（共通）
+   ============================ */
+.pg-path {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 12px;
+  color: #8a8f96;              /* 落ち着いたグレー */
+  user-select: none;
+  cursor: default;
+}
+
+/* 区切り記号（ > ） */
+.pg-path-separator {
+  color: #b0b6bd;
+}
+
+/* 各階層要素 */
+.pg-path-item {
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: 
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* ホバー（辿れる感） */
+.pg-path-item:hover {
+  background-color: #e9edf2;   /* 薄いブルーグレー */
+  color: #3a3f45;              /* 少しだけ濃く */
+  cursor: pointer;
+}
+
+/* 現在地（最後の階層） */
+.pg-path-item.current {
+  color: #2f3b48;
+  font-weight: 500;
+  cursor: default;
+}
+
+/* 現在地はホバー無効 */
+.pg-path-item.current:hover {
+  background-color: transparent;
+}
+
+/* ===============================
+   Explorer Search Input
+   =============================== */
+
+.explorer-search-input {
+    width: calc(100% - 20px);
+    margin: 10px;
+    padding: 6px 10px;
+
+    font-size: 13px;
+    color: #2f3b48;
+
+    background-color: #eef3f8;
+    border: 1px solid #d6e0ea;
+    border-radius: 6px;
+
+    outline: none;
+    box-sizing: border-box;
+
+    transition: background-color 0.15s ease,
+                border-color 0.15s ease,
+                box-shadow 0.15s ease;
+}
+
+/* フォーカス時：主張しすぎない */
+.explorer-search-input:focus {
+    background-color: #ffffff;
+    border-color: #b8c7d6;
+    box-shadow: 0 0 0 1px rgba(120, 150, 180, 0.15);
+}
+
+/* プレースホルダ */
+.explorer-search-input::placeholder {
+    color: #9aa6b2;
+}
+
+/* 上にある階層ヘッダと自然につながるように */
+.pgviewer-kaisofolder-container:first-child {
+    margin-top: 0;
+}
+
+
+/* あいまい検索結果コンテナ */
+.explorer-search-result {
+    position: absolute;
+    z-index: 50;
+
+    background-color: #ffffff;
+    border: 1px solid #d6dce5;
+    border-top: none;                /* 検索ボックスと一体化 */
+    border-radius: 0 0 6px 6px;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+
+    max-height: 260px;
+    overflow-y: auto;
+
+    font-size: 13px;
+    color: #2f3b48;
+}
+
+/* 検索ヒットボタン */
+.explorer-search-item {
+    width: 100%;
+    padding: 6px 12px;
+
+    background: none;
+    border: none;
+    outline: none;
+
+    text-align: left;
+    font-size: 13px;
+    color: #2f3b48;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+/* hover */
+.explorer-search-item:hover {
+    background-color: #dfe7f1;
+    /* background-color: #67778b;
+    color: #fff */
+}
+
+/* アクティブ（キーボード操作想定） */
+.explorer-search-item:focus {
+  background-color: #dfe7f1;
+    /* background-color: #435266;
+    color: #fff */
+}
+
+.robot{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* background-color: #fff; */
+  border-radius: 10px;
+}
+
+
+.auto-move-progress-container{
+  position: absolute;
+  left: 49vw;
+  top: 49vh;
+  background-color: #1f2d3d;
+  border-radius: 5px;
+}
