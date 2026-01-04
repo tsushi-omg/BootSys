@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=0.9">
   <link rel="stylesheet" href="style.css">
   <title>BootSys</title>
 </head>
@@ -24,7 +24,6 @@
         <label for="appLog" style="cursor: pointer;" onclick="toggleLogsVisible()">ログ</label>
         <textarea id="appLog" class="log-textarea" readonly hidden></textarea>
     </div>
-
 
   <!-- 右：ワーク -->
   <div class="work">
@@ -443,7 +442,7 @@
         </div>
 
         <!-- PGビューアー start --------------------------------------------------------------------------------------------------------------->  
-        <div id="WORK_PGVIEWR_PANEL" class="tab-panel" tabindex="0">
+        <div id="WORK_PGVIEWER_PANEL" class="tab-panel" tabindex="0">
             <h2 class="page-title">PGビューアー</h2>
             <div class="pg-viewer-menu like-card-white" style="height: 70vh; display: flex; flex-shrink: 0;">
                 <div id="pg-viewer-tree" style="height: 99%; overflow: auto; width: 35%;"></div>
@@ -530,6 +529,53 @@
                 <div class="box-1" style="height: 100%; width: 75%;">
                     <div id="working_div_tool"></div>
                 </div>
+            </div>
+        </div>
+
+        <!-- チャット start --------------------------------------------------------------------------------------------------------------->  
+        <div id="AI_AGENCY_PANEL" class="tab-panel">
+            <h2 class="page-title">システム代行</h2>
+            <div class="like-card-white agent-chat-root">
+                <!-- メッセージ一覧（スクロール） -->
+                <div class="agent-chat-body" id="agent-chat-body">
+                    <!-- agent -->
+                    <!-- <label style="color: gray; font-size: 11px;">BootSys</label>
+                    <div class="chat-row agent">
+                        <div class="chat-bubble">
+                            こんにちは。  
+                            今日は何をしますか？
+                        </div>
+                    </div> -->
+                    <!-- user -->
+                    <!-- <div class="chat-row user">
+                        <div class="chat-bubble">
+                            今日完了したタスクを一覧で出して
+                        </div>
+                    </div> -->
+                    <!-- agent -->
+                    <!-- <label style="color: gray; font-size: 11px;">BootSys</label>
+                    <div class="chat-row agent">
+                        <div class="chat-bubble">
+                            本日完了したタスクは3件あります。
+                            <ul>
+                                <li>部署マスタ：設計</li>
+                                <li>役職マスタ：テスト</li>
+                                <li>人材マスタ：新規作成</li>
+                            </ul>
+                        </div>
+                    </div> -->
+                </div>
+                <!-- 入力エリア -->
+                <!-- <div class="agent-chat-footer">
+                    <input
+                        type="text"
+                        id="massage-box-agency"
+                        class="agent-chat-input"
+                        readonly
+                        placeholder="始める"
+                        spellcheck="false">
+                    <button class="agent-chat-send" id="massage-enter-agency">▶</button>
+                </div> -->
             </div>
         </div>
 

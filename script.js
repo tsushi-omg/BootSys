@@ -8,7 +8,7 @@ const WORK_DAILY = "WORK_DAILY";    // デイリー記録
 const WORK_TASK = "WORK_TASK";      // タスク管理
 const WORK_FLOW = "WORK_FLOW";      // フローチャート
 const WORK_MEMO = "WORK_MEMO";      // 雑多メモ
-const WORK_PGVIEWR = "WORK_PGVIEWR";      //PGビューアー
+const WORK_PGVIEWER = "WORK_PGVIEWER";      //PGビューアー
 const WORK_TOOLMANAGER = "WORK_TOOLMANAGER";    // ツール管理
 const WORK_LINK = "WORK_LINK";      // 外部リンク
 
@@ -24,13 +24,13 @@ const MASTER_SETTING = "MASTER_SETTING";            // 設定
 //========================================
 // AI
 //========================================
-const AI_AGENTCHAT = "AI_AGENTCHAT";      // プログラム分類
+const AI_AGENCY = "AI_AGENCY";                      // システム代行
 
 //========================================
 // 開発用
 //========================================
 let debug = false;
-// debug = true;
+debug = true;
 
 //========================================
 // クイックダウンロード
@@ -119,6 +119,13 @@ let DATABTASE =
             //*** タグ管理*************************************** /
             MASTER_TAGMANAGER:[
                 // {"id":1, "name":"abc"}, {"id":2, "name":"def"},
+            ],
+        }
+    ],
+    "AI": [
+        {
+            //*** システム代行*************************************** /
+            AI_AGENCY:[
             ],
         }
     ],
@@ -528,12 +535,15 @@ JSONReader.addEventListener("change", function(event){
 //========================================
 function applyPatch(){
     try{
+        
         let msg = false;
+
         // 雑多メモデータ領域
         if (!DATABTASE.WORK[0].hasOwnProperty("WORK_MEMO")) {
             DATABTASE.WORK[0].WORK_MEMO = []; 
             log("パッチが適用されました [雑多メモ：データ領域を作成]");
         }
+
         // 雑多メモデータ　ステータスアイコンデータ領域
         msg = false
         for(let obj of DATABTASE.WORK[0].WORK_MEMO){
@@ -543,11 +553,25 @@ function applyPatch(){
             }
         }
         if(msg) log("パッチが適用されました [雑多メモ：ステータスアイコンデータを作成]");
+
         // ツール管理データ領域
         if (!DATABTASE.WORK[0].hasOwnProperty("WORK_TOOLMANAGER")) {
             DATABTASE.WORK[0].WORK_TOOLMANAGER = []; 
             log("パッチが適用されました [ツール管理：データ領域を作成]");
         }
+
+        // AIメニュー　データ領域
+        if (!DATABTASE.hasOwnProperty("AI")) {
+            DATABTASE.AI = [{}]; 
+            log("パッチが適用されました [AI：データ領域を作成]");
+        }
+
+        // システム代行データ領域
+        if (!DATABTASE.AI[0].hasOwnProperty(AI_AGENCY)) {
+            DATABTASE.AI[0].AI_AGENCY = []; 
+            log("パッチが適用されました [システム代行：データ領域を作成]");
+        }
+        
     }catch(e){alert("パッチ適用に失敗しました")}
 
 }
@@ -805,7 +829,6 @@ function kaisoCSVToPath(pKaisoCSV){
     return path;
 }
 
-
 //========================================
 // 階層オブジェクト➤階層名称パスへ変換
 //========================================
@@ -818,6 +841,31 @@ function kaisoObjToPath(pKaisoObj, pKaisoIndex){
                 .find(b => b["id"] == pKaisoObj[kaisoKey + "ID"])["name"];
     }
     return path;
+}
+
+//========================================
+// 複数マッチ判定
+//========================================
+function multiMatch(targetString, valueCSV){
+    for(let val of valueCSV.split(",")){
+        if(targetString.includes(val)) return true;
+    }
+    return false;
+}
+
+//========================================
+// 共通使用変数
+//========================================
+function getTime(){
+    let now = new Date();
+    let time = now.toTimeString().slice(0,5);
+    return time;
+}
+// type="date"と同じ
+function getToday(){
+    let now = new Date();
+    let today = now.toISOString().split("T")[0];
+    return today;
 }
 
 
@@ -849,7 +897,7 @@ function Init(){
                     {"name": "タスク管理",  "id": WORK_TASK, "icon":svg_task,"bootSys": bootSys_WORK_TASK},
                     // {"name": "フローチャート",  "id": WORK_FLOW, "icon":svg_brain,"bootSys": bootSys_WORK_FLOW},
                     {"name": "雑多メモ",   "id": WORK_MEMO, "icon":svg_memo,"bootSys": bootSys_WORK_MEMO},
-                    {"name": "PGビューアー",  "id": WORK_PGVIEWR, "icon":svg_map,"bootSys": bootSys_WORK_PGVIEWR},
+                    {"name": "PGビューアー",  "id": WORK_PGVIEWER, "icon":svg_map,"bootSys": bootSys_WORK_PGVIEWER},
                     {"name": "ツール管理",  "id": WORK_TOOLMANAGER, "icon":svg_android,"bootSys": bootSys_WORK_TOOLMANAGER},
                     {"name": "外部リンク",  "id": WORK_LINK, "icon":svg_link,"bootSys": null},
                 ]
@@ -867,7 +915,7 @@ function Init(){
             {
                 // 保留時、bootSys : nullでok
                 "name": "AI", "nextMenu": [
-                    {"name": "チャット","id": AI_AGENTCHAT, "icon":svg_agent_white,"bootSys": null},
+                    {"name": "システム代行","id": AI_AGENCY, "icon":svg_agent_white,"bootSys": bootSys_AI_AGENCY},
                 ]
             },
         ]
@@ -1282,7 +1330,548 @@ function bootSys_MASTER_PGINFO(isFirst){
 }
 
 
+//#region AI-システム代行（起動）*********************************************************************************************************************************
 
+// BOX
+// const massage_box_agency = getDOM("massage-box-agency");
+// ENTER
+// const massage_enter_agency = getDOM("massage-enter-agency");
+// BODY
+const agent_chat_body = getDOM("agent-chat-body"); 
+
+function bootSys_AI_AGENCY(isFirst)
+{
+
+    // -------------------------------------------------------------------------------------------
+    // パターンデータ定義（ParamaterCodeは重複不可。innerHTML生成関数へ渡すユニークコード）
+    // -------------------------------------------------------------------------------------------
+    let MsgData = [
+
+        //==================================================
+        // 問い合わせ（情報取得・確認系）
+        //==================================================
+        {
+            PRINTNAME: "問い合わせ",
+            CHILDARR: [
+
+                // -------------------------
+                // タスク関連
+                // -------------------------
+                {
+                    PRINTNAME: "タスク関連",
+                    CHILDARR: [
+                        { PRINTNAME: "指定日に完了したタスク", PARAMCD: 1, OPTION: "日付指定,date"},
+                        { PRINTNAME: "未完了のタスク", PARAMCD: 2 },
+                        { PRINTNAME: "作業メモを検索", PARAMCD: 3, OPTION: "検索ワード（カンマ区切り）,text" }
+                    ]
+                },
+
+                // // -------------------------
+                // // 作業ログ / デイリー
+                // // -------------------------
+                // {
+                //     PRINTNAME: "作業記録",
+                //     CHILDARR: [
+                //         { PRINTNAME: "今日の作業一覧" },
+                //         { PRINTNAME: "今週の作業サマリ" },
+                //         { PRINTNAME: "作業時間ランキング" },
+                //         { PRINTNAME: "未入力の日を探す" }
+                //     ]
+                // },
+
+                // // -------------------------
+                // // プログラム / PGビューア
+                // // -------------------------
+                // {
+                //     PRINTNAME: "プログラム",
+                //     CHILDARR: [
+                //         { PRINTNAME: "最近触ったPG" },
+                //         { PRINTNAME: "カテゴリ別PG一覧" },
+                //         { PRINTNAME: "未分類PG" },
+                //         { PRINTNAME: "タグ未設定PG" }
+                //     ]
+                // },
+
+                // // -------------------------
+                // // 設定・状態確認
+                // // -------------------------
+                // {
+                //     PRINTNAME: "システム状態",
+                //     CHILDARR: [
+                //         { PRINTNAME: "今日の操作履歴" },
+                //         { PRINTNAME: "直近エラー一覧" },
+                //         { PRINTNAME: "未保存データの有無" }
+                //     ]
+                // }
+            ]
+        },
+
+        //==================================================
+        // 代行（操作・実行系）
+        //==================================================
+        {
+            PRINTNAME: "代行依頼",
+            CHILDARR: [
+
+                // // -------------------------
+                // // タスク操作
+                // // -------------------------
+                // {
+                //     PRINTNAME: "タスク",
+                //     CHILDARR: [
+                //         { PRINTNAME: "タスクを新規作成" },
+                //         { PRINTNAME: "今日のタスクを完了にする" },
+                //         { PRINTNAME: "期限を明日に変更" },
+                //         { PRINTNAME: "優先度を上げる" }
+                //     ]
+                // },
+
+                // -------------------------
+                // 便利
+                // -------------------------
+                {
+                    PRINTNAME: "作成",
+                    CHILDARR: [
+                        { PRINTNAME: "TODOリスト", PARAMCD: 101 },
+                    ]
+                },
+
+                // // -------------------------
+                // // 作業記録操作
+                // // -------------------------
+                // {
+                //     PRINTNAME: "作業記録",
+                //     CHILDARR: [
+                //         { PRINTNAME: "今日の作業を自動記録" },
+                //         { PRINTNAME: "昨日の作業をコピー" },
+                //         { PRINTNAME: "空白日をまとめて補完" }
+                //     ]
+                // },
+
+                // // -------------------------
+                // // PGビューア操作
+                // // -------------------------
+                // {
+                //     PRINTNAME: "PGビューア",
+                //     CHILDARR: [
+                //         { PRINTNAME: "ツリーを自動展開" },
+                //         { PRINTNAME: "該当PGをハイライト" },
+                //         { PRINTNAME: "関連PGを開く" }
+                //     ]
+                // },
+
+                // // -------------------------
+                // // 一括処理・整理
+                // // -------------------------
+                // {
+                //     PRINTNAME: "整理",
+                //     CHILDARR: [
+                //         { PRINTNAME: "未分類データを整理" },
+                //         { PRINTNAME: "古いデータをアーカイブ" },
+                //         { PRINTNAME: "タグを自動付与" }
+                //     ]
+                // }
+            ]
+        }
+    ];
+
+    // 履歴読込
+    function loadPastChat(){
+        // 
+    }
+    loadPastChat();
+
+    // -------------
+    // 開始
+    // -------------
+    const containerID = "parent-container-agency";
+    const optionID = "option-input-agency";
+    
+    function startChat(){
+        
+        // RESET
+        if(getDOM(containerID)) getDOM(containerID).remove();
+        
+        // CONTAINER
+        const parentContainer = createDOM("div");
+        parentContainer.id = containerID;
+        parentContainer.classList.add("parent-container-agency");
+        getDOM(AI_AGENCY + "_PANEL").appendChild(parentContainer);
+
+        // PATH
+        const pathLabel = createDOM("label");
+        pathLabel.classList.add("pg-work-path")
+
+        // 変数
+        let path = "";
+
+        for(let parentObj of MsgData){
+            
+            // --------
+            // FIRST
+            // --------
+            const parentButton = createDOM("button");
+            parentButton.textContent = parentObj.PRINTNAME;
+            parentButton.classList.add("parent-button-agency");
+            parentContainer.appendChild(parentButton);
+
+            // CLICK
+            parentButton.addEventListener("click", function(e){
+
+                // CLEAR
+                parentContainer.innerHTML = "";
+                path += parentObj.PRINTNAME;
+                parentContainer.appendChild(pathLabel);
+
+                for(let secondObj of parentObj.CHILDARR){
+                    
+                    // PATH
+                    pathLabel.textContent = path;
+                    
+                    // --------
+                    // SECOND
+                    // --------
+                    const secondButton = createDOM("button");
+                    secondButton.textContent = secondObj.PRINTNAME;
+                    secondButton.classList.add("parent-button-agency");
+                    parentContainer.appendChild(secondButton);
+
+                    // CLICK
+                    secondButton.addEventListener("click", function(e){
+
+                        // CLEAR
+                        parentContainer.innerHTML = "";
+                        path += "> " + secondObj.PRINTNAME;
+                        parentContainer.appendChild(pathLabel);
+
+                        for(let thirdObj of secondObj.CHILDARR){
+                            
+                            // PATH
+                            pathLabel.textContent = path;
+                            
+                            // --------
+                            // END
+                            // --------
+                            const thirdButton = createDOM("button");
+                            thirdButton.textContent = thirdObj.PRINTNAME;
+                            thirdButton.classList.add("parent-button-agency");
+                            parentContainer.appendChild(thirdButton);
+
+                            // 「送信」 || 「オプションへ」
+                            let sendSpan = createDOM("span");
+                            sendSpan.classList.add("notice-gray");
+                            sendSpan.innerHTML = thirdObj.hasOwnProperty("OPTION") ? "オプションへ" : "送信";
+                            thirdButton.appendChild(sendSpan);
+
+                            // SEND MASSAGE
+                            thirdButton.addEventListener("click", function(e){
+                                
+                                // オプションなし
+                                if(!thirdObj.hasOwnProperty("OPTION")) {
+                                    // SET
+                                    massageSender(thirdObj.PARAMCD)
+                                    // CLEAR
+                                    parentContainer.remove();
+                                }
+
+                                // オプションあり
+                                else{
+
+                                    let opHint = thirdObj.OPTION.split(",")[0];
+                                    let opType = thirdObj.OPTION.split(",")[1];
+
+                                    // CLEAR
+                                    parentContainer.innerHTML = "";
+                                    pathLabel.textContent = opHint;
+                                    parentContainer.appendChild(pathLabel);
+
+                                    // OPTION SET
+                                    const optionInput = createDOM("input");
+                                    const optionEnter = createDOM("button");
+                                    parentContainer.appendChild(optionInput);
+                                    parentContainer.appendChild(optionEnter);
+
+                                    // PROP
+                                    optionInput.type = opType;
+                                    optionInput.id = "option-input-agency";
+                                    optionInput.spellcheck = false; 
+                                    optionInput.autoComplete = false; 
+                                    optionEnter.textContent = "送信";
+                                    parentContainer.classList.add("agency-option-wrap")
+                                    optionInput.classList.add("agency-option-input")
+                                    optionEnter.classList.add("agency-option-enter")
+                                    optionInput.focus();
+
+                                    // INIT
+                                    if(opType == "date"){
+                                        
+                                        // 初期値：今日
+                                        optionInput.value = getToday();
+                                    }
+
+                                    // ENTER
+                                    optionEnter.addEventListener("click", function(){
+                                        // 必須
+                                        if(optionInput.value == ""){
+                                            alert("オプションを入力してください")
+                                            return;
+                                        }
+                                        // SET
+                                        massageSender(thirdObj.PARAMCD);
+                                        // CLEAR
+                                        parentContainer.remove();
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    }
+
+    // 開始
+    startChat();
+
+    // ----------------------
+    // 送信メッセージ挿入
+    // ----------------------
+    function massageSender(pCd){
+        
+        let msg = "";
+        let optionVal = "";
+
+        switch(pCd){
+
+            // OP：指定日に完了したタスク
+            case 1 :
+                optionVal = getDOM(optionID).value;
+                msg = `${optionVal==getToday() ? "今日" : optionVal + " に"}完了したタスクを教えて`;
+            break;
+
+            // 未完了のタスク
+            case 2 :
+                msg = `未完了のタスクを教えて`;
+            break;
+
+            // OP：作業メモ検索
+            case 3 :
+                optionVal = getDOM(optionID).value;
+                msg = `[${optionVal}] を含む作業メモを探して`;
+            break;
+
+            // todoリスト作成
+            case 101 :
+                msg = `TODOリストを作って`;
+            break;
+        }
+
+        // SEND
+        insertBlock(msg, pCd, false);
+
+    }
+
+    // ------------------------------
+    // メッセージブロック挿入
+    // ------------------------------
+    function insertBlock(msg, pCd, isAnswer){
+
+        // System
+        if(isAnswer){
+            agent_chat_body.insertAdjacentHTML("beforeend", 
+                `<label style="color: gray; font-size: 11px;">System</label>
+                <div class="chat-row agent">
+                    <div class="chat-bubble">
+                        ${msg}
+                    </div>
+                </div>
+                `)
+
+        // User
+        }else{
+            agent_chat_body.insertAdjacentHTML("beforeend", 
+                `<span class="chat-date">${getTime()}</span><div class="chat-row user">
+                    <div class="chat-bubble">
+                        ${msg}
+                    </div>
+                </div>
+                `)
+
+            // ANSER
+            answerBuilder(pCd);
+        }
+
+        // SCROLL
+        agent_chat_body.scrollTop = agent_chat_body.scrollHeight;
+
+        // CLEAR
+        startChat();
+    }
+
+    // ----------------------
+    // 回答メッセージ作成
+    // ----------------------
+    function answerBuilder(pCd){
+
+        let answerHtml = "";
+
+        switch(pCd){
+
+            // =====================================================================
+            // OP：指定日に完了したタスク
+            // =====================================================================
+            case 1 :
+            {
+                // オプションvalue
+                let optionVal = getDOM(optionID).value;
+
+                // 進捗率100且つcompDateが指定日
+                let refArr = DATABTASE.WORK[0].WORK_TASK
+                            .filter(a => a["progress"] == 100 && a["compDate"] == optionVal);
+
+                // 該当なし
+                if(refArr.length == 0){
+                    answerHtml = `${optionVal==getToday() ? "本日" : optionVal + " に"}完了したタスクはありません`;
+                    break;
+                }else{
+                    answerHtml = `${optionVal==getToday() ? "本日" : optionVal + " に"}完了したタスク${refArr.length}件を表示します`;
+                }
+
+                // 組み立て
+                for(let taskObj of refArr){
+                    // パス・PG名・PGID・内容
+                    let pgInfo = taskObj["pgInfo"];
+                    let content = taskObj["content"];
+                    answerHtml += `
+                    <div class="taskinfo-container-agency">
+                        <div class="pginfo-agency">${pgInfo}</div>
+                        <div class="content-agency">${content}</div>
+                        <div onclick="bootSub_taskMemos('${taskObj["id"]}', true);" class="like-link">メモを見る</div>
+                    </div>
+                    `;
+                }
+            }
+            break;
+
+            // =====================================================================
+            // 未完了のタスク
+            // =====================================================================
+            case 2 :
+            {
+                // 未完了のタスクを取得
+                let refArr = DATABTASE.WORK[0].WORK_TASK
+                            .filter(a => a["progress"] != 100);
+
+                // 該当なし
+                if(refArr.length == 0){
+                    answerHtml = `未完了のタスクはありません`;
+                    break;
+                }else{
+                    answerHtml = `未完了のタスク${refArr.length}件を表示します`;
+                }
+
+                // 組み立て
+                for(let taskObj of refArr){
+                    // パス・PG名・PGID・内容
+                    let pgInfo = taskObj["pgInfo"];
+                    let content = taskObj["content"];
+                    answerHtml += `
+                    <div class="taskinfo-container-agency">
+                        <div class="pginfo-agency">${pgInfo}</div>
+                        <div class="content-agency">${content}</div>
+                        <div onclick="bootSub_taskMemos('${taskObj["id"]}', true);" class="like-link">メモを見る</div>
+                    </div>
+                    `;
+                }
+            }
+            break;
+
+            // =====================================================================
+            // OP：作業メモ検索
+            // =====================================================================
+            case 3 :
+            {
+                // オプションvalue
+                let optionVal = getDOM(optionID).value;
+
+                // 絞り込み
+                let refArr_task = [];
+                let refArr_memo = [];
+                for(let taskObj of DATABTASE.WORK[0].WORK_TASK){
+
+                    // メモ配列
+                    for(let memoObj of taskObj["memos"]){
+
+                        // マッチ（タスク・メモ配列を同列で扱うことで同期）
+                        if(multiMatch(memoObj["title"], optionVal) || multiMatch(memoObj["memoText"], optionVal)) {
+                            refArr_task.push(taskObj);
+                            refArr_memo.push(memoObj);
+                        }
+                    }
+                }
+
+                // 該当なし
+                let count = refArr_memo.length;
+                if(count == 0){
+                    answerHtml = `[${optionVal}] を含む作業メモは見つかりませんでした`;
+                    break;
+                }else{
+                    answerHtml = `[${optionVal}] を含む${count}件の作業メモを表示します`;
+                }
+
+                // 組み立て
+                for(let index = 0; index < count; index++){
+                    // パス・PG名・PGID・内容
+                    let pgInfo = refArr_task[index]["pgInfo"];
+                    let content = refArr_task[index]["content"];
+                    let title = refArr_memo[index]["title"];
+                    let memoText = refArr_memo[index]["memoText"];
+                    answerHtml += `
+                    <div class="taskinfo-container-agency">
+                        <div class="pginfo-agency">${pgInfo}</div>
+                        <div class="pginfo-agency">${content}</div>
+                        <div class="content-agency" style="font-weight: bold;">- ${title}</div>
+                        <textarea class="textarea-agency" readonly>${memoText}</textarea>
+                        <div onclick="bootSub_taskMemos('${refArr_task[index]["id"]}', true);" class="like-link">メモを見る</div>
+                    </div>
+                    `;
+                }
+            }
+            break;
+
+            // =====================================================================
+            // todoリスト作成
+            // =====================================================================
+            case 101 :
+            {
+                answerHtml = `TODOリストを作成します`;
+                answerHtml += `
+                <div class="todo-agency-root">
+                    <div class="todo-agency-header">
+                        TODOリスト
+                    </div>
+                    <div class="todo-agency-add">
+                        <input
+                            type="text"
+                            id="todo-input-agency"
+                            placeholder="やることを入力"
+                        >
+                        <button onclick="">追加</button>
+                    </div>
+                    <ul class="todo-agency-list" id="todo-list-agency">
+                        <!-- todo item -->
+                    </ul>
+                </div>
+                `
+            }
+            break;
+        }
+
+        // ANSWER
+        insertBlock(answerHtml, pCd, true);
+    }
+
+}
 
 
 
@@ -1647,7 +2236,7 @@ function bootSys_MASTER_WORKCATEGORY(isFirst)
 const pg_viewer_tree = getDOM("pg-viewer-tree")
 const pg_viewer_work = getDOM("pg-viewer-work")
 
-function bootSys_WORK_PGVIEWR(isFirst){
+function bootSys_WORK_PGVIEWER(isFirst){
 
     // create viewer
     function create(){
@@ -1676,7 +2265,7 @@ function bootSys_WORK_PGVIEWR(isFirst){
         searchBox.focus();
 
         // 検索ボックスフォーカス
-        const panel = getDOM("WORK_PGVIEWR_PANEL");
+        const panel = getDOM(WORK_PGVIEWER + "_PANEL");
 
         // フォーカス可能
         panel.tabIndex = 0;
@@ -2527,11 +3116,12 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
                     if(this.value==100) {
                         rangeSpan.innerHTML = `${this.value}%`;
                         tr.style.backgroundColor = "#ffff";
+                        tmpObj["compDate"] = getToday();
                     }
                     else{ 
                         rangeSpan.innerHTML = `➤${this.value}%`;
                         tr.style.backgroundColor = "#ffd3d3ff";
-
+                        tmpObj["compDate"] = "";
                     }
 
                     // REOPEN
@@ -2636,7 +3226,7 @@ function onSearchSelect(searchHidden ,searchBoxId = ""){
         case "KAISO":
             {
                 // 再起動
-                bootSys_WORK_PGVIEWR(false);
+                bootSys_WORK_PGVIEWER(false);
 
                 // ルートの自動クリック
                 let treeObjIds = "";
@@ -2647,8 +3237,6 @@ function onSearchSelect(searchHidden ,searchBoxId = ""){
                 // PG ELEMENT
                 treeObjIds += targetObj["id"] + "_button_pgviewer";
 
-                log(treeObjIds)
-
                 // クリックロボ
                 bootMini_autoRobo(treeObjIds.split(",") , 300, "click,dblclick")
             }
@@ -2657,7 +3245,7 @@ function onSearchSelect(searchHidden ,searchBoxId = ""){
         case "PG":
             {
                 // 再起動
-                bootSys_WORK_PGVIEWR(false);
+                bootSys_WORK_PGVIEWER(false);
 
                 // ルートの自動クリック
                 let tmpKaisoIndex = 1;
@@ -2828,6 +3416,12 @@ function bootSys_WORK_TASK(isFirst=false){
                                 range.addEventListener("input", function(){
                                     label.textContent = `${this.value}%`;
                                     obj["progress"] = this.value;
+                                    // 完了日更新
+                                    if(parseInt(this.value) == 100){
+                                        obj["compDate"] = getToday();
+                                    }else{
+                                        obj["compDate"] = "";
+                                    }
                                 })
                             }
                             break;
@@ -5315,12 +5909,73 @@ var mainData_TEST =
           "workCategory": "9MXyNpIdoCQ2XTYwOJwJ",
           "pgInfo": "製造> データ照会> 製造伝票照会 [CP801010_00]",
           "pgObjId": "BkoEifYZCmVGTPCCLlXo",
-          "content": "特になし",
+          "content": "新規作成",
           "dueDate": "2025-09-15",
           "progress": "64",
           "actHours": 0,
           "compDate": "",
-          "memos": []
+          "memos": [
+            {
+              "id": "QVEnmszOc4gQ07aQRLtL",
+              "title": "ドキュメント関連",
+              "memoText": "・以下パスにExcelあり\nC//:User...\n\n"
+            },
+            {
+              "id": "4MXF2D1qMJW6TZKoGsXz",
+              "title": "内容",
+              "memoText": "・SQL改修\n・帳票改修"
+            },
+            {
+              "id": "tZr9wq9kIJAw6spcvrHU",
+              "title": "懸念",
+              "memoText": "・出来高と消費財の条件が混在\n　SQLの構造が根本的に変わる可能性あり"
+            },
+            {
+              "id": "8JaWY48F4LTkbcJusFXw",
+              "title": "Title4",
+              "memoText": ""
+            },
+            {
+              "id": "gvsrWccInbV8cewsCZ1v",
+              "title": "Title5",
+              "memoText": ""
+            },
+            {
+              "id": "AdZZzdzINwIUJHlurHiZ",
+              "title": "Title6",
+              "memoText": ""
+            },
+            {
+              "id": "8jtmPbqvXOfh1j2r39PL",
+              "title": "Title7",
+              "memoText": ""
+            },
+            {
+              "id": "xtzg24aJYw5DBASNlqxg",
+              "title": "Title8",
+              "memoText": ""
+            },
+            {
+              "id": "1xGaakzi0hOgIpvGB9JV",
+              "title": "Title9",
+              "memoText": ""
+            },
+            {
+              "id": "f9sGmfm230vh7qeh6sNa",
+              "title": "Title10",
+              "memoText": ""
+            },
+            {
+              "id": "y9JqtI8aPUYScb5yrsfI",
+              "title": "Title11",
+              "memoText": ""
+            },
+            {
+              "id": "fe2CWxo3kF1ImPorNIJf",
+              "title": "Title12",
+              "memoText": ""
+            }
+          ]
         },
         {
           "id": "k1Aowp15tM0gm8CJsqao",
@@ -5330,9 +5985,9 @@ var mainData_TEST =
           "pgObjId": "tI05ExkjNKA8wG7tHGVJ",
           "content": "DSIMPができないバグ対応",
           "dueDate": "2025-09-17",
-          "progress": 0,
+          "progress": "100",
           "actHours": 0,
-          "compDate": "",
+          "compDate": "2025-12-31",
           "memos": []
         },
         {
@@ -5345,8 +6000,69 @@ var mainData_TEST =
           "dueDate": "2025-09-15",
           "progress": "100",
           "actHours": 0,
-          "compDate": "",
-          "memos": []
+          "compDate": "2025-12-31",
+          "memos": [
+            {
+              "id": "7vYW7bLu5taTUAJwV6p2",
+              "title": "質問事項",
+              "memoText": "・クレジット関連の制御\n・経路にて入力制限を行うべきか？\n・複数のクレジット情報を入力できていいのか？"
+            },
+            {
+              "id": "FDdceuNF8VIAcyJ78K4W",
+              "title": "Title2",
+              "memoText": ""
+            },
+            {
+              "id": "Z0407XVq5dLGXvIH6yEm",
+              "title": "Title3",
+              "memoText": ""
+            },
+            {
+              "id": "dc9Ycrwjev5BnzOQ6mTH",
+              "title": "Title4",
+              "memoText": ""
+            },
+            {
+              "id": "Id75d25Nv3WaUqLp7LjN",
+              "title": "Title5",
+              "memoText": ""
+            },
+            {
+              "id": "EMVn9HNfep1bYTrQkoNF",
+              "title": "Title6",
+              "memoText": ""
+            },
+            {
+              "id": "T6aHlFvGVKXkvywCKRcf",
+              "title": "Title7",
+              "memoText": ""
+            },
+            {
+              "id": "o0iHREG8SO7jGDQSvWWj",
+              "title": "Title8",
+              "memoText": ""
+            },
+            {
+              "id": "lraWUlYWVu8zbOWalOpJ",
+              "title": "Title9",
+              "memoText": ""
+            },
+            {
+              "id": "SJTtVGDpTcXDRpyJcjMM",
+              "title": "Title10",
+              "memoText": ""
+            },
+            {
+              "id": "0yrybtdlUM6YsLpkFo6A",
+              "title": "Title11",
+              "memoText": ""
+            },
+            {
+              "id": "KTUzcMfCola0rmWwYXgo",
+              "title": "Title12",
+              "memoText": ""
+            }
+          ]
         },
         {
           "id": "M56ADBZa581Z0Azp8ibe",
@@ -5628,6 +6344,11 @@ var mainData_TEST =
   "META": [
     {
       "PROJECTNAME": "茶管"
+    }
+  ],
+  "AI": [
+    {
+      "AI_AGENCY": []
     }
   ]
 }
