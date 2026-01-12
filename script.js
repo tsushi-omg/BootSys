@@ -30,7 +30,7 @@ const AI_AGENCY = "AI_AGENCY";                      // システム代行
 // 開発用
 //========================================
 let debug = false;
-debug = true;
+// debug = true;
 
 //========================================
 // クイックダウンロード
@@ -51,7 +51,7 @@ document.addEventListener("keydown", function(e) {
 //========================================
 // メインデータ
 //========================================
-let DATABTASE = 
+let DATABASE = 
 {
     "WORK": [
         {
@@ -381,7 +381,7 @@ ${message}`;
 //========================================
 function writeDataLog(){
     log(`
-${JSON.stringify(DATABTASE, null, 2)}`)
+${JSON.stringify(DATABASE, null, 2)}`)
 }
 
 //========================================
@@ -467,7 +467,7 @@ function getPosition(e, parent){
 // JSONファイル作成＆ダウンロード
 //========================================
 function downLoadJSON(){
-    if (!DATABTASE || typeof DATABTASE !== "object") {
+    if (!DATABASE || typeof DATABASE !== "object") {
         alert("エクスポートするデータがありません。");
         return;
     }
@@ -481,12 +481,12 @@ function downLoadJSON(){
     const seconds = String(now.getSeconds()).padStart(2, '0');
     var dayTime = `[${year}-${month}-${day} ${hours}:${minutes}:${seconds}]`;
 
-    const dataStr = JSON.stringify(DATABTASE, null, 2);
+    const dataStr = JSON.stringify(DATABASE, null, 2);
     const blob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `BootSys_${DATABTASE.META[0].PROJECTNAME ? "[" + DATABTASE.META[0].PROJECTNAME + "]_" : ""}${dayTime}.json`;
+    a.download = `BootSys_${DATABASE.META[0].PROJECTNAME ? "[" + DATABASE.META[0].PROJECTNAME + "]_" : ""}${dayTime}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -507,10 +507,10 @@ JSONReader.addEventListener("change", function(event){
     try {
         const json = JSON.parse(e.target.result);
         if(confirm("現在の編集を破棄して、JSONデータを読み込みますか？")){
-            DATABTASE = json;
-            document.getElementById("PNameBox").value = DATABTASE.META[0].PROJECTNAME;
+            DATABASE = json;
+            document.getElementById("PNameBox").value = DATABASE.META[0].PROJECTNAME;
             // マックス階層
-            openMaxKaiso = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
+            openMaxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
             alert("データの読み込みが完了しました")
             log("JSONデータの読み込みに成功しました")
             // 既存データパッチ
@@ -539,14 +539,14 @@ function applyPatch(){
         let msg = false;
 
         // 雑多メモデータ領域
-        if (!DATABTASE.WORK[0].hasOwnProperty("WORK_MEMO")) {
-            DATABTASE.WORK[0].WORK_MEMO = []; 
+        if (!DATABASE.WORK[0].hasOwnProperty("WORK_MEMO")) {
+            DATABASE.WORK[0].WORK_MEMO = []; 
             log("パッチが適用されました [雑多メモ：データ領域を作成]");
         }
 
         // 雑多メモデータ　ステータスアイコンデータ領域
         msg = false
-        for(let obj of DATABTASE.WORK[0].WORK_MEMO){
+        for(let obj of DATABASE.WORK[0].WORK_MEMO){
             if(! (obj.hasOwnProperty("statusIcon"))){
                 obj["statusIcon"] = null;
                 msg = true;
@@ -555,20 +555,20 @@ function applyPatch(){
         if(msg) log("パッチが適用されました [雑多メモ：ステータスアイコンデータを作成]");
 
         // ツール管理データ領域
-        if (!DATABTASE.WORK[0].hasOwnProperty("WORK_TOOLMANAGER")) {
-            DATABTASE.WORK[0].WORK_TOOLMANAGER = []; 
+        if (!DATABASE.WORK[0].hasOwnProperty("WORK_TOOLMANAGER")) {
+            DATABASE.WORK[0].WORK_TOOLMANAGER = []; 
             log("パッチが適用されました [ツール管理：データ領域を作成]");
         }
 
         // AIメニュー　データ領域
-        if (!DATABTASE.hasOwnProperty("AI")) {
-            DATABTASE.AI = [{}]; 
+        if (!DATABASE.hasOwnProperty("AI")) {
+            DATABASE.AI = [{}]; 
             log("パッチが適用されました [AI：データ領域を作成]");
         }
 
         // システム代行データ領域
-        if (!DATABTASE.AI[0].hasOwnProperty(AI_AGENCY)) {
-            DATABTASE.AI[0].AI_AGENCY = []; 
+        if (!DATABASE.AI[0].hasOwnProperty(AI_AGENCY)) {
+            DATABASE.AI[0].AI_AGENCY = []; 
             log("パッチが適用されました [システム代行：データ領域を作成]");
         }
         
@@ -620,7 +620,7 @@ appLog.addEventListener("dblclick", function(){
         logClone.style.height = "60vh";
         logClone.style.width = "80vw";
         // logClone.value = appLog.value;
-        logClone.value = JSON.stringify(DATABTASE, null, 2);
+        logClone.value = JSON.stringify(DATABASE, null, 2);
         logClone.style.zIndex = 110;
         logClone.spellcheck = "off";
     }
@@ -649,7 +649,7 @@ appLog.addEventListener("dblclick", function(){
 //========================================
 const PNameBox = document.getElementById("PNameBox");
 PNameBox.addEventListener("change", function(){
-    DATABTASE.META[0].PROJECTNAME = this.value.trim();
+    DATABASE.META[0].PROJECTNAME = this.value.trim();
     log(`プロジェクト名を [${this.value.trim()}] に変更しました`)
 })
 
@@ -714,10 +714,10 @@ function getTaskCount(kbn, objId){
 
         // 階層
         case "KAISO":
-            for(let taskObj of DATABTASE.WORK[0].WORK_TASK){
+            for(let taskObj of DATABASE.WORK[0].WORK_TASK){
                 // 進捗率100未満のみ対象
                 if(parseInt(taskObj["progress"]) == 100) continue;
-                let tmpPgObj = DATABTASE.MASTER[0].MASTER_PGINFO
+                let tmpPgObj = DATABASE.MASTER[0].MASTER_PGINFO
                                     .find(a => a["id"] == taskObj["pgObjId"]);
                 // 階層IDをパスに含む、未完了タスクのPGID
                 if(tmpPgObj && tmpPgObj["kaisoCSV"].includes(objId)) taskCount++;
@@ -726,7 +726,7 @@ function getTaskCount(kbn, objId){
 
         // PG
         case "PG":
-            for(let taskObj of DATABTASE.WORK[0].WORK_TASK){
+            for(let taskObj of DATABASE.WORK[0].WORK_TASK){
                 // 進捗率100未満のみ対象
                 if(parseInt(taskObj["progress"]) == 100) continue;
                 if(taskObj["pgObjId"] == objId) taskCount++;
@@ -756,7 +756,9 @@ async function bootMini_autoRobo(arr, allTime, eventNameCSV = "click", order = n
 
     const robot = createDOM("span");
     robot.classList.add("robot");
-    robot.innerHTML = svg_robot_blue;
+    robot.style.fontSize = "25px"
+    // robot.innerHTML = svg_robot_blue;
+    robot.innerHTML = "🫵🏻";
     document.body.appendChild(robot);
 
     // INIT
@@ -788,8 +790,8 @@ async function bootMini_autoRobo(arr, allTime, eventNameCSV = "click", order = n
         // EVENT ORDER
         if(order && order[domId]) tmpEventNameCSV = order[domId];
 
-        // ACTIVE LOG
-        log(`auto ${tmpEventNameCSV} [${el.textContent}]`)
+        // // ACTIVE LOG
+        // log(`auto ${tmpEventNameCSV} [${el.textContent}]`)
 
         const rect = el.getBoundingClientRect();
 
@@ -821,7 +823,7 @@ function kaisoCSVToPath(pKaisoCSV){
     let path = "";
     for(let kaisoId of pKaisoCSV.split(",")){
         let kaisoKey = `kaiso${kaisoIndex}`;
-        path += (path ? "> " : "") + DATABTASE.MASTER[0].MASTER_PGCATEGORY
+        path += (path ? "> " : "") + DATABASE.MASTER[0].MASTER_PGCATEGORY
                 .find(a => a[kaisoKey])[kaisoKey]
                 .find(b => b["id"] == kaisoId)["name"];
         kaisoIndex++;
@@ -836,7 +838,7 @@ function kaisoObjToPath(pKaisoObj, pKaisoIndex){
     let path = "";
     for(let kaisoIndex = 1; kaisoIndex < pKaisoIndex; kaisoIndex++){
         let kaisoKey = `kaiso${kaisoIndex}`
-        path += (path ? "> " : "") + DATABTASE.MASTER[0].MASTER_PGCATEGORY
+        path += (path ? "> " : "") + DATABASE.MASTER[0].MASTER_PGCATEGORY
                 .find(a => a[kaisoKey])[kaisoKey]
                 .find(b => b["id"] == pKaisoObj[kaisoKey + "ID"])["name"];
     }
@@ -879,10 +881,10 @@ let openMaxKaiso = 0;
 function Init(){
 
     // 開発用
-    if(debug) DATABTASE = mainData_TEST;
+    if(debug) DATABASE = mainData_TEST;
 
     // マックス階層
-    openMaxKaiso = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
+    openMaxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
 
     // パッチ適用
     applyPatch();
@@ -937,7 +939,7 @@ function Init(){
     }
 
     // プロジェクト名
-    document.getElementById("PNameBox").value = DATABTASE.META[0].PROJECTNAME;
+    document.getElementById("PNameBox").value = DATABASE.META[0].PROJECTNAME;
 
     log("システムを起動しました")
 
@@ -979,7 +981,7 @@ function bootSys_MASTER_PGCATEGORY(isFirst){
         }
 
         // clone for work
-        var cloneRepo = DATABTASE.MASTER[0].MASTER_PGCATEGORY;
+        var cloneRepo = DATABASE.MASTER[0].MASTER_PGCATEGORY;
 
         // update count（配列からkaisoCountというキーのオブジェクトを取得➤kaisoCountのvalueを更新）
         cloneRepo.find(a => a.hasOwnProperty("kaisoCount"))["kaisoCount"] = levelCnt;
@@ -1111,7 +1113,7 @@ function bootSys_MASTER_PGCATEGORY(isFirst){
                 cloneRepo.find(a => a.hasOwnProperty(tmpKeyName))[tmpKeyName].push(dataObj)
 
                 // update
-                DATABTASE.MASTER[0].MASTER_PGCATEGORY = cloneRepo;
+                DATABASE.MASTER[0].MASTER_PGCATEGORY = cloneRepo;
 
                 // rebuild
 
@@ -1147,7 +1149,7 @@ function bootSys_MASTER_PGCATEGORY(isFirst){
         }
 
         // update
-        DATABTASE.MASTER[0].MASTER_PGCATEGORY = cloneRepo;
+        DATABASE.MASTER[0].MASTER_PGCATEGORY = cloneRepo;
 
     })
 
@@ -1184,7 +1186,7 @@ function bootSys_MASTER_PGINFO(isFirst){
     function createKaiso(){
         const kaisoContainer = getDOM("pg-info-kaiso-container");// パブリックで取得
         kaisoContainer.innerHTML = "";
-        var maxKaiso = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
+        var maxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
         arrayKaiso_pgInfo_registerForm = createDOM_kaisoSelect(maxKaiso);
         for(let index = 1; index <= maxKaiso; index++){
             const div = createDOM("div");
@@ -1239,7 +1241,7 @@ function bootSys_MASTER_PGINFO(isFirst){
         }
 
         // clone for work
-        var cloneRepo = DATABTASE.MASTER[0].MASTER_PGINFO;
+        var cloneRepo = DATABASE.MASTER[0].MASTER_PGINFO;
 
         // dup check**
         // unique ID in tag master
@@ -1292,7 +1294,7 @@ function bootSys_MASTER_PGINFO(isFirst){
         cloneRepo.push(obj)
 
         // update
-        DATABTASE.MASTER[0].MASTER_PGINFO = cloneRepo;
+        DATABASE.MASTER[0].MASTER_PGINFO = cloneRepo;
 
         // rebuild
 
@@ -1726,7 +1728,7 @@ function bootSys_AI_AGENCY(isFirst)
                 let optionVal = getDOM(optionID).value;
 
                 // 進捗率100且つcompDateが指定日
-                let refArr = DATABTASE.WORK[0].WORK_TASK
+                let refArr = DATABASE.WORK[0].WORK_TASK
                             .filter(a => a["progress"] == 100 && a["compDate"] == optionVal);
 
                 // 該当なし
@@ -1759,7 +1761,7 @@ function bootSys_AI_AGENCY(isFirst)
             case 2 :
             {
                 // 未完了のタスクを取得
-                let refArr = DATABTASE.WORK[0].WORK_TASK
+                let refArr = DATABASE.WORK[0].WORK_TASK
                             .filter(a => a["progress"] != 100);
 
                 // 該当なし
@@ -1797,7 +1799,7 @@ function bootSys_AI_AGENCY(isFirst)
                 // 絞り込み
                 let refArr_task = [];
                 let refArr_memo = [];
-                for(let taskObj of DATABTASE.WORK[0].WORK_TASK){
+                for(let taskObj of DATABASE.WORK[0].WORK_TASK){
 
                     // メモ配列
                     for(let memoObj of taskObj["memos"]){
@@ -1905,7 +1907,7 @@ function bootSys_MASTER_TAGMANAGER(isFirst)
         var id = getRandomString20();
         while(!let){
             let = true;
-            for(var target of DATABTASE.MASTER[0].MASTER_TAGMANAGER){
+            for(var target of DATABASE.MASTER[0].MASTER_TAGMANAGER){
                 if(target.id == id){
                     let = false;
                     id = getRandomString20();
@@ -1918,7 +1920,7 @@ function bootSys_MASTER_TAGMANAGER(isFirst)
         if(!chkUniqueName()) return;
         function chkUniqueName(paramTarget = target, paramValue = namebox.value.trim()){
             let = true;
-            for(var paramTarget of DATABTASE.MASTER[0].MASTER_TAGMANAGER){
+            for(var paramTarget of DATABASE.MASTER[0].MASTER_TAGMANAGER){
                 if(paramTarget.name == paramValue){
                     let = false;
                     break;
@@ -1935,7 +1937,7 @@ function bootSys_MASTER_TAGMANAGER(isFirst)
         }
 
         // add data
-        DATABTASE.MASTER[0].MASTER_TAGMANAGER.push({"id":id, "name": namebox.value.trim()});
+        DATABASE.MASTER[0].MASTER_TAGMANAGER.push({"id":id, "name": namebox.value.trim()});
 
         // rebuild table by new Data
         rebuild();
@@ -1945,7 +1947,7 @@ function bootSys_MASTER_TAGMANAGER(isFirst)
             document.getElementById("tag-table-tbody").innerHTML = "";
 
             var num = 1;
-            for(const target of DATABTASE.MASTER[0].MASTER_TAGMANAGER){
+            for(const target of DATABASE.MASTER[0].MASTER_TAGMANAGER){
                 const tr = document.createElement("tr");
                 for(let index = 1; index <= 3; index++){
                     // No...Name...DelButton
@@ -1989,7 +1991,7 @@ function bootSys_MASTER_TAGMANAGER(isFirst)
                                     }
 
                                     // update
-                                    DATABTASE.MASTER[0].MASTER_TAGMANAGER.find(a => a.id===target.id).name = value;
+                                    DATABASE.MASTER[0].MASTER_TAGMANAGER.find(a => a.id===target.id).name = value;
 
                                     //log
                                     log(`タグ名を更新しました [${prevValue}] → [${value}]`)
@@ -2016,8 +2018,8 @@ function bootSys_MASTER_TAGMANAGER(isFirst)
                             delButton.addEventListener("click", function(){
                                 if(confirm(`タグ [${target.name}] を削除しますか？`)){
                                     // delete（除外取得）
-                                    const arr = DATABTASE.MASTER[0].MASTER_TAGMANAGER;
-                                    DATABTASE.MASTER[0].MASTER_TAGMANAGER = arr.filter(data => data.id !== target.id);
+                                    const arr = DATABASE.MASTER[0].MASTER_TAGMANAGER;
+                                    DATABASE.MASTER[0].MASTER_TAGMANAGER = arr.filter(data => data.id !== target.id);
 
                                     // log
                                     log(`タグ [${target.name}] を削除しました`)
@@ -2083,7 +2085,7 @@ function bootSys_MASTER_WORKCATEGORY(isFirst)
         var id = getRandomString20();
         while(!let){
             let = true;
-            for(var target of DATABTASE.MASTER[0].MASTER_WORKCATEGORY){
+            for(var target of DATABASE.MASTER[0].MASTER_WORKCATEGORY){
                 if(target.id == id){
                     let = false;
                     id = getRandomString20();
@@ -2096,7 +2098,7 @@ function bootSys_MASTER_WORKCATEGORY(isFirst)
         if(!chkUniqueName()) return;
         function chkUniqueName(paramTarget = target, paramValue = namebox.value.trim()){
             let = true;
-            for(var paramTarget of DATABTASE.MASTER[0].MASTER_WORKCATEGORY){
+            for(var paramTarget of DATABASE.MASTER[0].MASTER_WORKCATEGORY){
                 if(paramTarget.name == paramValue){
                     let = false;
                     break;
@@ -2113,7 +2115,7 @@ function bootSys_MASTER_WORKCATEGORY(isFirst)
         }
 
         // add data
-        DATABTASE.MASTER[0].MASTER_WORKCATEGORY.push({"id":id, "name": namebox.value.trim()});
+        DATABASE.MASTER[0].MASTER_WORKCATEGORY.push({"id":id, "name": namebox.value.trim()});
 
         // rebuild table by new Data
         rebuild();
@@ -2123,7 +2125,7 @@ function bootSys_MASTER_WORKCATEGORY(isFirst)
             document.getElementById("workCategory-table-tbody").innerHTML = "";
 
             var num = 1;
-            for(const target of DATABTASE.MASTER[0].MASTER_WORKCATEGORY){
+            for(const target of DATABASE.MASTER[0].MASTER_WORKCATEGORY){
                 const tr = document.createElement("tr");
                 for(let index = 1; index <= 3; index++){
                     // No...Name...DelButton
@@ -2163,7 +2165,7 @@ function bootSys_MASTER_WORKCATEGORY(isFirst)
                                     }
 
                                     // update
-                                    DATABTASE.MASTER[0].MASTER_WORKCATEGORY.find(a => a.id===target.id).name = value;
+                                    DATABASE.MASTER[0].MASTER_WORKCATEGORY.find(a => a.id===target.id).name = value;
 
                                     //log
                                     log(`カテゴリ名を更新しました [${prevValue}] → [${value}]`)
@@ -2190,8 +2192,8 @@ function bootSys_MASTER_WORKCATEGORY(isFirst)
                             delButton.addEventListener("click", function(){
                                 if(confirm(`カテゴリ [${target.name}] を削除しますか？`)){
                                     // delete（除外取得）
-                                    const arr = DATABTASE.MASTER[0].MASTER_WORKCATEGORY;
-                                    DATABTASE.MASTER[0].MASTER_WORKCATEGORY = arr.filter(data => data.id !== target.id);
+                                    const arr = DATABASE.MASTER[0].MASTER_WORKCATEGORY;
+                                    DATABASE.MASTER[0].MASTER_WORKCATEGORY = arr.filter(data => data.id !== target.id);
 
                                     // log
                                     log(`カテゴリ [${target.name}] を削除しました`)
@@ -2235,6 +2237,11 @@ function bootSys_MASTER_WORKCATEGORY(isFirst)
 // tree
 const pg_viewer_tree = getDOM("pg-viewer-tree")
 const pg_viewer_work = getDOM("pg-viewer-work")
+// 結果　："KAISO,KaisoIndex,KaisoObjId"
+// 結果　："PG,PGObjID"   
+let activeID_Viewer = "";
+// オートクリックによるリビルト変数の更新を回避
+let rebuildValiable_Viewer = true;
 
 function bootSys_WORK_PGVIEWER(isFirst){
 
@@ -2242,8 +2249,8 @@ function bootSys_WORK_PGVIEWER(isFirst){
     function create(){
 
         // WOKRING CLONE
-        var cloneRepo_kaiso = DATABTASE.MASTER[0].MASTER_PGCATEGORY;
-        var cloneRepo_pginfo = DATABTASE.MASTER[0].MASTER_PGINFO;
+        var cloneRepo_kaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY;
+        var cloneRepo_pginfo = DATABASE.MASTER[0].MASTER_PGINFO;
 
         // CLEAR
         pg_viewer_tree.innerHTML = `<div><input
@@ -2349,6 +2356,9 @@ function bootSys_WORK_PGVIEWER(isFirst){
                             k.classList.remove("selected-kaiso-viewer")
                         }
                         this.classList.add("selected-kaiso-viewer")
+
+                        // ACTIVE
+                        activeID_Viewer = `KAISO,${index},${target["id"]}`;
                     })
                 }
                 // 従属カウンタ
@@ -2404,7 +2414,7 @@ function bootSys_WORK_PGVIEWER(isFirst){
 
             // TASK COUNT（残タスク通知）
             let taskCount = 0;
-            for(let taskObj of DATABTASE.WORK[0].WORK_TASK){
+            for(let taskObj of DATABASE.WORK[0].WORK_TASK){
                 // 進捗率100未満のみ対象
                 if(parseInt(taskObj["progress"]) == 100) continue;
                 if(taskObj["pgObjId"] == target["id"]) taskCount++;
@@ -2436,6 +2446,9 @@ function bootSys_WORK_PGVIEWER(isFirst){
                         k.classList.remove("selected-kaiso-viewer")
                     }
                     this.classList.add("selected-kaiso-viewer")
+
+                    // ACTIVE
+                    activeID_Viewer = `PG,${target["id"]}`;
                 })
             }
             // hidden従属カウンタをインクリメント
@@ -2481,10 +2494,10 @@ function bootSys_WORK_PGVIEWER(isFirst){
                         // TASK COUNT（残タスク通知）
                         // ============================~~
                         let taskCount = 0;
-                        for(let taskObj of DATABTASE.WORK[0].WORK_TASK){
+                        for(let taskObj of DATABASE.WORK[0].WORK_TASK){
                             // 進捗率100未満のみ対象
                             if(parseInt(taskObj["progress"]) == 100) continue;
-                            let tmpPgObj = DATABTASE.MASTER[0].MASTER_PGINFO
+                            let tmpPgObj = DATABASE.MASTER[0].MASTER_PGINFO
                                                 .find(a => a["id"] == taskObj["pgObjId"]);
                             // 階層IDをパスに含む、未完了タスクのPGID
                             if(tmpPgObj && tmpPgObj["kaisoCSV"].includes(target["id"])) taskCount++;
@@ -2500,16 +2513,13 @@ function bootSys_WORK_PGVIEWER(isFirst){
                 }
             }
         }
-        // ================================================================================================================
-        // 関数名  rebuildViewer
-        // 呼び出し：データの更新時
-        // 呼び出し：最新データでビューアー再描画・画面情報保持。PGのdisplay保持ではなく階層のdispatch（追加PGがあぶれるため）
-        // ================================================================================================================
-        function rebuildViewer(){
-
+        // REBUILD
+        if(!rebuildValiable_Viewer) activeID_Viewer = ""; 
+        if(activeID_Viewer != ""){
+            searchHidden.value = activeID_Viewer;
+            activeID_Viewer = "";
+            onSearchSelect(searchHidden, "", false);
         }
-
-        
     }
     create();
 }
@@ -2604,7 +2614,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
 
             for(let tmpId of kaisoCSVString.split(',')){
                 if(!tmpId) continue;// 最後のカンマ
-                let kaisoName = DATABTASE.MASTER[0].MASTER_PGCATEGORY
+                let kaisoName = DATABASE.MASTER[0].MASTER_PGCATEGORY
                                 .find(a => a["kaiso" + loopKaisoIndex])
                                 ["kaiso" + loopKaisoIndex].find(b => b.id == tmpId)["name"];
                 kaisoName = (kaisoPath != "" ? "> " :  "") + kaisoName;
@@ -2621,9 +2631,9 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
                 
                 // CLICK PATH
                 linkPath.addEventListener("click", function(){
-                    var maxKaiso = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
+                    var maxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
                     let keyName = "kaiso" + constIndex;
-                    var tmpRepo = DATABTASE.MASTER[0].MASTER_PGCATEGORY
+                    var tmpRepo = DATABASE.MASTER[0].MASTER_PGCATEGORY
                                 .find(a => a[keyName])[keyName]
                                 .find(b => b.id == tmpId);
                     editViewer("KAISO", tmpRepo, (constIndex==maxKaiso), constIndex)
@@ -2654,7 +2664,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
         // 最下層なら所属PG照会
         if(MODE.MAX_KAISO){
             
-            for(let tmpObj of DATABTASE.MASTER[0].MASTER_PGINFO){
+            for(let tmpObj of DATABASE.MASTER[0].MASTER_PGINFO){
 
                 // 直下のPGのみ取得
                 let arr = tmpObj["kaisoCSV"].split(",");
@@ -2711,7 +2721,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
                         if(confirm(`[${tmpObj["name"]}] を削除しますか？`)){
 
                             // delete
-                            DATABTASE.MASTER[0].MASTER_PGINFO = DATABTASE.MASTER[0].MASTER_PGINFO.filter(a => a["pgid"] != tmpObj["pgid"]);
+                            DATABASE.MASTER[0].MASTER_PGINFO = DATABASE.MASTER[0].MASTER_PGINFO.filter(a => a["pgid"] != tmpObj["pgid"]);
 
                             // upd view
                             editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
@@ -2739,7 +2749,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
         // 直下の階層を表示
         }else{
             
-            let arr = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a=>a[`kaiso${kaisoIndex+1}`])[`kaiso${kaisoIndex+1}`].filter(b=>b[`kaiso${kaisoIndex}ID`]==targetObj["id"]);
+            let arr = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a=>a[`kaiso${kaisoIndex+1}`])[`kaiso${kaisoIndex+1}`].filter(b=>b[`kaiso${kaisoIndex}ID`]==targetObj["id"]);
 
             for(let tmpObj of arr){
 
@@ -2785,12 +2795,12 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
 
                         // DELETE KAISO
                         let kaisoKey = "kaiso" + (parseInt(kaisoIndex) + 1);
-                        DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey] 
-                            = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey].filter(a => a["id"] != tmpObj["id"]);
+                        DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey] 
+                            = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey].filter(a => a["id"] != tmpObj["id"]);
 
                         // DELETE PG
-                        DATABTASE.MASTER[0].MASTER_PGINFO = 
-                            DATABTASE.MASTER[0].MASTER_PGINFO.filter(a => a["kaisoCSV"].split(',')[a["kaisoCSV"].split(',').length-1] != tmpObj["id"]);
+                        DATABASE.MASTER[0].MASTER_PGINFO = 
+                            DATABASE.MASTER[0].MASTER_PGINFO.filter(a => a["kaisoCSV"].split(',')[a["kaisoCSV"].split(',').length-1] != tmpObj["id"]);
 
                         // UPD VIEW
                         editViewer(kbn, targetObj, isMaxKaiso, kaisoIndex);
@@ -2798,7 +2808,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
                 })
                 // OPEN CHILD（階層）
                 childOpenButton.addEventListener("click", function(){
-                    let tmpIsMaxKaiso = parseInt(kaisoIndex + 1) == parseInt(DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount"))["kaisoCount"]);
+                    let tmpIsMaxKaiso = parseInt(kaisoIndex + 1) == parseInt(DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount"))["kaisoCount"]);
                     editViewer("KAISO", tmpObj, tmpIsMaxKaiso, kaisoIndex + 1);
                 })
 
@@ -2836,7 +2846,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
                 // どちらか入力
                 if(nameBox.value.trim() || idBox.value.trim()){
 
-                    let repo = DATABTASE.MASTER[0].MASTER_PGINFO;
+                    let repo = DATABASE.MASTER[0].MASTER_PGINFO;
                     
                     // PUSH
                     let obj = 
@@ -2863,7 +2873,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
                 if(nameBox.value.trim()){
 
                     let kaisoKey = "kaiso" + (kaisoIndex + 1);
-                    let repo = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey];
+                    let repo = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a[kaisoKey])[kaisoKey];
                     
                     // DATA
                     let obj = 
@@ -3016,7 +3026,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
 
             for(let tmpId of kaisoCSVString.split(',')){
                 if(!tmpId) continue;// 最後のカンマ
-                let kaisoName = DATABTASE.MASTER[0].MASTER_PGCATEGORY
+                let kaisoName = DATABASE.MASTER[0].MASTER_PGCATEGORY
                                 .find(a => a["kaiso" + loopKaisoIndex])
                                 ["kaiso" + loopKaisoIndex].find(b => b.id == tmpId)["name"];
                 kaisoName = (kaisoPath != "" ? "> " :  "") + kaisoName;
@@ -3033,9 +3043,9 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
                 
                 // CLICK PATH
                 linkPath.addEventListener("click", function(){
-                    var maxKaiso = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
+                    var maxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
                     let keyName = "kaiso" + constIndex;
-                    var tmpRepo = DATABTASE.MASTER[0].MASTER_PGCATEGORY
+                    var tmpRepo = DATABASE.MASTER[0].MASTER_PGCATEGORY
                                 .find(a => a[keyName])[keyName]
                                 .find(b => b.id == tmpId);
                     editViewer("KAISO", tmpRepo, (constIndex==maxKaiso), constIndex)
@@ -3066,7 +3076,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
         // TABLE
         for(let cnt = 1; cnt <= 2; cnt++){
 
-            for(let tmpObj of DATABTASE.WORK[0].WORK_TASK){
+            for(let tmpObj of DATABASE.WORK[0].WORK_TASK){
 
                 // アクセスキー
                 let pKey = cnt + "_" + rowCnt
@@ -3155,7 +3165,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
             // 必須
             if(contenRegistertBox.value.trim()){
 
-                let repo = DATABTASE.WORK[0].WORK_TASK;
+                let repo = DATABASE.WORK[0].WORK_TASK;
 
                 let today = new Date().toISOString().split("T")[0];
                 
@@ -3191,7 +3201,7 @@ function editViewer(kbn, targetObj, isMaxKaiso = false, kaisoIndex = 0){
 // 呼び出し：検索結果 選択後処理
 // 機能１  ：PGビューアーのワークエリアへ接続
 // =============================================================================
-function onSearchSelect(searchHidden ,searchBoxId = ""){
+function onSearchSelect(searchHidden ,searchBoxId = "", animationMode = true){
 
     
     let val = searchHidden.value;
@@ -3208,17 +3218,20 @@ function onSearchSelect(searchHidden ,searchBoxId = ""){
     if(kbn == "KAISO"){
         kaisoIndex = val.split(",")[1];
         objId = val.split(",")[2];
-        targetObj = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a["kaiso" + kaisoIndex])["kaiso" + kaisoIndex]
+        targetObj = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a["kaiso" + kaisoIndex])["kaiso" + kaisoIndex]
                     .find(b => b["id"] == objId);
     }
 
     if(kbn == "PG"){
         objId = val.split(",")[1];
-        targetObj = DATABTASE.MASTER[0].MASTER_PGINFO.find(b => b["id"] == objId);
+        targetObj = DATABASE.MASTER[0].MASTER_PGINFO.find(b => b["id"] == objId);
     }
 
     // 入力復元用
     let prevText = (searchBoxId) ? getDOM(searchBoxId).value : "";
+    
+    // リビルド変数固定
+    rebuildValiable_Viewer = false;
 
     // ビューアーワークへ表示
     switch(kbn){
@@ -3231,14 +3244,26 @@ function onSearchSelect(searchHidden ,searchBoxId = ""){
                 // ルートの自動クリック
                 let treeObjIds = "";
                 for(let tmpKaisoIndex = 1; tmpKaisoIndex < kaisoIndex; tmpKaisoIndex++){
-                    treeObjIds += targetObj[`kaiso${tmpKaisoIndex}ID`] + "_button_pgviewer" + ",";
+                    if(animationMode) treeObjIds += targetObj[`kaiso${tmpKaisoIndex}ID`] + "_button_pgviewer" + ",";
+                    else {
+                        for(let EName of ["click", "dblclick"]){
+                            getDOM(targetObj[`kaiso${tmpKaisoIndex}ID`] + "_button_pgviewer").dispatchEvent(new MouseEvent(EName));
+                        }
+                    }
                 }
 
-                // PG ELEMENT
-                treeObjIds += targetObj["id"] + "_button_pgviewer";
+                if(animationMode){
+                    // PG ELEMENT
+                    treeObjIds += targetObj["id"] + "_button_pgviewer";
 
-                // クリックロボ
-                bootMini_autoRobo(treeObjIds.split(",") , 300, "click,dblclick")
+                    // クリックロボ
+                    bootMini_autoRobo(treeObjIds.split(",") , 300, "click,dblclick")
+
+                }else {
+                    for(let EName of ["click", "dblclick"]){
+                        getDOM(targetObj["id"] + "_button_pgviewer").dispatchEvent(new MouseEvent(EName));
+                    }
+                }
             }
             break;
 
@@ -3252,28 +3277,41 @@ function onSearchSelect(searchHidden ,searchBoxId = ""){
                 let treeObjIds = "";
                 for(let parentKaisoId of targetObj["kaisoCSV"].split(",")){
                     let kaisoKey = `kaiso${tmpKaisoIndex}`;
-                    let kaisoObj = DATABTASE.MASTER[0].MASTER_PGCATEGORY
+                    let kaisoObj = DATABASE.MASTER[0].MASTER_PGCATEGORY
                                     .find(a => a[kaisoKey])[kaisoKey]
                                     .find(b => b["id"] == parentKaisoId);
-                    treeObjIds += kaisoObj["id"] + "_button_pgviewer" + ",";
+                    if(animationMode)treeObjIds += kaisoObj["id"] + "_button_pgviewer" + ",";
+                    else {
+                        for(let EName of ["click", "dblclick"]){
+                            getDOM(kaisoObj["id"] + "_button_pgviewer").dispatchEvent(new MouseEvent(EName));
+                        }
+                    }
                     tmpKaisoIndex++;
                 }
 
                 // PG ELEMENT
                 let pgDataId = targetObj["id"] + "_button_pgviewer";
-                treeObjIds += pgDataId;
+                if(animationMode){
+                    treeObjIds += pgDataId;
 
-                // 追加オーダー ※[]でないとキー名の宣言になってしまうので注意
-                let order = { [pgDataId] : "click" };
+                    // 追加オーダー ※[]でないと"pgDataId"というキー名の宣言になってしまうので注意　中身を参照
+                    let order = { [pgDataId] : "click" };
 
-                // クリックロボ
-                bootMini_autoRobo(treeObjIds.split(",") ,500, "click,dblclick", order)
+                    // クリックロボ
+                    bootMini_autoRobo(treeObjIds.split(",") ,500, "click,dblclick", order)
+                
+                }else{
+                    getDOM(pgDataId).dispatchEvent(new MouseEvent("click"));
+                }
             }
             break;
     }
 
     // 入力復元（再起動により削除されるため 参照ではなくID渡し）
     if(searchBoxId) getDOM(searchBoxId).value = prevText;
+
+    // リビルド変数固定
+    rebuildValiable_Viewer = true;
 }
 
 //#region ワーク-タスク管理（起動）*********************************************************************************************************************************
@@ -3343,7 +3381,7 @@ function bootSys_WORK_TASK(isFirst=false){
         tbody_taskTable.innerHTML = "";
 
         // clone for work
-        let cloneRepo = DATABTASE.WORK[0].WORK_TASK;
+        let cloneRepo = DATABASE.WORK[0].WORK_TASK;
 
         // create
         let index = 1;
@@ -3501,7 +3539,7 @@ function bootSys_WORK_TASK(isFirst=false){
                         // 作業カテゴリ
                         case 2:{
                             try{
-                                let tmp = DATABTASE.MASTER[0].MASTER_WORKCATEGORY.find(a => a.id == obj["workCategory"])["name"];
+                                let tmp = DATABASE.MASTER[0].MASTER_WORKCATEGORY.find(a => a.id == obj["workCategory"])["name"];
                                 td.textContent = tmp;
                             }catch(e){
                                 td.textContent = "ー";
@@ -3523,7 +3561,7 @@ function bootSys_WORK_TASK(isFirst=false){
                             td.addEventListener("dblclick", function(){
                                 if(obj["pgInfo"]){
                                     try{
-                                        let pgid = DATABTASE.MASTER[0].MASTER_PGINFO.find(a => a.id == obj["pgObjId"])["pgid"];
+                                        let pgid = DATABASE.MASTER[0].MASTER_PGINFO.find(a => a.id == obj["pgObjId"])["pgid"];
                                         navigator.clipboard.writeText(pgid).then(() => {
                                             log(`クリップボードにコピーしました [${pgid}]`);
                                         });
@@ -3572,7 +3610,7 @@ function bootSys_WORK_TASK(isFirst=false){
                                 button.addEventListener("click", function(){
                                     if(confirm("タスクを削除しますか？")){
                                         // cloneRepo自体を上書きする場合は参照更新不可っぽい
-                                        DATABTASE.WORK[0].WORK_TASK = cloneRepo.filter(a => a["id"] != obj["id"]);
+                                        DATABASE.WORK[0].WORK_TASK = cloneRepo.filter(a => a["id"] != obj["id"]);
                                         buildTable();
                                         log("タスクを削除しました");
                                     }
@@ -3642,7 +3680,7 @@ function bootSys_WORK_TASK(isFirst=false){
         var uniqueID = getRandomString20();
         while(!let){
             let = true;
-            if(DATABTASE.WORK[0].WORK_TASK.some(b => b.id == uniqueID) ){ // someは配列用メソッド
+            if(DATABASE.WORK[0].WORK_TASK.some(b => b.id == uniqueID) ){ // someは配列用メソッド
                 let = false;
                 uniqueID = getRandomString20();
             }
@@ -3664,7 +3702,7 @@ function bootSys_WORK_TASK(isFirst=false){
             "memos":[],
         }
         // push
-        DATABTASE.WORK[0].WORK_TASK.push(obj);
+        DATABASE.WORK[0].WORK_TASK.push(obj);
 
         // log
         log("タスクを登録しました");
@@ -3720,7 +3758,7 @@ const memoTextarea_memo = getDOM("memoTextarea_memo");
 {
     memoTextarea_memo.addEventListener("change", function(){
         if(keyId_memo!=""){
-            DATABTASE.WORK[0].WORK_MEMO.find(a=>a["id"]==keyId_memo)["content"] = this.value;
+            DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==keyId_memo)["content"] = this.value;
         }
     })
 }
@@ -3741,6 +3779,10 @@ function bootSys_WORK_MEMO(isFirst, blnRebuild = false){
             ];
             createMenu(orderArr);
         })
+        // ダブルクリックでファイルクイック作成
+        exp_memo.addEventListener("dblclick",function(e){
+            createExpObj_memo( {"type": "file", "parent": null} )
+        })
     }
     // 再構築
     function rebuild(){
@@ -3755,10 +3797,10 @@ function bootSys_WORK_MEMO(isFirst, blnRebuild = false){
             memoTextarea_memo.hidden = true;
         }
         // 親から生成できるようソート（破壊的メソッド）
-        DATABTASE.WORK[0].WORK_MEMO.sort((a, b) => {
+        DATABASE.WORK[0].WORK_MEMO.sort((a, b) => {
             return a.parentCSV.split(',').length - b.parentCSV.split(',').length;
         });
-        for(let obj of DATABTASE.WORK[0].WORK_MEMO){
+        for(let obj of DATABASE.WORK[0].WORK_MEMO){
             createExpObj_memo(obj, true)
         }
     }
@@ -3767,7 +3809,7 @@ function bootSys_WORK_MEMO(isFirst, blnRebuild = false){
 }
 // メニュー呼び出し用にパブリックスコープにて宣言
 // メニュー作成（）
-function createExpObj_memo(obj, isRebuild = false){
+function createExpObj_memo(obj, isRebuild = false, pElName = ""){
     if(isRebuild){
         createObjDOM(obj, obj["name"], true);
         return;
@@ -3785,7 +3827,13 @@ function createExpObj_memo(obj, isRebuild = false){
             typeName = "ノート"
             break;
     }
-    var objName = prompt(`${typeName}名を入力してください ※カンマ区切り`);
+    var objName = "";
+    // 指定名称
+    if(pElName){
+        objName = pElName;
+    }else{
+        objName = prompt(`${typeName}名を入力してください ※カンマ区切り`, `空白の${typeName}`);
+    }
     if(!objName || !(objName.trim())) return;
     // カンマ区切り
     for(let name of objName.split(',')){
@@ -3794,7 +3842,7 @@ function createExpObj_memo(obj, isRebuild = false){
     }
     // 画面構築
     function createObjDOM(obj, name, isRebuild){
-        const objId = getRandomString20(DATABTASE.WORK[0].WORK_MEMO);
+        const objId = getRandomString20(DATABASE.WORK[0].WORK_MEMO);
         let parent;
         // 親設定
         if(!isRebuild){
@@ -3863,7 +3911,7 @@ function createExpObj_memo(obj, isRebuild = false){
                 "sortNo":0,
                 "statusIcon":null,
             }
-            DATABTASE.WORK[0].WORK_MEMO.push(dataObj);
+            DATABASE.WORK[0].WORK_MEMO.push(dataObj);
         }
         const id = isRebuild ? obj["id"] : objId;
         // event
@@ -3878,25 +3926,35 @@ function createExpObj_memo(obj, isRebuild = false){
                     }
                 }
             });
-            li.addEventListener("contextmenu", function(e){
-                // 右クリックメニュー
-                e.preventDefault();
-                let orderArr = [
-                    {"printName":"フォルダを作成", "icon":svg_folder, "func":()=> createExpObj_memo( {"type": "folder", "parent": container} ), },
-                    // {"printName":"シートを作成", "icon":svg_CrossWord, "func":()=> createExpObj_memo( {"type": "sheet", "parent": container} ), },
-                    {"printName":"ノートを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": container} ), },
-                    {"printName":"リネーム", "icon":svg_pencil, "func":()=>rename_memo(id,li), },
-                    {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
-                ];
-                createMenu(orderArr);
-                // 開ける（開閉状態を統一するため）
-                for(let child of this.parentElement.children){
-                    if(child != this && child != this.child){ // button, svg
-                        child.hidden = false;
+            for(let EName of ["contextmenu", "dblclick"]){
+
+                li.addEventListener(EName, function(e){
+
+                    if(EName == "contextmenu"){
+                        // 右クリックメニュー
+                        e.preventDefault();
+                        let orderArr = [
+                            {"printName":"フォルダを作成", "icon":svg_folder, "func":()=> createExpObj_memo( {"type": "folder", "parent": container} ), },
+                            // {"printName":"シートを作成", "icon":svg_CrossWord, "func":()=> createExpObj_memo( {"type": "sheet", "parent": container} ), },
+                            {"printName":"ノートを作成", "icon":svg_file, "func":()=> createExpObj_memo( {"type": "file", "parent": container} ), },
+                            {"printName":"リネーム", "icon":svg_pencil, "func":()=>rename_memo(id,li), },
+                            {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
+                        ];
+                        createMenu(orderArr);
+
+                    }else if(EName == "dblclick"){
+                        // リネーム
+                        // rename_memo(id,li);
                     }
-                }
-                e.stopPropagation();
-            });
+                    // 開ける（開閉状態を統一するため）
+                    for(let child of this.parentElement.children){
+                        if(child != this && child != this.child){ // button, svg
+                            child.hidden = false;
+                        }
+                    }
+                    e.stopPropagation();
+                });
+            }
         }else if(obj["type"]=="file"){
             // file
             li.addEventListener("contextmenu", function(e){
@@ -3910,18 +3968,23 @@ function createExpObj_memo(obj, isRebuild = false){
                 createMenu(orderArr);
                 e.stopPropagation();
             });
+            li.addEventListener("dblclick", function(e){
+                // ダブルクリックでリネーム
+                e.stopPropagation();
+                rename_memo(id,li);                
+            });
             li.addEventListener("click", function(e){
                 // visible
                 memoTextarea_memo.hidden = false;
                 memoSheet_memo.hidden = true;
 
                 keyId_memo = id;
-                fileNameBox_memo.value = DATABTASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["name"];
-                memoTextarea_memo.value = DATABTASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["content"];
+                fileNameBox_memo.value = DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["name"];
+                memoTextarea_memo.value = DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["content"];
                 let strPath = "";
-                for(let tmp of DATABTASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["parentCSV"].split(`,`)){
+                for(let tmp of DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["parentCSV"].split(`,`)){
                     if(tmp!=id){
-                        strPath += `${strPath=="" ? "" : "> "}${DATABTASE.WORK[0].WORK_MEMO.find(a=>a["id"]==tmp)["name"]}`;
+                        strPath += `${strPath=="" ? "" : "> "}${DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==tmp)["name"]}`;
                     }
                 }
                 pathLabel_memo.textContent = strPath;
@@ -3951,13 +4014,13 @@ function createExpObj_memo(obj, isRebuild = false){
                 memoSheet_memo.hidden = false;
 
                 keyId_memo = id;
-                fileNameBox_memo.value = DATABTASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["name"];
+                fileNameBox_memo.value = DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["name"];
                 // 復元
                 // memoTextarea_memo.value = mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["content"];
                 let strPath = "";
-                for(let tmp of DATABTASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["parentCSV"].split(`,`)){
+                for(let tmp of DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["parentCSV"].split(`,`)){
                     if(tmp!=id){
-                        strPath += `${strPath=="" ? "" : "> "}${DATABTASE.WORK[0].WORK_MEMO.find(a=>a["id"]==tmp)["name"]}`;
+                        strPath += `${strPath=="" ? "" : "> "}${DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==tmp)["name"]}`;
                     }
                 }
                 pathLabel_memo.textContent = strPath;
@@ -3977,8 +4040,8 @@ function createExpObj_memo(obj, isRebuild = false){
 // delete
 function delete_memo(objId, container){
     // data
-    if(confirm(`[${DATABTASE.WORK[0].WORK_MEMO.find(a=>a["id"]==objId)["name"]}]を削除しますか？`)){
-        DATABTASE.WORK[0].WORK_MEMO = DATABTASE.WORK[0].WORK_MEMO.filter(a => !a["parentCSV"].includes(objId));
+    if(confirm(`[${DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==objId)["name"]}]を削除しますか？`)){
+        DATABASE.WORK[0].WORK_MEMO = DATABASE.WORK[0].WORK_MEMO.filter(a => !a["parentCSV"].includes(objId));
         container.remove();
         {
             // clear
@@ -3996,16 +4059,16 @@ function rename_memo(objId, li){
     // data
     let newName = prompt("新しい名称を入力してください",li.textContent);
     if(newName && newName.trim()){
-        DATABTASE.WORK[0].WORK_MEMO.find(a=>a["id"]==objId)["name"] = newName;
+        DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==objId)["name"] = newName;
         const icon = createDOM("span");
         {
-            icon.innerHTML = (DATABTASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["type"]=="file" ? svg_file_black : svg_folder_black);
+            icon.innerHTML = (DATABASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["type"]=="file" ? svg_file_black : svg_folder_black);
             icon.classList.add("iconButton");
             icon.style.marginRight = "5px";
         }
         let statusIcon = createDOM("span");
-        if(DATABTASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["statusIcon"] != null){
-            statusIcon.innerHTML = DATABTASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["statusIcon"].replace(`fill="#F3F3F3"`,`fill="#383838ff"`);
+        if(DATABASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["statusIcon"] != null){
+            statusIcon.innerHTML = DATABASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["statusIcon"].replace(`fill="#F3F3F3"`,`fill="#383838ff"`);
             statusIcon.classList.add("iconButton");
             statusIcon.style.marginLeft = "auto";
         }
@@ -4016,7 +4079,7 @@ function rename_memo(objId, li){
 }
 // status icon
 function statusIcon_memo(objId, li){
-    let obj = DATABTASE.WORK[0].WORK_MEMO.find(a => a["id"]==objId);
+    let obj = DATABASE.WORK[0].WORK_MEMO.find(a => a["id"]==objId);
     // ※色はreplace変換するため#F3F3F3のみ可能
     let orderArr = [
         {"icon":svg_lock, "printName":(obj["statusIcon"] == svg_lock ? "ロック   ✓" : "ロック"), "func":() => upd_status_memo(obj, svg_lock, li)},
@@ -4374,7 +4437,7 @@ function bootSys_WORK_TOOLMANAGER(isFirst){
             createMenu(orderArr);
         })
     }else{
-        for(let obj of DATABTASE.WORK[0].WORK_TOOLMANAGER){
+        for(let obj of DATABASE.WORK[0].WORK_TOOLMANAGER){
             createObj_tool(obj);
         }
     }
@@ -4393,7 +4456,7 @@ function createObj_tool(rebuildObj=null){
     }
     let li = createDOM("li");
     let icon = createDOM("span");
-    let objId = getRandomString20(DATABTASE.WORK[0].WORK_TOOLMANAGER);
+    let objId = getRandomString20(DATABASE.WORK[0].WORK_TOOLMANAGER);
     if(isRebuild) objId = rebuildObj["id"];
     li.textContent = objName;
     li.classList.add("folder");
@@ -4429,7 +4492,7 @@ function createObj_tool(rebuildObj=null){
         // create data
         if(!isRebuild){
            let obj =  {"id":objId, "name":objName, "code":"", "memo":""};
-           DATABTASE.WORK[0].WORK_TOOLMANAGER.push(obj);
+           DATABASE.WORK[0].WORK_TOOLMANAGER.push(obj);
         }
     }
     li.prepend(icon);
@@ -4439,9 +4502,9 @@ function createObj_tool(rebuildObj=null){
 // delete
 function delete_tool(objId, li){
     // data
-    let obj = DATABTASE.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId);
+    let obj = DATABASE.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId);
     if(confirm(`[${obj["name"]}]を削除しますか？`)){
-        DATABTASE.WORK[0].WORK_TOOLMANAGER = DATABTASE.WORK[0].WORK_TOOLMANAGER.filter(a => a["id"] != obj["id"]);
+        DATABASE.WORK[0].WORK_TOOLMANAGER = DATABASE.WORK[0].WORK_TOOLMANAGER.filter(a => a["id"] != obj["id"]);
         li.remove();
         {
             // clear
@@ -4454,7 +4517,7 @@ function rename_tool(objId, li){
     // data
     let newName = prompt("新しい名称を入力してください",li.textContent);
     if(newName && newName.trim()){
-        DATABTASE.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId)["name"] = newName;
+        DATABASE.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId)["name"] = newName;
         const icon = createDOM("span");
         {
             icon.innerHTML = svg_spanner_gray;
@@ -4469,7 +4532,7 @@ function rename_tool(objId, li){
 function run_tool(objId){
     // フレームDOM洗い替え
     working_div_tool.innerHTML = "";
-    let obj = DATABTASE.WORK[0].WORK_TOOLMANAGER.find(a => a["id"] == objId);
+    let obj = DATABASE.WORK[0].WORK_TOOLMANAGER.find(a => a["id"] == objId);
     // タブ生成
     const workArea = createDOM("div");
     const tabContainer = createDOM("div");
@@ -4560,7 +4623,7 @@ function run_tool(objId){
             editor.autoComplete = false; 
             // update code
             editor.addEventListener("change", function(e){
-                DATABTASE.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId)["code"] = this.value;
+                DATABASE.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId)["code"] = this.value;
             })
         }
     })
@@ -4580,7 +4643,7 @@ function run_tool(objId){
             memoArea.autoComplete = false; 
             // update code
             memoArea.addEventListener("change", function(e){
-                DATABTASE.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId)["memo"] = this.value;
+                DATABASE.WORK[0].WORK_TOOLMANAGER.find(a=>a["id"]==objId)["memo"] = this.value;
             })
         }
     })
@@ -4626,8 +4689,8 @@ function bootSys_WORK_FLOW(isFirst){
                 const container = tree_flow;
 
                 // clone for work
-                var cloneRepo_kaiso = DATABTASE.MASTER[0].MASTER_PGCATEGORY;
-                var cloneRepo_pginfo = DATABTASE.MASTER[0].MASTER_PGINFO;
+                var cloneRepo_kaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY;
+                var cloneRepo_pginfo = DATABASE.MASTER[0].MASTER_PGINFO;
 
                 // bool
                 var count = cloneRepo_kaiso.find(a => a.hasOwnProperty("kaisoCount"))["kaisoCount"];
@@ -4755,7 +4818,7 @@ function bootSys_WORK_FLOW(isFirst){
                 // create **
                 const container = tree_flow;
                 // clone for work
-                var cloneRepo = DATABTASE.WORK[0].WORK_TASK;
+                var cloneRepo = DATABASE.WORK[0].WORK_TASK;
                 // prev
                 var prevDate = "";
                 // create date folder
@@ -5123,7 +5186,7 @@ function createDOM_kaisoSelect(kaisoNo){
     let arrayResult = [null];
 
     // clone for work
-    var cloneRepo = DATABTASE.MASTER[0].MASTER_PGCATEGORY;
+    var cloneRepo = DATABASE.MASTER[0].MASTER_PGCATEGORY;
 
     for(let index = 1; index <= paramKaisoNo; index++){
         
@@ -5226,8 +5289,8 @@ function bootSub_refViewer(targetDOM, hiddenIDInput = null, afterFunc = null){
     }
 
     // clone for work
-    var cloneRepo_kaiso = DATABTASE.MASTER[0].MASTER_PGCATEGORY;
-    var cloneRepo_pginfo = DATABTASE.MASTER[0].MASTER_PGINFO;
+    var cloneRepo_kaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY;
+    var cloneRepo_pginfo = DATABASE.MASTER[0].MASTER_PGINFO;
 
     // bool
     var maxKaiso = cloneRepo_kaiso.find(a => a.hasOwnProperty("kaisoCount"))["kaisoCount"];
@@ -5392,7 +5455,7 @@ function bootSub_taskMemos(taskObjID, miniMode = false){
     if(getDOM("bootSub_taskMemos_SubWindow")) getDOM("bootSub_taskMemos_SubWindow").remove();
 
     // clone for work
-    var cloneRepo = DATABTASE.WORK[0].WORK_TASK;
+    var cloneRepo = DATABASE.WORK[0].WORK_TASK;
 
     // create **
     const modal = createDOM("div");
@@ -5604,7 +5667,7 @@ function createDOM_workCategory(){
         emptyOption.textContent = "作業カテゴリを選択...";
     }
     select.appendChild(emptyOption);
-    for(let obj of DATABTASE.MASTER[0].MASTER_WORKCATEGORY){
+    for(let obj of DATABASE.MASTER[0].MASTER_WORKCATEGORY){
         const option = createDOM("option");
         option.value = obj.id;
         option.textContent = obj.name;
@@ -5703,7 +5766,7 @@ function attachSearchHandler(targetBox, resHidden, afterFunc){
         if(!targetBox.value.trim()) return;
 
         // MAX KAISO
-        let maxKaiso = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
+        let maxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
         let val = targetBox.value.trim().toLowerCase();
 
         // -------------
@@ -5713,7 +5776,7 @@ function attachSearchHandler(targetBox, resHidden, afterFunc){
 
             // KAISO{index}
             let keyName = `kaiso${kaisoIndex}`;
-            let kaisoRepo = DATABTASE.MASTER[0].MASTER_PGCATEGORY.find(a => a[keyName])[keyName]
+            let kaisoRepo = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a[keyName])[keyName]
 
             for(let kaisoObj of kaisoRepo){
 
@@ -5806,7 +5869,7 @@ function attachSearchHandler(targetBox, resHidden, afterFunc){
         // -------------
         // PG検索
         // -------------
-        for(let pgObj of DATABTASE.MASTER[0].MASTER_PGINFO){
+        for(let pgObj of DATABASE.MASTER[0].MASTER_PGINFO){
 
             // パス名称
             let pathName = kaisoCSVToPath(pgObj["kaisoCSV"]);
