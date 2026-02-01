@@ -751,7 +751,6 @@ function moveRobot(robot, toX, toY, duration = 300){
     });
 }
 
-
 async function bootMini_autoRobo(arr, allTime, eventNameCSV = "click", order = null){
 
     const robot = createDOM("span");
@@ -869,6 +868,142 @@ function getToday(){
     let today = now.toISOString().split("T")[0];
     return today;
 }
+
+//========================================
+// 高度な編集機能を提供
+//========================================
+function attachRichEditFunction(textarea) {
+
+    textarea.spellcheck = false;
+
+    textarea.addEventListener("keydown", function (e) {
+
+        const start = textarea.selectionStart;
+        const end   = textarea.selectionEnd;
+        const value = textarea.value;
+
+        // =========================
+        // TAB / Shift+TAB
+        // =========================
+        if (e.key === "Tab") {
+            e.preventDefault();
+
+            // 選択なし
+            if (start === end) {
+                textarea.value =
+                    value.slice(0, start) +
+                    "    " +
+                    value.slice(end);
+                textarea.selectionStart =
+                textarea.selectionEnd = start + 4;
+                return;
+            }
+
+            // 複数行選択
+            const selected = value.slice(start, end);
+            const lines = selected.split("\n");
+
+            if (e.shiftKey) {
+                // インデント解除
+                const newLines = lines.map(l =>
+                    l.startsWith("    ") ? l.slice(4) : l
+                );
+                textarea.value =
+                    value.slice(0, start) +
+                    newLines.join("\n") +
+                    value.slice(end);
+            } else {
+                // インデント追加
+                const newLines = lines.map(l => "    " + l);
+                textarea.value =
+                    value.slice(0, start) +
+                    newLines.join("\n") +
+                    value.slice(end);
+            }
+
+            textarea.selectionStart = start;
+            textarea.selectionEnd =
+                start + textarea.value.slice(start).length;
+            return;
+        }
+
+        // =========================
+        // ENTER（インデント継承）
+        // =========================
+        if (e.key === "Enter") {
+            e.preventDefault();
+
+            const lineStart =
+                value.lastIndexOf("\n", start - 1) + 1;
+            const indent =
+                value.slice(lineStart, start).match(/^\s*/)[0];
+
+            textarea.value =
+                value.slice(0, start) +
+                "\n" + indent +
+                value.slice(end);
+
+            textarea.selectionStart =
+            textarea.selectionEnd = start + 1 + indent.length;
+            return;
+        }
+
+        // =========================
+        // 自動ペア補完
+        // =========================
+        const pairs = {
+            "{": "}",
+            "(": ")",
+            "[": "]",
+            "\"": "\"",
+            "'": "'"
+        };
+
+        if (pairs[e.key]) {
+            e.preventDefault();
+
+            textarea.value =
+                value.slice(0, start) +
+                e.key + pairs[e.key] +
+                value.slice(end);
+
+            textarea.selectionStart =
+            textarea.selectionEnd = start + 1;
+            return;
+        }
+
+        // =========================
+        // Ctrl+/
+        // =========================
+        if (e.ctrlKey && e.key === "/") {
+            e.preventDefault();
+
+            const lineStart =
+                value.lastIndexOf("\n", start - 1) + 1;
+            const lineEnd =
+                value.indexOf("\n", start);
+
+            const endPos = lineEnd === -1 ? value.length : lineEnd;
+            const line = value.slice(lineStart, endPos);
+
+            let newLine;
+            if (line.trim().startsWith("//")) {
+                newLine = line.replace("//", "");
+            } else {
+                newLine = "//" + line;
+            }
+
+            textarea.value =
+                value.slice(0, lineStart) +
+                newLine +
+                value.slice(endPos);
+
+            textarea.selectionStart =
+            textarea.selectionEnd = start;
+        }
+    });
+}
+
 
 
 
@@ -2278,11 +2413,33 @@ function bootSys_WORK_PGVIEWER(isFirst){
         panel.tabIndex = 0;
 
         panel.addEventListener("keydown", function(e){
+            // FOCUS SEARCH
             if(e.ctrlKey && (e.key === "P" || e.key === "p")){
                 e.preventDefault();
                 searchBox.focus();
             }
+            // ALL OPEN
+            if(e.ctrlKey && (e.key === "O" || e.key === "o")){
+                e.preventDefault();
+                allOpen();
+
+            }
         })
+
+        // ALL OPEN
+        function allOpen(){
+            // 記憶変数リセット
+            activeID_Viewer = "";
+            bootSys_WORK_PGVIEWER(false)
+            for(let kaisoIdx = 1; kaisoIdx <= openMaxKaiso; kaisoIdx++){
+                // findで指定したキーのオブジェクトを抽出できる（配列はindexでしか参照できないためfindで取得）
+                let kaisoRepo = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(obj => obj[`kaiso${kaisoIdx}`])[`kaiso${kaisoIdx}`];
+                for(let kaisoObjTmp of kaisoRepo){
+                    let el = getDOM(kaisoObjTmp["id"] + "_button_pgviewer");
+                    if(el) el.dispatchEvent(new MouseEvent("dblclick"));
+                }
+            }
+        }
 
         // BOOL
         var maxKaiso = cloneRepo_kaiso.find(a => a.hasOwnProperty("kaisoCount"))["kaisoCount"];
@@ -3761,6 +3918,8 @@ const memoTextarea_memo = getDOM("memoTextarea_memo");
             DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==keyId_memo)["content"] = this.value;
         }
     })
+    // 高度な編集機能を提供
+    attachRichEditFunction(memoTextarea_memo);
 }
 // メモシートDIV
 const memoSheet_memo = getDOM("memoSheet_memo");
@@ -3784,32 +3943,76 @@ function bootSys_WORK_MEMO(isFirst, blnRebuild = false){
             createExpObj_memo( {"type": "file", "parent": null} )
         })
     }
-    // 再構築
-    function rebuild(){
-        {
-            // clear
-            keyId_memo = ""; // 先にキークリア
-            tree_memo.innerHTML = "";
-            fileNameBox_memo.value = "";
-            pathLabel_memo.textContent = "";
-            memoTextarea_memo.value = "";
-            memoSheet_memo.hidden = true;
-            memoTextarea_memo.hidden = true;
-        }
-        // 親から生成できるようソート（破壊的メソッド）
-        DATABASE.WORK[0].WORK_MEMO.sort((a, b) => {
-            return a.parentCSV.split(',').length - b.parentCSV.split(',').length;
-        });
-        for(let obj of DATABASE.WORK[0].WORK_MEMO){
+    // マスタデータが絡まないため、データ読み込み時のみリビルト
+    if(blnRebuild) rebuild_memo();
+}
+// 再構築
+function rebuild_memo()
+{
+    {
+        // clear
+        keyId_memo = ""; // 先にキークリア
+        tree_memo.innerHTML = "";
+        fileNameBox_memo.value = "";
+        pathLabel_memo.textContent = "";
+        memoTextarea_memo.value = "";
+        memoSheet_memo.hidden = true;
+        memoTextarea_memo.hidden = true;
+    }
+    // 親から生成できるようソート（破壊的メソッド）
+    DATABASE.WORK[0].WORK_MEMO.sort((a, b) => {
+        return a.parentCSV.split(',').length - b.parentCSV.split(',').length;
+    });
+    // フォルダから生成
+    for(let objType of ["folder","file"]){
+        let repo = DATABASE.WORK[0].WORK_MEMO.filter(a => a["type"]==objType);
+        for(let obj of repo){
             createExpObj_memo(obj, true)
         }
     }
-    // マスタデータが絡まないため、データ読み込み時のみリビルト
-    if(blnRebuild) rebuild();
 }
+// 開いているフォルダをカンマ区切りで格納・展開（"SAVE" OR "OPEN"）
+let openingFolderIDs = "";
+function saveAndOpenFolder_memo(pmode, activeID = "")
+{
+    switch(pmode)
+    {
+        //--------------------
+        case "SAVE" : 
+            
+            // クリア
+            openingFolderIDs = "";
+
+            // 従属があるもののみ取得
+            for(let repo of DATABASE.WORK[0].WORK_MEMO)
+            {
+                let memoID = repo["id"];
+                let chArr = DATABASE.WORK[0].WORK_MEMO.filter(a =>a["parentCSV"].includes(memoID) && a["parentCSV"] != memoID);
+                if(chArr && chArr.length) 
+                {
+                    let el = getDOM(`${memoID}_expObj_memo`);
+                    if(el && !el.hidden) openingFolderIDs += `${memoID},`
+                };
+            }
+        break;
+        //--------------------
+        case "OPEN" :
+
+            if(activeID) openingFolderIDs += `${activeID},`
+            for(let tmpId of openingFolderIDs.split(','))
+            {
+                if(!tmpId) continue;
+                let el = getDOM(`${tmpId}_expObj_memo`);
+                if(el) el.dispatchEvent(new MouseEvent("click"));
+            }
+        break;
+    }
+}
+
 // メニュー呼び出し用にパブリックスコープにて宣言
 // メニュー作成（）
 function createExpObj_memo(obj, isRebuild = false, pElName = ""){
+
     if(isRebuild){
         createObjDOM(obj, obj["name"], true);
         return;
@@ -3840,10 +4043,17 @@ function createExpObj_memo(obj, isRebuild = false, pElName = ""){
         if(name.trim() == "") continue;
         createObjDOM(obj, name, false);
     }
+    // ソート
+    saveAndOpenFolder_memo("SAVE");
+    rebuild_memo();
+    saveAndOpenFolder_memo("OPEN");
+    
     // 画面構築
     function createObjDOM(obj, name, isRebuild){
+
         const objId = getRandomString20(DATABASE.WORK[0].WORK_MEMO);
         let parent;
+
         // 親設定
         if(!isRebuild){
             parent = obj["parent"] ? obj["parent"] : tree_memo;
@@ -3865,24 +4075,33 @@ function createExpObj_memo(obj, isRebuild = false, pElName = ""){
                     container.id = objId; //*** */
                 }
             }
+            // メモ階層
+            let memoKaiso = container.id.split(",").length;
             if(obj["type"] == "folder"){
                 li.classList.add("folder");
             }else{
                 li.classList.add("file");
             }
-            li.textContent = name;
+            li.textContent = (obj["type"] == "folder" ? "📁" : "📄") + name;
             li.style.display = "flex";
             icon.classList.add("iconButton")
             if(obj["type"]=="folder") {
                 // icon.innerHTML = svg_folder_black;
             }else if(obj["type"]=="file"){
-                icon.innerHTML = svg_file_black;
+                // icon.innerHTML = svg_file_black;
             }else if(obj["type"]=="sheet"){
-                icon.innerHTML = svg_CrossWord_gray;
+                // icon.innerHTML = svg_CrossWord_gray;
             }
             icon.style.marginRight = "5px";
             container.classList.add("pgviewer-kaisofolder-container");
             container.style.marginLeft = "15px";
+            // // マージンブロック
+            // if(memoKaiso > 1){
+            //     let marginBlock = createDOM("button");
+            //     marginBlock.classList.add("marginBlock");
+            //     marginBlock.textContent = "margin"
+            //     container.appendChild(marginBlock)
+            // }
             // 最上階層以外初期非表示
             if(isRebuild){
                 if(obj["parentCSV"].split(',').length > 1){
@@ -3899,9 +4118,10 @@ function createExpObj_memo(obj, isRebuild = false, pElName = ""){
                 statusIcon.style.marginLeft = "auto";
             }
         }
+        let dataObj = null;
         if(!isRebuild){
             // crate Data
-            let dataObj = 
+            dataObj = 
             {
                 "type": obj["type"],
                 "name": name,
@@ -3912,8 +4132,12 @@ function createExpObj_memo(obj, isRebuild = false, pElName = ""){
                 "statusIcon":null,
             }
             DATABASE.WORK[0].WORK_MEMO.push(dataObj);
-        }
+        }else dataObj = obj;
         const id = isRebuild ? obj["id"] : objId;
+
+        // liにID付与
+        li.id = `${dataObj["id"]}_expObj_memo`;
+
         // event
         if(obj["type"]=="folder"){
             // folder
@@ -3973,7 +4197,8 @@ function createExpObj_memo(obj, isRebuild = false, pElName = ""){
                 e.stopPropagation();
                 rename_memo(id,li);                
             });
-            li.addEventListener("click", function(e){
+            li.addEventListener("click", function(e)
+            {
                 // visible
                 memoTextarea_memo.hidden = false;
                 memoSheet_memo.hidden = true;
@@ -3993,44 +4218,115 @@ function createExpObj_memo(obj, isRebuild = false, pElName = ""){
                     element.classList.remove("selected-tree-obj-memo");
                 }
                 this.classList.add("selected-tree-obj-memo");
+
+                // 直親　li + container　を選択状態にする--------------------------------------------
+                document
+                    .querySelectorAll(
+                        ".selected-tree-obj-folder-memo, .selected-tree-obj-container-memo, .selected-tree-obj-topcontainer-memo"
+                    )
+                    .forEach(el => el.classList.remove(
+                        "selected-tree-obj-folder-memo",
+                        "selected-tree-obj-container-memo",
+                        "selected-tree-obj-topcontainer-memo"
+                    ));
+
+                let parentIDsArr = dataObj["parentCSV"].split(',');
+                if(parentIDsArr.length >= 2)
+                {
+                    try{
+                        // 直親コンテナ
+                        getDOM(`${parentIDsArr[parentIDsArr.length-2]}_expObj_memo`).parentElement.classList.add("selected-tree-obj-container-memo");
+                        getDOM(`${parentIDsArr[parentIDsArr.length-2]}_expObj_memo`).classList.add("selected-tree-obj-folder-memo");
+                        // 全親li
+                        for(let loopParentId of parentIDsArr)
+                        {
+                            if(loopParentId != dataObj["id"]) getDOM(`${loopParentId}_expObj_memo`).classList.add("selected-tree-obj-folder-memo");
+                            if(loopParentId != dataObj["id"]) getDOM(`${loopParentId}_expObj_memo`).parentElement.classList.add("selected-tree-obj-topcontainer-memo");
+                        }
+                    }catch(e){};
+                }
+                //--------------------------------------------
             });
         // シート
         }else if(obj["type"]=="sheet"){
-            // sheet
-            li.addEventListener("contextmenu", function(e){
-                // 右クリックメニュー
-                e.preventDefault();
-                let orderArr = [
-                    {"printName":"アイコン", "icon":svg_category, "func":()=>statusIcon_memo(id, li), },
-                    {"printName":"リネーム", "icon":svg_pencil, "func":()=>rename_memo(id,li), },
-                    {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
-                ];
-                createMenu(orderArr);
-                e.stopPropagation();
-            });
-            li.addEventListener("click", function(e){
-                // visible
-                memoTextarea_memo.hidden = true;
-                memoSheet_memo.hidden = false;
+            // // sheet
+            // li.addEventListener("contextmenu", function(e){
+            //     // 右クリックメニュー
+            //     e.preventDefault();
+            //     let orderArr = [
+            //         {"printName":"アイコン", "icon":svg_category, "func":()=>statusIcon_memo(id, li), },
+            //         {"printName":"リネーム", "icon":svg_pencil, "func":()=>rename_memo(id,li), },
+            //         {"printName":"削除", "icon":svg_gabage, "func":()=>delete_memo(id, container), },
+            //     ];
+            //     createMenu(orderArr);
+            //     e.stopPropagation();
+            // });
+            // li.addEventListener("click", function(e){
+            //     // visible
+            //     memoTextarea_memo.hidden = true;
+            //     memoSheet_memo.hidden = false;
 
-                keyId_memo = id;
-                fileNameBox_memo.value = DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["name"];
-                // 復元
-                // memoTextarea_memo.value = mainData.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["content"];
-                let strPath = "";
-                for(let tmp of DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["parentCSV"].split(`,`)){
-                    if(tmp!=id){
-                        strPath += `${strPath=="" ? "" : "> "}${DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==tmp)["name"]}`;
-                    }
-                }
-                pathLabel_memo.textContent = strPath;
-                // class
-                for (let element of document.getElementsByClassName("selected-tree-obj-memo")){
-                    element.classList.remove("selected-tree-obj-memo");
-                }
-                this.classList.add("selected-tree-obj-memo");
-            });
+            //     keyId_memo = id;
+            //     fileNameBox_memo.value = DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["name"];
+            //     let strPath = "";
+            //     for(let tmp of DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["parentCSV"].split(`,`)){
+            //         if(tmp!=id){
+            //             strPath += `${strPath=="" ? "" : "> "}${DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==tmp)["name"]}`;
+            //         }
+            //     }
+            //     pathLabel_memo.textContent = strPath;
+                
+            //     // class
+            //     for (let element of document.getElementsByClassName("selected-tree-obj-memo")){
+            //         element.classList.remove("selected-tree-obj-memo");
+            //     }
+            //     this.classList.add("selected-tree-obj-memo");
+            // });
         }
+        
+        // 下層カウンタ
+        let counter = createDOM("span");
+        {
+            // スタイル
+            counter.style.border = "solid #d3d3d3 1px";
+            counter.style.padding = "2px 8px";
+            counter.style.fontSize = "12px";
+            counter.style.marginLeft = "8px";
+        }
+        if(isRebuild)
+        {
+            // FOLDER
+            if(obj["type"]=="folder")
+            {
+                // このIDをパスに含む要素を取得
+                let thisId = obj["id"];
+                let chArr = DATABASE.WORK[0].WORK_MEMO
+                .filter(a=>a["parentCSV"].includes(thisId) && a["parentCSV"] != thisId);
+
+                // 直下のみ
+                if(chArr) chArr = chArr.filter(a => a["parentCSV"].split(',')[a["parentCSV"].split(',').length-2]==thisId);
+                let childCnt = chArr ? chArr.length : 0;
+
+                // STYLE
+                counter.style.backgroundColor = "#2f3b48";  // 淡いブルーグレー
+                counter.style.color = "#eeeeee";            // 本文と同系
+                counter.style.borderRadius = "0px 10px 10px 0px";
+                counter.innerHTML = `${childCnt}件`;
+                li.appendChild(counter);
+            }
+            // NOTE
+            else
+            {
+                // STYLE
+                counter.style.backgroundColor = "#eeeeee";  // 淡いブルーグレー
+                counter.style.color = "#2f3b48";            // 本文と同系
+                counter.style.borderRadius = "10px 0px 10px 0px";
+                counter.innerHTML = `Note`;
+                // li.appendChild(counter);
+            }
+        }
+
+        // APPEND
         li.prepend(icon);
         if(isRebuild) li.appendChild(statusIcon)
         container.appendChild(li);
@@ -4055,26 +4351,30 @@ function delete_memo(objId, container){
     }
 }
 // rename
-function rename_memo(objId, li){
+function rename_memo(objId, li=null){
     // data
-    let newName = prompt("新しい名称を入力してください",li.textContent);
+    let elObj = DATABASE.WORK[0].WORK_MEMO.filter(a => a["id"] == objId);
+    let newName = prompt("新しい名称を入力してください", elObj[0]["name"]);
     if(newName && newName.trim()){
         DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==objId)["name"] = newName;
-        const icon = createDOM("span");
-        {
-            icon.innerHTML = (DATABASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["type"]=="file" ? svg_file_black : svg_folder_black);
-            icon.classList.add("iconButton");
-            icon.style.marginRight = "5px";
-        }
-        let statusIcon = createDOM("span");
-        if(DATABASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["statusIcon"] != null){
-            statusIcon.innerHTML = DATABASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["statusIcon"].replace(`fill="#F3F3F3"`,`fill="#383838ff"`);
-            statusIcon.classList.add("iconButton");
-            statusIcon.style.marginLeft = "auto";
-        }
-        li.textContent = newName;
-        li.appendChild(statusIcon);
-        li.prepend(icon);
+        saveAndOpenFolder_memo("SAVE");
+        rebuild_memo();
+        saveAndOpenFolder_memo("OPEN");
+        // const icon = createDOM("span");
+        // {
+        //     // icon.innerHTML = (DATABASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["type"]=="file" ? svg_file_black : svg_folder_black);
+        //     icon.classList.add("iconButton");
+        //     icon.style.marginRight = "5px";
+        // }
+        // let statusIcon = createDOM("span");
+        // if(DATABASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["statusIcon"] != null){
+        //     statusIcon.innerHTML = DATABASE.WORK[0].WORK_MEMO.find(a => a.id == objId)["statusIcon"].replace(`fill="#F3F3F3"`,`fill="#383838ff"`);
+        //     statusIcon.classList.add("iconButton");
+        //     statusIcon.style.marginLeft = "auto";
+        // }
+        // li.textContent = newName;
+        // li.appendChild(statusIcon);
+        // li.prepend(icon);
     }
 }
 // status icon

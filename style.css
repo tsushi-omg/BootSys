@@ -1,9 +1,15 @@
 body {
     margin: 0;
-    font-family: sans-serif;
+    /* font-family: sans-serif; */
     height: 100vh;
     display: flex;
 }
+
+/* ===== 全体 ===== */
+* {
+    font-family: "MS UI Gothic", "MS PGothic", sans-serif;
+}
+
 
 /* 共通スタイル */
 input:focus,
@@ -243,7 +249,7 @@ button{
   background: #000 !important;
   /* color: #0f0;                */
   color: rgb(245, 248, 255);               /* グリーン文字でログ感 */
-  font-family: monospace;    /* ログっぽい等幅フォント */
+  /* font-family: monospace; */
   font-size: 13px;
   border: 1px solid #444;
   border-radius: 4px;
@@ -850,8 +856,25 @@ input:checked + .slider:before {
 
 /* フローチャート *******************************************/
 .selected-tree-obj-memo{
-  /* border: solid rgb(115, 178, 219) 2px; */
-  background-color: rgb(184, 211, 230) !important;
+  background-color: #2e3c4d !important;
+  color: #fff !important;
+  border-left: #4d8ac4 5px solid;
+}
+
+.selected-tree-obj-folder-memo{
+  /* background-color: #2e3c4d !important; */
+  /* background-color: #1d79eb !important; */
+  /* color: #fff !important; */
+  color: #3284e2 !important;
+}
+
+.selected-tree-obj-container-memo{
+  border-left: #60a0dd solid 2px;
+  background-color: #deedff;
+}
+
+.selected-tree-obj-topcontainer-memo{
+  border-left: #60a0dd solid 2px;
 }
 
 .back-image-grid{
@@ -944,27 +967,35 @@ input:checked + .slider:before {
 .memo-folder-list .folder {
   padding: 6px 8px;
   margin: 5px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-left: 15px;
-  border-left: #516477 solid 5px;
-  background: #e9ecef;
   user-select: none;
+  transition: 0.1s;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 15px;
+
+  border: 1px solid rgb(211, 211, 211);
+  border-left: #516477 solid 5px;
+  background: #f3f6f8;
 }
 .memo-folder-list .file {
   padding: 6px 8px;
-  border-radius: 4px;
+  transition: 0.1s;
   cursor: pointer;
+  border-radius: 4px;
   margin-left: 15px;
+
+  border: 1px solid rgb(211, 211, 211);
   user-select: none;
+  border-left: #516477 solid 3px;
+  background: #f3f6f8;
 }
 
 .memo-folder-list .folder:hover {
-  background: #d9dde2;
+  background: #eceff1;
 }
 
 .memo-folder-list .file:hover {
-  background: #eceff1;
+  background: #e7edf0;
 }
 
 /* 右：メモ入力欄 */
@@ -2051,3 +2082,17 @@ input:checked + .slider:before {
 .todo-delete:hover {
     color: #ff4d4f;
 }
+
+
+.marginBlock {
+    display: inline-block;
+    width: 20px;
+    height: 100%;
+    /* margin-right: 6px; */
+    flex-shrink: 0;
+
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 3px;
+}
+
+
