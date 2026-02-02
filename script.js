@@ -4042,14 +4042,14 @@ function saveAndOpenFolder_memo(pmode, activeID = "")
             openingFolderIDs = "";
 
             // 従属があるもののみ取得
-            for(let repo of DATABASE.WORK[0].WORK_MEMO)
+            for(let repo of DATABASE.WORK[0].WORK_MEMO.filter(a => a["type"]=="folder"))
             {
-                let memoID = repo["id"];
-                let chArr = DATABASE.WORK[0].WORK_MEMO.filter(a =>a["parentCSV"].includes(memoID) && a["parentCSV"] != memoID);
+                let fodlerID = repo["id"];
+                let chArr = DATABASE.WORK[0].WORK_MEMO.filter(a =>a["parentCSV"].includes(fodlerID) && a["id"] != fodlerID);
                 if(chArr && chArr.length) 
                 {
-                    let el = getDOM(`${memoID}_expObj_memo`);
-                    if(el && !el.hidden) openingFolderIDs += `${memoID},`
+                    let el = getDOM(`${fodlerID}_expObj_memo`);
+                    if(el && !el.parentElement.children[1].hidden) openingFolderIDs += `${fodlerID},`
                 };
             }
         break;
