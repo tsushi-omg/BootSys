@@ -3923,6 +3923,14 @@ const memoTextarea_memo = getDOM("memoTextarea_memo");
 }
 // メモシートDIV
 const memoSheet_memo = getDOM("memoSheet_memo");
+// 検索ボックス
+const memoSearchInput = getDOM("memoSearchInput");
+{
+    memoSearchInput.addEventListener("input", function()
+    {
+        bootSys_WORK_MEMO(false, true);
+    })
+}
 
 //*雑多メモーbootSys********************************************************************* ************/
 function 
@@ -3964,13 +3972,62 @@ function rebuild_memo()
     DATABASE.WORK[0].WORK_MEMO.sort((a, b) => {
         return a.parentCSV.split(',').length - b.parentCSV.split(',').length;
     });
-    // フォルダから生成
+    // フォルダから生成------------------------------------------------------------------------
+    let createdArr = "";
     for(let objType of ["folder","file"]){
         let repo = DATABASE.WORK[0].WORK_MEMO.filter(a => a["type"]==objType);
-        for(let obj of repo){
-            createExpObj_memo(obj, true)
+        for(let obj of repo)
+        {
+            if(!memoSearchInput.value) createExpObj_memo(obj, true)
+            else
+            {
+                // 検索ワード絞込み------------------------------------------------------------------------
+                let condition = memoSearchInput.value.toLowerCase();
+                let beCreate = false;
+                if(obj["name"].toLowerCase().includes(condition)) beCreate = true;
+                if(obj["type"]=="file")
+                {
+                    if(obj["content"].toLowerCase().includes(condition)) beCreate = true;
+                }
+                if(beCreate) 
+                {
+                    // 先に親フォルダを作成
+                    for(let parentID of obj["parentCSV"].split(','))
+                    {
+                        let parObj = DATABASE.WORK[0].WORK_MEMO.find(a => a["id"] == parentID && a["id"] != obj["id"])
+                        if(parObj && !createdArr.includes(parObj["id"])) 
+                        {
+                            createExpObj_memo(parObj, true);
+                            createdArr += parObj["id"] + ",";
+                        };
+                    }
+                    // 対象を作成
+                    if(!createdArr.includes(obj["id"]))
+                    {
+                        createExpObj_memo(obj, true);
+                        createdArr += obj["id"] + ",";
+                    }
+                    // フォルダなら子も作成
+                    if(obj["type"]=="folder")
+                    {
+                        let chArr = DATABASE.WORK[0].WORK_MEMO.filter(a => a["parentCSV"].includes(obj["id"]) && a["id"] != obj["id"])
+                        if(chArr){
+                            for(let chObj of chArr)
+                            {
+                                if(!createdArr.includes(chObj["id"]))
+                                {
+                                    createExpObj_memo(chObj, true);
+                                    createdArr += chObj["id"] + ",";
+                                }
+                            }
+                        }
+                    }
+                };
+                //------------------------------------------------------------------------
+            }
         }
     }
+    //------------------------------------------------------------------------
 }
 // 開いているフォルダをカンマ区切りで格納・展開（"SAVE" OR "OPEN"）
 let openingFolderIDs = "";
@@ -6260,237 +6317,8 @@ function attachSearchHandler(targetBox, resHidden, afterFunc){
 }
 
 
-// =================================================================
-// region ボックスに検索機能を付与
-// 機能１：メモ（フォルダ・ノート）のあいまい検索機能
-// 機能２：クリック時に指定した関数を実行
-// 機能３：クリック対象の情報をhiddenに格納
-// 結果　："FOLDER or NOTE", "objId"
-// 注意　：ボックスの親DIVにappendするためコンテナ必須
-// =================================================================
-function attachSearchHandler_Memo(targetBox, resHidden, afterFunc){
 
-    // RESULT CONTAINER
-    const boxStyle = targetBox.getBoundingClientRect();
-    const resultContainer = createDOM("div");
-    {
-        resultContainer.classList.add("explorer-search-result");
-        resultContainer.style.width = boxStyle.width;
-    }
 
-    // 親へappend
-    targetBox.parentElement.appendChild(resultContainer);
-
-    // ADD EVENT
-    targetBox.addEventListener("input", function(e) {attachEvent()})
-    targetBox.addEventListener("focus", function(e) {attachEvent()})
-    targetBox.addEventListener("click", function(e) {e.stopPropagation()}) // documentへのクリック伝播防止
-    document.addEventListener("click", function(e) { 
-        resultContainer.innerHTML = ""; 
-    })
-    targetBox.addEventListener("keydown", function(e) { 
-        if(e.key === "Escape"){
-            e.preventDefault();
-            resultContainer.innerHTML = "";
-        }
-    })
-
-    // FUNCTION
-    function attachEvent(){
-
-        resultContainer.innerHTML = "";
-
-        // RETURN
-        if(!targetBox.value.trim()) return;
-
-        // MAX KAISO
-        let maxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
-        let val = targetBox.value.trim().toLowerCase();
-
-        // -------------
-        // 階層検索
-        // -------------
-        for(let kaisoIndex = 1; kaisoIndex <= maxKaiso; kaisoIndex++){
-
-            // KAISO{index}
-            let keyName = `kaiso${kaisoIndex}`;
-            let kaisoRepo = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a[keyName])[keyName]
-
-            for(let kaisoObj of kaisoRepo){
-
-                // パス名称
-                let pathName = kaisoObjToPath(kaisoObj, kaisoIndex);
-
-                // 比較対象
-                let compareString = kaisoObj["name"].toLowerCase() + "," + pathName;
-
-                if(!compareString.includes(val)) continue;
-
-                let kaisoButton = createDOM("button");
-
-                kaisoButton.classList.add("explorer-search-item");
-
-                // ハイライト
-                let tmpIdx = 1;
-
-                for(let objName of compareString.split(",")){
-
-                    let MODE = {"NAME":tmpIdx==1, "PATH":tmpIdx==2}
-
-                    let startIdx = objName.toLowerCase().indexOf(val);
-                    let len = val.length;
-
-                    let SSpan = createDOM("span");
-                    let CSpan = createDOM("span");
-                    let ESpan = createDOM("span");
-
-                    CSpan.style.backgroundColor = "#0077ffff"
-                    CSpan.style.color = "#ffff"
-
-                    // PATH STYLE
-                    if(MODE.PATH){
-                        SSpan.style.color = "#999999ff";
-                        ESpan.style.color = "#999999ff";
-                        SSpan.style.marginLeft = "20px";
-                    }
-
-                    // HIT
-                    if(startIdx != -1){
-                    SSpan.innerHTML = objName.substring(0, startIdx);
-                    CSpan.innerHTML = objName.substring(startIdx, startIdx+len);
-                    ESpan.innerHTML = objName.substring(startIdx+len);
-                    
-                    // NO HIT
-                    }else{
-                        SSpan.innerHTML = objName;
-                    }
-
-                    kaisoButton.appendChild(SSpan);
-                    kaisoButton.appendChild(CSpan);
-                    kaisoButton.appendChild(ESpan);
-
-                    tmpIdx++;
-                }
-
-                let id = kaisoObj["id"] + "_search";
-                kaisoButton.id = id;
-
-                // //PATH
-                // let path = createDOM("span");
-                // path.innerHTML = kaisoObjToPath(kaisoObj, kaisoIndex);
-                // path.style.marginLeft = "20px";
-                // path.style.color = "#999999ff";
-                // kaisoButton.appendChild(path);
-
-                // ADD EVENT
-                kaisoButton.addEventListener("click",function(e){
-                    if(resHidden) resHidden.value = "KAISO" + "," + kaisoIndex + "," + kaisoObj["id"];
-                    if(afterFunc) afterFunc();
-                    resultContainer.innerHTML = "";
-                })
-
-                // ICON
-                const icon = createDOM("span");
-                icon.innerHTML = `階層${kaisoIndex}`;
-                icon.style.marginRight = "5px";
-                icon.style.marginLeft = "5px";
-                icon.style.color = "#eb8b31ff";
-                // icon.style.fontWeight = "bold";
-                kaisoButton.prepend(icon);
-
-                // APPEND（重複回避）
-                if(!getDOM(id)) resultContainer.appendChild(kaisoButton);
-
-            }
-        }
-
-        // -------------
-        // PG検索
-        // -------------
-        for(let pgObj of DATABASE.MASTER[0].MASTER_PGINFO){
-
-            // パス名称
-            let pathName = kaisoCSVToPath(pgObj["kaisoCSV"]);
-
-            let idName = pgObj["name"] + "," +pgObj["pgid"].toLowerCase() + "," + pathName;
-
-            if(!idName.includes(val)) continue;
-
-            let pgButton = createDOM("button");
-
-            // STYLE
-            pgButton.classList.add("explorer-search-item");
-
-            // ハイライト
-            let tmpIdx = 1;
-
-            for(let objName of [pgObj["name"], pgObj["pgid"], pathName]){
-
-                let MODE = {"NAME":tmpIdx==1, "ID":tmpIdx==2, "PATH":tmpIdx==3}
-
-                let startIdx = objName.toLowerCase().indexOf(val);
-                let len = val.length;
-
-                let SSpan = createDOM("span");
-                let CSpan = createDOM("span");
-                let ESpan = createDOM("span");
-
-                CSpan.style.backgroundColor = "#0077ffff"
-                CSpan.style.color = "#ffff"
-
-                // PATH STYLE
-                if(MODE.PATH){
-                    SSpan.style.color = "#999999ff";
-                    ESpan.style.color = "#999999ff";
-                    SSpan.style.marginLeft = "20px";
-                }
-
-                // HIT
-                if(startIdx != -1){
-                SSpan.innerHTML = (MODE.ID ? " [" : "") + 
-                                  objName.substring(0, startIdx);
-                CSpan.innerHTML = objName.substring(startIdx, startIdx+len);
-                ESpan.innerHTML = objName.substring(startIdx+len) + 
-                                  (MODE.ID ? "] " : "");
-                
-                // NO HIT
-                }else{
-                    SSpan.innerHTML = (MODE.ID ? " [" : "") + objName + (MODE.ID ? "] " : "");
-                }
-
-                pgButton.appendChild(SSpan);
-                pgButton.appendChild(CSpan);
-                pgButton.appendChild(ESpan);
-
-                tmpIdx++;
-            }
-
-            let id = pgObj["id"] + "_search";
-            pgButton.id = id;
-
-            // ADD EVENT
-            pgButton.addEventListener("click",function(e){
-                if(resHidden) resHidden.value = "PG" + "," + pgObj["id"];
-                if(afterFunc) afterFunc();
-                resultContainer.innerHTML = "";
-            })
-
-            // ICON
-            const icon = createDOM("span");
-            icon.innerHTML = `PG`;
-            icon.style.marginRight = "5px";
-            icon.style.marginLeft = "5px";
-            icon.style.color = "#29bfdaff";
-            // icon.style.fontWeight = "bold";
-            pgButton.prepend(icon);
-
-            // APPEND（重複回避）
-            if(!getDOM(id)) resultContainer.appendChild(pgButton);
-
-        }
-    }
-
-}
 
 
 
