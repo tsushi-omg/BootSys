@@ -37,6 +37,12 @@ button{
     display: flex;
 }
 
+.must-Trans-BC{}
+
+.must-Trans-BC:focus{
+  background-color: transparent !important;
+}
+
 
 /* 左：メニューエリア */
 .menu {
@@ -2095,4 +2101,163 @@ input:checked + .slider:before {
     border-radius: 3px;
 }
 
+/* カスタムリスト------------------------------------------------------ */
 
+/* フレーム */
+.QuickListComponent-window {
+    position: absolute;
+    top: 21vh;
+    right: 5vw;
+    max-width: 80vw;
+    min-width: 20vw;
+
+    width: 20vw;
+    height: 20vh;
+}
+
+.QuickListComponent-haederFrame {
+    display: flex;
+    align-items: center;
+    outline: none;
+
+    height: 28px;
+    padding: 0 10px;
+
+    /* border: #ffff 1px solid; */
+    min-width: 20vw;
+
+    /* background: linear-gradient(#eef2f6, #e1e6ec); */
+    background: linear-gradient(#495764, #34495e);
+    border-bottom: 1px solid #cfd6dd;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.QuickListComponent-haederFrame-rogo {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+
+    /* color: #445566; */
+    color: #dde4eb;
+}
+
+.QuickListComponent-bodyFrame {
+    padding: 6px 8px;
+    background: #f7f8fa;
+    border: 1px solid #cfd6dd;
+    border-radius: 6px;
+    /* font-size: 12px; */
+    color: #2c3e50;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    overflow-y: auto;
+    
+    min-height: 10vh;
+    min-width: 20vw;
+    max-height: 65vh;
+}
+
+
+/* content */
+.CustomListComponent-content {
+    border: 1px solid #cfd6dd;
+    margin-bottom: 8px;
+    background: #ffffff;
+}
+
+.CustomListComponent-content::selection {
+
+  background: #000000; /* 選択時の背景色 */
+
+  color: #ffffff;      /* 選択時の文字色 */
+
+}
+
+ 
+
+/* inner header */
+.CustomListComponent-innerHeader {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    height: 26px;
+    padding: 0 6px;
+
+    background: #eef2f6;
+    border-bottom: 1px solid #cfd6dd;
+    /* font-size: 11px; */
+}
+
+/* title */
+.CustomListComponent-title {
+    font-weight: bold;
+    color: #334455;
+}
+
+/* pager */
+.CustomListComponent-pager {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.CustomListComponent-pager-btn {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+
+    border: 1px solid #c0c8d0;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.CustomListComponent-pager-label {
+    /* font-size: 10px; */
+    color: #556677;
+}
+
+/* settings */
+.CustomListComponent-settings {
+    cursor: pointer;
+    padding: 0 4px;
+}
+
+/* table */
+.CustomListComponent-tableWrap {
+    overflow-x: auto;
+}
+
+.CustomListComponent-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* font-size: 11px; */
+}
+
+.CustomListComponent-table th,
+.CustomListComponent-table td {
+    border: 1px solid #d5dce3;
+    padding: 3px 6px;
+    white-space: nowrap;
+}
+
+.CustomListComponent-table th {
+    background: #f2f4f7;
+    font-weight: normal;
+}
+
+.no-border-box{
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.selected-td-list-component{
+    outline: 2px dotted #1fa0bd;
+    outline-offset: -2px;
+}
+
+
+/* ------------------------------------------------------ */

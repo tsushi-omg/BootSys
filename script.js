@@ -184,6 +184,12 @@ const svg_close_gray = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" vi
 const svg_robot_blue = `<svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#3B82F6"><path d="M160-360q-50 0-85-35t-35-85q0-50 35-85t85-35v-80q0-33 23.5-56.5T240-760h120q0-50 35-85t85-35q50 0 85 35t35 85h120q33 0 56.5 23.5T800-680v80q50 0 85 35t35 85q0 50-35 85t-85 35v160q0 33-23.5 56.5T720-120H240q-33 0-56.5-23.5T160-200v-160Zm200-80q25 0 42.5-17.5T420-500q0-25-17.5-42.5T360-560q-25 0-42.5 17.5T300-500q0 25 17.5 42.5T360-440Zm240 0q25 0 42.5-17.5T660-500q0-25-17.5-42.5T600-560q-25 0-42.5 17.5T540-500q0 25 17.5 42.5T600-440ZM320-280h320v-80H320v80Zm-80 80h480v-480H240v480Zm240-240Z"/></svg>`;
 const svg_leg_blue = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#3B82F6"><path d="M260-840q-45 0-72.5 50T160-680q0 63 17.5 111.5T210-496l110-22q13-32 26.5-73t13.5-89q0-60-27.5-110T260-840Zm55 520q19 0 32-14t13-39q0-17-8-35t-16-32l-96 20q0 40 17.5 70t57.5 30Zm385-320q-45 0-72.5 50T600-480q0 48 13.5 88.5T640-318l110 22q15-24 32.5-72T800-480q0-60-27.5-110T700-640Zm-55 520q40 0 57.5-30t17.5-70l-96-20q-8 14-16 32t-8 35q0 20 12.5 36.5T645-120ZM315-240q-77 0-117-57t-38-128l-18-27q-11-17-36.5-77T80-680q0-103 51-171.5T260-920q85 0 132.5 75.5T440-680q0 58-16 107t-28 79l8 13q8 14 22 44.5t14 63.5q0 57-35.5 95T315-240ZM645-40q-54 0-89.5-38T520-173q0-33 14-63.5t22-44.5l8-13q-12-30-28-79t-16-107q0-89 47.5-164.5T700-720q78 0 129 68.5T880-480q0 91-25.5 150.5T818-253l-18 28q1 71-38.5 128T645-40Z"/></svg>`;
 const svg_agent_white = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M440-120v-80h320v-284q0-117-81.5-198.5T480-764q-117 0-198.5 81.5T200-484v244h-40q-33 0-56.5-23.5T80-320v-80q0-21 10.5-39.5T120-469l3-53q8-68 39.5-126t79-101q47.5-43 109-67T480-840q68 0 129 24t109 66.5Q766-707 797-649t40 126l3 52q19 9 29.5 27t10.5 38v92q0 20-10.5 38T840-249v49q0 33-23.5 56.5T760-120H440Zm-80-280q-17 0-28.5-11.5T320-440q0-17 11.5-28.5T360-480q17 0 28.5 11.5T400-440q0 17-11.5 28.5T360-400Zm240 0q-17 0-28.5-11.5T560-440q0-17 11.5-28.5T600-480q17 0 28.5 11.5T640-440q0 17-11.5 28.5T600-400Zm-359-62q-7-106 64-182t177-76q89 0 156.5 56.5T720-519q-91-1-167.5-49T435-698q-16 80-67.5 142.5T241-462Z"/></svg>`;
+const svg_leftArrow = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>`;
+const svg_rightArrow = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>`;
+const svg_delete = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>`;
+const svg_OverArrow = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/></svg>`;
+const svg_DownArrow = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>`;
+const svg_palette = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-177 23q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm120-160q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm200 0q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm120 160q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"/></svg>`;
 
 
 //#region 共通関数
@@ -344,11 +350,15 @@ let pressedKeys = {};
 // キーダウン　bool値
 document.addEventListener("keydown", function(e){
     pressedKeys[e.key] = true;
+    if(e.ctrlKey) pressedKeys["ctrlKey"] = true;
+    if(e.shiftKey) pressedKeys["shiftKey"] = true;
 })
 
 // キーアップ
 document.addEventListener("keyup", function(e){
     pressedKeys[e.key] = false;
+    if(!e.ctrlKey) pressedKeys["ctrlKey"] = false;
+    if(!e.shiftKey) pressedKeys["shiftKey"] = false;
 })
 
 // キーが押されているかどうかの判定**
@@ -415,6 +425,21 @@ function getRandomString20(repo=null){
     else return getRandomString20(repo);
 }
 
+//======================================================================================================================
+// 20桁ランダム英数字取得（ランダム英数）
+// count：指定個数を生成し配列で返却。返却要素内での重複を回避する仕様
+//======================================================================================================================
+function getRandomStringArr20(count){
+    let resultArr = [];
+    for(let idx = 1; idx <= count; idx++){
+
+        let result = getRandomString20();
+        if(resultArr.includes(result)) idx--;
+        else resultArr.push(result);
+    }
+    return resultArr;
+}
+
 //========================================
 // 簡略化用関数（getElementByID）
 //========================================
@@ -425,6 +450,13 @@ function getDOM(targetID, byName = false){
         }catch(e){}
     }
     return document.getElementById(targetID);
+}
+
+//========================================
+// 簡略化用関数（getElementsByName）
+//========================================
+function getDOMArrByClassName(className){
+    return document.getElementsByClassName(className);
 }
 
 //========================================
@@ -441,6 +473,13 @@ function clearValue(DOMIDsCSV){
     for(let domid of DOMIDsCSV.split(',')){
         if(domid != "") getDOM(domid).value = "";
     }
+}
+
+// ==================================================================
+// オブジェクトのプロパティ保有判定をし、なければ指定valueで初期化
+// ==================================================================
+function propertyInitializer(targetObj, propName, initialVal){
+    if(!targetObj.hasOwnProperty(propName)) targetObj[propName] = initialVal;
 }
 
 //========================================
@@ -510,7 +549,7 @@ JSONReader.addEventListener("change", function(event){
             DATABASE = json;
             document.getElementById("PNameBox").value = DATABASE.META[0].PROJECTNAME;
             // マックス階層
-            openMaxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
+            session.openMaxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
             alert("データの読み込みが完了しました")
             log("JSONデータの読み込みに成功しました")
             // 既存データパッチ
@@ -571,6 +610,16 @@ function applyPatch(){
             DATABASE.AI[0].AI_AGENCY = []; 
             log("パッチが適用されました [システム代行：データ領域を作成]");
         }
+
+        // 雑多メモ：クイックリスト用データ領域
+        msg = false;
+        for(let obj of DATABASE.WORK[0].WORK_MEMO.filter(a => a.type=="file")){
+            if(!obj.hasOwnProperty("listObj")) {
+                obj.listObj = {}
+                msg = true;
+            };          
+        }
+        if(msg) log("パッチが適用されました [雑多メモ：クイックリスト用データ領域を作成]");
         
     }catch(e){alert("パッチ適用に失敗しました")}
 
@@ -869,6 +918,17 @@ function getToday(){
     return today;
 }
 
+// =================================================================
+// 指定したスタイルクラスを有する全要素から剥奪
+// ※getElements...はライブコレクションであるためループで不具合が出る
+// ※querySelectorは静的コレクションであるため確実
+// =================================================================
+function allRemoveClass(className){
+    document.querySelectorAll("." + className)
+        .forEach(el => el.classList.remove(className));
+}
+
+
 //========================================
 // 高度な編集機能を提供
 //========================================
@@ -1011,15 +1071,22 @@ function attachRichEditFunction(textarea) {
 //#region 初期化
 //========================================
 
-let openMaxKaiso = 0;
+let session = {};
+let testObj_listComponent = {}
 
 function Init(){
 
     // 開発用
     if(debug) DATABASE = mainData_TEST;
 
+    // テストデータ代入
+    initTestData();
+
+    // テストアクション実行
+    if(debug) executeTestAction();
+
     // マックス階層
-    openMaxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
+    session.openMaxKaiso = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(a => a.hasOwnProperty("kaisoCount")).kaisoCount;
 
     // パッチ適用
     applyPatch();
@@ -2431,7 +2498,7 @@ function bootSys_WORK_PGVIEWER(isFirst){
             // 記憶変数リセット
             activeID_Viewer = "";
             bootSys_WORK_PGVIEWER(false)
-            for(let kaisoIdx = 1; kaisoIdx <= openMaxKaiso; kaisoIdx++){
+            for(let kaisoIdx = 1; kaisoIdx <= session.openMaxKaiso; kaisoIdx++){
                 // findで指定したキーのオブジェクトを抽出できる（配列はindexでしか参照できないためfindで取得）
                 let kaisoRepo = DATABASE.MASTER[0].MASTER_PGCATEGORY.find(obj => obj[`kaiso${kaisoIdx}`])[`kaiso${kaisoIdx}`];
                 for(let kaisoObjTmp of kaisoRepo){
@@ -4188,6 +4255,7 @@ function createExpObj_memo(obj, isRebuild = false, pElName = ""){
                 "parentCSV": container.id,
                 "sortNo":0,
                 "statusIcon":null,
+                "listObj":{},
             }
             DATABASE.WORK[0].WORK_MEMO.push(dataObj);
         }else dataObj = obj;
@@ -4264,10 +4332,11 @@ function createExpObj_memo(obj, isRebuild = false, pElName = ""){
                 memoSheet_memo.hidden = true;
 
                 keyId_memo = id;
-                fileNameBox_memo.value = DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["name"];
-                memoTextarea_memo.value = DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["content"];
+                let currObj = DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id);
+                fileNameBox_memo.value = currObj["name"];
+                memoTextarea_memo.value = currObj["content"];
                 let strPath = "";
-                for(let tmp of DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==id)["parentCSV"].split(`,`)){
+                for(let tmp of currObj["parentCSV"].split(`,`)){
                     if(tmp!=id){
                         strPath += `${strPath=="" ? "" : "> "}${DATABASE.WORK[0].WORK_MEMO.find(a=>a["id"]==tmp)["name"]}`;
                     }
@@ -4306,6 +4375,10 @@ function createExpObj_memo(obj, isRebuild = false, pElName = ""){
                     }catch(e){};
                 }
                 //--------------------------------------------
+
+                // クイックリストコンポーネント起動
+                getDOM(WORK_MEMO + "_PANEL").appendChild(QuickListComponent(currObj["listObj"]));
+
             });
         // シート
         }else if(obj["type"]=="sheet"){
@@ -6317,8 +6390,599 @@ function attachSearchHandler(targetBox, resHidden, afterFunc){
 }
 
 
+//====================================================
+// region コンポーネント
+//====================================================
+
+//================================================================================
+// region クイックリスト
+// dataObj：参照データオブジェクト　※メインデータのオブジェクトを直接参照渡し
+// uiConfig：例）{"color":"red", "width":"100%"}
+//================================================================================
+function QuickListComponent(dataObj, uiConfig = null)
+{
+    // ----------
+    // clear
+    // ----------
+    const winId = "QuickListComponent-window";
+    if(getDOM(winId)) getDOM(winId).remove();
+
+    // ----------------
+    // default data
+    // ----------------
+    if(Object.keys(dataObj).length == 0){
+        // 参照を保ったまま代入
+        Object.assign(dataObj,
+        {
+            "DATA":[],
+            "ACTIVEPAGE":1,
+            "CONFIG":   {
+                            "WIDTH": "20vw",  
+                            "HEIGHT": "20vh",  
+                        },
+        });
+        dataObj.DATA.push(getDefaultPageObj());
+    }
+
+    // ----------
+    // window
+    // ----------
+    const win = createDOM("div");
+    win.id = winId;
+    win.classList.add("QuickListComponent-window");
+
+    // ----------
+    // header
+    // ----------
+    // header frame
+    const haederFrame = createDOM("div");
+    haederFrame.classList.add("QuickListComponent-haederFrame");
+
+    // rogo
+    const headerRogo = createDOM("label");
+    headerRogo.innerHTML = `Quick Lists`;
+    headerRogo.classList.add("QuickListComponent-haederFrame-rogo");
+
+    // ----------
+    // body frame
+    // ----------
+    const bodyFrame = createDOM("div");
+    bodyFrame.classList.add("QuickListComponent-bodyFrame");
+
+    // width/height復元
+    win.style.width = dataObj.CONFIG.WIDTH;
+    bodyFrame.style.height = dataObj.CONFIG.HEIGHT;
+
+    {
+        // resize window
+        haederFrame.tabIndex = 0;
+        haederFrame.addEventListener("wheel", function(e){
+            e.preventDefault();
+            // 増減
+            let add = (e.deltaY < 0) ? 80 : -80;
+            // height/width
+            if(keydown("Shift")) win.style.width = parseInt(win.offsetWidth) + add + "px";
+            else bodyFrame.style.height = parseInt(bodyFrame.offsetHeight) + add + "px";
+            // update config
+            dataObj.CONFIG.WIDTH = win.offsetWidth + "px";
+            dataObj.CONFIG.HEIGHT = bodyFrame.offsetHeight + "px";
+        })
+        haederFrame.addEventListener("contextmenu", function(e){
+            // データコピー
+            if(debug){
+                e.preventDefault();
+                navigator.clipboard.writeText(JSON.stringify(dataObj, null, 2)).then(() => {
+                    alert("リストコンポーネントデータをコピーしました");
+                });
+            }
+        })
+    }
+    
+    // append
+    haederFrame.appendChild(headerRogo);
+    win.appendChild(haederFrame);
+    win.appendChild(bodyFrame);
+
+    // =======================
+    // content frame
+    // =======================
+    const content = createDOM("div");
+    content.classList.add("CustomListComponent-content");
+    bodyFrame.appendChild(content);
+   
+    // ----------
+    // uiconfig
+    // ----------
+    if(uiConfig) for(let key in uiConfig) frame.style[key] = uiConfig[key];
+
+    // -------------------------
+    // 初期構築（1ページ目）
+    // -------------------------
+    build(dataObj.ACTIVEPAGE);
+
+    // =======================
+    // functions
+    // =======================
+    // ------------------------------------------------------------------------------------
+    // データを基に構築（ページ番号指定　※idxはマイナス1で調整）
+    // ------------------------------------------------------------------------------------
+    function build(currPageNo){
+
+        // 対象ページObj取得
+        let pageObj = dataObj.DATA[currPageNo-1]
+
+        // sortNo, rowNo順にデータ並べ替え（COLUMNS, ROWS）
+        pageObj.COLUMNS.sort((a, b) => (a.sortNo) - (b.sortNo));
+        pageObj.ROWS.sort((a, b) => (a.rowNo) - (b.rowNo));
+
+        // アクティブページ更新
+        dataObj.ACTIVEPAGE = currPageNo;
+
+        // clear
+        content.innerHTML = "";
+
+        // =======================
+        // inner header
+        // =======================
+        const innerHeader = createDOM("div");
+        innerHeader.classList.add("CustomListComponent-innerHeader");
+
+        // title
+        const title = createDOM("input");
+        title.type = "text";
+        title.placeholder = "タイトル";
+        title.classList.add("CustomListComponent-title","no-border-box");
+        title.value = pageObj["TITLE"];
+        title.onfocus = () => title.select();
+        {
+            // update page title
+            title.addEventListener("change", function(){
+                pageObj.TITLE = this.value.trim();
+            })
+        }
+
+        // pager
+        const pager = createDOM("div");
+        pager.classList.add("CustomListComponent-pager");
+
+        const prevBtn = createDOM("button");
+        prevBtn.textContent = "‹";
+        prevBtn.classList.add("CustomListComponent-pager-btn");
+
+        const pageLabel = createDOM("span");
+        pageLabel.textContent = `${currPageNo} / ${dataObj.DATA.length}`;
+        pageLabel.classList.add("CustomListComponent-pager-label");
+
+        const nextBtn = createDOM("button");
+        nextBtn.textContent = "›";
+        nextBtn.classList.add("CustomListComponent-pager-btn");
+
+        pager.append(prevBtn, pageLabel, nextBtn);
+
+        // settings
+        const settings = createDOM("span");
+        settings.classList.add("CustomListComponent-settings");
+        settings.textContent = "⚙";
+
+        // append header
+        innerHeader.append(title, pager, settings);
+        content.appendChild(innerHeader);
+
+        // events
+        {
+            // 前ページ
+            prevBtn.addEventListener("click", function(){
+                if(currPageNo >= 2) build(currPageNo-1)
+            })
+            // 次ページ
+            nextBtn.addEventListener("click", function(){
+                // なければ新規ページを作る
+                if(currPageNo == dataObj.DATA.length) dataObj.DATA.push(getDefaultPageObj());
+                build(currPageNo+1);
+            })
+        }
+
+        // =======================
+        // body (table)
+        // =======================
+        const tableWrap = createDOM("div");
+        tableWrap.classList.add("CustomListComponent-tableWrap");
+
+        const table = createDOM("table");
+        table.classList.add("CustomListComponent-table");
+
+        // thead
+        const thead = createDOM("thead");
+        const trHead = createDOM("tr");
+
+        // ===============
+        // col loop
+        // ===============
+        let idx_thead = 1;
+        for(let colObj of pageObj.COLUMNS){
+            const th = createDOM("th");
+            th.style.backgroundColor = "#1fa0bd";
+            {
+                // menu
+                th.addEventListener("contextmenu", function(e){
+                    e.preventDefault();
+                    let delOrder = {"printName":"この列を削除", "icon":svg_delete, "func":()=> ctrlCol(ctrlColTypes.DEL, pageObj, colObj, currPageNo), };
+                    let orderArr = [
+                        {"printName":"左に列を追加", "icon":svg_leftArrow, "func":()=> ctrlCol(ctrlColTypes.ADD_L, pageObj, colObj, currPageNo), },
+                        {"printName":"右に列を追加", "icon":svg_rightArrow, "func":()=> ctrlCol(ctrlColTypes.ADD_R, pageObj, colObj, currPageNo), },
+                    ];
+                    // 2カラム以上あれば削除可能
+                    if(pageObj.COLUMNS.length >= 2) orderArr.push(delOrder)
+                    createMenu(orderArr);
+                })
+                trHead.appendChild(th);
+            }
+            const input = createDOM("input");
+            {
+                input.value = colObj.name;
+                input.placeholder = `項目${idx_thead}`;
+                input.classList.add("no-border-box")
+                input.classList.add("must-Trans-BC")
+                input.style.backgroundColor = "";
+                input.style.color = "#ffff";
+                input.type = "text";
+                input.style.width = "85%"
+                input.onfocus = () => input.select();
+                // update column name
+                input.addEventListener("change", function(){
+                    colObj.name = this.value.trim();
+                })
+                th.appendChild(input);
+            }
+            idx_thead++;
+        }
+
+        thead.appendChild(trHead);
+        table.appendChild(thead);
+
+        // tbody
+        const tbody = createDOM("tbody");
+
+        // 操作用配列
+
+        // ==============
+        // row loop
+        // ==============
+        for(let rowObj of pageObj.ROWS){
+            const tr = createDOM("tr");
+            let arrTd = [];
+            
+            // 高さ復元
+            if(rowObj.CONFIG.HEIGHT){
+                tr.style.height = rowObj.CONFIG.HEIGHT;
+            } 
+
+            // col loop
+            for(let colObj of pageObj.COLUMNS){
+                const td = createDOM("td");
+                const textarea = createDOM("textarea");
+                textarea.value = rowObj.VALUES[colObj.id];
+                textarea.classList.add("no-border-box")
+                textarea.classList.add("must-Trans-BC")
+                textarea.style.width = "90%";
+                textarea.style.height = "90%";
+                // textarea.style.resize = "vertical";
+                textarea.style.resize = "none";
+                textarea.spellcheck = false;
+                // 復元
+                {
+                    // 高さ
+                    if(rowObj.CONFIG.HEIGHT){
+                        td.style.height = rowObj.CONFIG.HEIGHT;
+                    } 
+                    // 背景色
+                    propertyInitializer(rowObj.CONFIG, colObj.id, {});
+                    propertyInitializer(rowObj.CONFIG[colObj.id], "BGColor", "");
+                    td.style.backgroundColor = rowObj.CONFIG[colObj.id].BGColor;
+                }
+                // キー
+                td.dataset.keyData = colObj.id + "," + rowObj.id;
+                textarea.onfocus = ()=>textarea.select();
+                td.appendChild(textarea);
+                tr.appendChild(td);
+                {
+                    // update row data
+                    textarea.addEventListener("change", function(){
+                        rowObj.VALUES[colObj.id] = this.value;
+                    })
+                    // selected
+                    td.addEventListener("click", function(e){
+                        selTd(td, true);
+                    })
+                    // menu
+                    td.addEventListener("contextmenu", function(e){
+                        e.preventDefault();
+                        // 先に選択
+                        selTd(td, false);
+                        let delOrder = {"printName":"この行を削除", "icon":svg_delete, "func":()=> ctrlRow(ctrlRowTypes.DEL, pageObj, rowObj, currPageNo), };
+                        let orderArr = [
+                            {"printName":"上に行を追加", "icon":svg_OverArrow, "func":()=> ctrlRow(ctrlRowTypes.ADD_OVER, pageObj, rowObj, currPageNo), },
+                            {"printName":"下に行を追加", "icon":svg_DownArrow, "func":()=> ctrlRow(ctrlRowTypes.ADD_DOWN, pageObj, rowObj, currPageNo), },
+                            {"printName":"カラー", "icon":svg_palette, "func":()=> BGColorMenu(), },
+                        ];
+                        // 2行以上あれば削除可能
+                        if(pageObj.ROWS.length >= 2) orderArr.push(delOrder)
+                        createMenu(orderArr);
+                    })
+                    // 選択
+                    const className_selected_td = "selected-td-list-component";
+                    function selTd(pTd, beRemove){
+                        // 複数選択でなければ択一選択
+                        if(beRemove && !keydown("ctrlKey")) allRemoveClass(className_selected_td);
+                        // 選択or解除分岐
+                        if(keydown("ctrlKey") && pTd.classList.contains(className_selected_td)) pTd.classList.remove(className_selected_td);
+                        else pTd.classList.add(className_selected_td);
+                    }
+                    // 背景色変更
+                    const BGColorMenu = () => {
+                        let iconSpan = `<span class="notice" style="background-color: @@@ !important; border: 1px solid #c9c9c9;"></span>`;
+                        let orderArr = [
+                            {"printName":"ブルー",   "icon":iconSpan.replace("@@@", "#a5d6f1"), "func":()=> changeBGColor("#D9F1FF"), },
+                            {"printName":"イエロー", "icon":iconSpan.replace("@@@", "#f0e2a3"), "func":()=> changeBGColor("#FFF4C2"), },
+                            {"printName":"レッド",   "icon":iconSpan.replace("@@@", "#f1abab"), "func":()=> changeBGColor("#FFD6D6"), },
+                            {"printName":"グレー",   "icon":iconSpan.replace("@@@", "#cad5df"), "func":()=> changeBGColor("#E9EEF2"), },
+                            {"printName":"リセット", "icon":iconSpan.replace("@@@", "#FFFFFF"), "func":()=> changeBGColor(""), },
+                        ];
+                        createMenu(orderArr);
+
+                        const changeBGColor = (pColor) => {
+                            // 複数選択分ループ
+                            for(let el of getDOMArrByClassName(className_selected_td)){
+                                //memo: td.dataset.keyData = colObj.id + "," + rowObj.id;
+                                let colId = el.dataset.keyData.split(',')[0];
+                                let rowId = el.dataset.keyData.split(',')[1];
+                                // 更新
+                                let targetObj = pageObj.ROWS.find(b => b.id == rowId);
+                                propertyInitializer(targetObj.CONFIG, colId, {});
+                                propertyInitializer(targetObj.CONFIG[colId], "BGColor", "");
+                                targetObj.CONFIG[colId].BGColor = pColor;
+                            }
+                            // 再描画
+                            build(currPageNo)
+                        }
+                    }
+                }
+                arrTd.push(td);
+            }
+            {
+                // resize row height
+                tr.tabIndex = 0;
+                tr.addEventListener("wheel", function(e){
+                    if(keydown("Shift")) {
+                        e.preventDefault();
+                        // 増減
+                        let add = (e.deltaY < 0) ? 40 : -40;
+                        let newHeiht = parseInt(tr.offsetHeight) + add + "px";
+                        tr.style.height = newHeiht;
+                        // 全列同期
+                        for(let tmp of arrTd){
+                            tmp.style.height = newHeiht;
+                        }
+                        // update config
+                        rowObj.CONFIG.HEIGHT = newHeiht;
+                    }
+                })
+            }
+            tbody.appendChild(tr);
+        }
+        table.appendChild(tbody);
+
+        tableWrap.appendChild(table);
+        content.appendChild(tableWrap);
+    }
+
+    // -----------------------------------------------
+    // ページ単位のデフォルト新規オブジェクト取得
+    // -----------------------------------------------
+    function getDefaultPageObj(){
+        let arrRandomArr = getRandomStringArr20(6);
+        let tmpObj =  {
+            "ID": arrRandomArr[0],
+            "TITLE":`Page${dataObj.DATA.length + 1}`,
+            "COLUMNS": 
+            [
+                {"id":`${arrRandomArr[1]}`, "sortNo": 1, "name": ""},
+                {"id":`${arrRandomArr[2]}`, "sortNo": 2, "name": ""},
+                {"id":`${arrRandomArr[3]}`, "sortNo": 3, "name": ""},
+            ],
+            "ROWS":
+            [
+                {
+                    "id":`${arrRandomArr[4]}`, 
+                    "rowNo": 1,
+                    "CONFIG":
+                    {
+                        "WIDTH":"",
+                        "HEIGHT":"",
+                    },
+                    "VALUES":
+                    {
+                        // 動的キーは[]内で変数を適用
+                        [arrRandomArr[1]]: "",
+                        [arrRandomArr[2]]: "",
+                        [arrRandomArr[3]]: "",
+                    }
+                },
+                {
+                    "id":`${arrRandomArr[5]}`, 
+                    "rowNo": 2,
+                    "CONFIG":
+                    {
+                        "WIDTH":"",
+                        "HEIGHT":"",
+                    },
+                    "VALUES":
+                    {
+                        // 動的キーは[]内で変数を適用
+                        [arrRandomArr[1]]: "",
+                        [arrRandomArr[2]]: "",
+                        [arrRandomArr[3]]: "",
+                    }
+                },
+            ]
+        }
+        //-----------
+        return tmpObj;
+    }
+
+    // -----------------------------------------------
+    // 列操作
+    // -----------------------------------------------
+    let ctrlColTypes = {ADD_R:"ADD_R", ADD_L:"ADD_L", DEL:"DEL",}
+    function ctrlCol(pType, pageObj, colObj, currPageNo){
+        switch(pType){
+
+            // 列追加--------------------------
+            case ctrlColTypes.ADD_R:
+            case ctrlColTypes.ADD_L:{
+
+                // 新規ID・ソート番号
+                let newId = getRandomString20(pageObj.COLUMNS);
+                let newSortNo = colObj.sortNo + 1;
+                if(pType == ctrlColTypes.ADD_L) newSortNo = colObj.sortNo;
+
+                // ソート番号更新
+                for(let tmp of pageObj.COLUMNS){
+                    if(tmp.sortNo >= newSortNo) tmp.sortNo = tmp.sortNo+1;
+                    if(pType == ctrlRowTypes.ADD_L){
+                        if(tmp.sortNo >= rowObj.sortNo) tmp.sortNo = tmp.sortNo+1;
+                    }
+                    if(pType == ctrlRowTypes.ADD_R){
+                        if(tmp.sortNo >= newSortNo) tmp.sortNo = tmp.sortNo+1;
+                    }
+                }
+
+                // インサート
+                let newObj = {"id":newId, "sortNo":newSortNo, "name":""}
+                pageObj.COLUMNS.push(newObj);
+
+                // ROWSに追加
+                for(let tmp of pageObj.ROWS){
+                    tmp.VALUES[newId] = "";
+                }
+
+                // 再描画
+                build(currPageNo)
+                break;
+            }
+            // 列削除--------------------------
+            case ctrlColTypes.DEL:{
+
+                if(!confirm(`列 [${colObj.name}] を削除しますか？`)) break;
+
+                // カラム削除
+                pageObj.COLUMNS = pageObj.COLUMNS.filter(a => a.id != colObj.id);
+
+                // 対応する行情報も削除
+                for(let tmp of pageObj.ROWS){
+                    delete tmp.VALUES[colObj.id];
+                } 
+                
+                // 再描画
+                build(currPageNo)
+                break;
+            }
+        }
+    }
+
+    // -----------------------------------------------
+    // 行操作
+    // -----------------------------------------------
+    let ctrlRowTypes = {ADD_OVER:"ADD_OVER", ADD_DOWN:"ADD_DOWN", DEL:"DEL",}
+    function ctrlRow(pType, pageObj, rowObj, currPageNo){
+        switch(pType){
+
+            // 列追加--------------------------
+            case ctrlRowTypes.ADD_OVER:
+            case ctrlRowTypes.ADD_DOWN:{
+
+                let loopCnt = prompt("追加数を入力してください", 1);
+                if(!loopCnt){
+                    break;
+                }
+                if(isNaN(loopCnt)){
+                    alert("入力エラー")
+                    break;
+                }
+                if(loopCnt > 50){
+                    alert("最大50行まで一括追加できます")
+                    break;
+                }
+
+                for(let idx = 1; idx <= loopCnt; idx++){
+
+                    // 新規ID・ソート番号
+                    let newId = getRandomString20(pageObj.ROWS);
+                    let newRowNo = rowObj.rowNo + 1;
+                    if(pType == ctrlRowTypes.ADD_OVER) newRowNo = rowObj.rowNo;
+
+                    // ソート番号更新
+                    for(let tmp of pageObj.ROWS){
+                        if(pType == ctrlRowTypes.ADD_OVER){
+                            if(tmp.rowNo >= rowObj.rowNo) tmp.rowNo = tmp.rowNo+1;
+                        }
+                        if(pType == ctrlRowTypes.ADD_DOWN){
+                            if(tmp.rowNo >= newRowNo) tmp.rowNo = tmp.rowNo+1;
+                        }
+                    }
+
+                    // インサート
+                    let newObj = {
+                        "id":newId, 
+                        "rowNo":newRowNo,
+                        "CONFIG":
+                        {
+                            "WIDTH":"",
+                            "HEIGHT":"",
+                        },
+                        "VALUES":{}
+                    }
+                    // 必要ヘッダー分の初期情報
+                    for(let tmp of pageObj.COLUMNS){
+                        newObj.VALUES[tmp.id] = "";
+                    }
+                    pageObj.ROWS.push(newObj);
+                }
+
+                // 再描画
+                build(currPageNo)
+                break;
+            }
+            // 列削除--------------------------
+            case ctrlRowTypes.DEL:{
+
+                if(!confirm(`行${rowObj.rowNo}を削除しますか？`)) break;
+
+                // カラム削除
+                pageObj.ROWS = pageObj.ROWS.filter(a => a.id != rowObj.id);
+                
+                // 再描画
+                build(currPageNo)
+                break;
+            }
+        }
+    }
+
+    // =======================
+    // events
+    // =======================
+    // --------------------
+    // フレーム開閉
+    // --------------------
+    haederFrame.addEventListener("click", function(){
+        bodyFrame.hidden = !bodyFrame.hidden;
+    })
 
 
+
+    // return
+    return win;
+}
 
 
 
@@ -6780,4 +7444,564 @@ var mainData_TEST =
       "AI_AGENCY": []
     }
   ]
+}
+
+// ============================
+// テストデータ初期化
+// ============================
+function initTestData (){
+
+    // リストコンポーネント
+    testObj_listComponent = 
+    {
+    "DATA": [
+        {
+        "ID": "0UUJmXSOk27cUiPX7bed",
+        "TITLE": "開発メモビューア",
+        "COLUMNS": [
+            {
+            "id": "IIFhjaY0NFs1WzCY0dKL",
+            "sortNo": 3,
+            "name": "メニュー1"
+            },
+            {
+            "id": "fenq5Noxezpvw6CMHrqQ",
+            "sortNo": 5,
+            "name": "メニュー2"
+            },
+            {
+            "id": "qMSHy4SQqhs2km3Px0AI",
+            "sortNo": 6,
+            "name": "メモ分類"
+            },
+            {
+            "id": "drOQv3KArdsjoozpYvWU",
+            "sortNo": 7,
+            "name": "メモ"
+            }
+        ],
+        "ROWS": [
+            {
+            "id": "sPebdK6yAThVXr5gIrzQ",
+            "rowNo": 1,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "ワーク",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "デイリー記録",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "htrN3Z4Ov6WjO4n0QvMs",
+            "rowNo": 2,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "タスク管理",
+                "drOQv3KArdsjoozpYvWU": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "AXQOyLsBRnZHqGjNbmKO",
+            "rowNo": 3,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": "55px"
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "雑多メモ",
+                "drOQv3KArdsjoozpYvWU": "・プロパティどんどん拡張する\n・テストデータを毎回作るの無駄",
+                "qMSHy4SQqhs2km3Px0AI": "リストコンポーネント"
+            }
+            },
+            {
+            "id": "TAwd6rD3K8wCdrHUdzTu",
+            "rowNo": 4,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": "74px"
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "-",
+                "qMSHy4SQqhs2km3Px0AI": "-",
+                "drOQv3KArdsjoozpYvWU": "・なのでプロパティがなかったら作る初期化処理をする\n（具体的に、読むときはhasOwnProperty、なければ初期化。パッチじゃなくていい。）"
+            }
+            },
+            {
+            "id": "3rMR2tOoZ44jaTW5GLV5",
+            "rowNo": 5,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": "79px"
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "-",
+                "qMSHy4SQqhs2km3Px0AI": "-",
+                "drOQv3KArdsjoozpYvWU": "・デフォルトデータへの追加も要らないかも\n　どのみちhasownproperty判定と初期化処理は必須"
+            }
+            },
+            {
+            "id": "ngD0zIDyrYDkRIJjD26I",
+            "rowNo": 6,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "PGビューアー",
+                "drOQv3KArdsjoozpYvWU": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "BNqafRTzdA7JcXSHfXw9",
+            "rowNo": 7,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "ツール管理",
+                "drOQv3KArdsjoozpYvWU": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "hnzwX1F1KNTFsJyGBSw6",
+            "rowNo": 8,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "外部リンク",
+                "drOQv3KArdsjoozpYvWU": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "joB56qOigqEv3GdyosnU",
+            "rowNo": 9,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "リソース",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "プログラム階層",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "1oXnanCrKLGovsVhWef7",
+            "rowNo": 10,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "プログラム情報",
+                "drOQv3KArdsjoozpYvWU": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "iUhXAV1e2zJhj3xQXYWH",
+            "rowNo": 11,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "作業カテゴリ",
+                "drOQv3KArdsjoozpYvWU": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "tejo2YrxwLgkR6bMNi4O",
+            "rowNo": 12,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "タグ管理",
+                "drOQv3KArdsjoozpYvWU": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "59ACMNhKF1JhcTu2OAlC",
+            "rowNo": 13,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "-",
+                "fenq5Noxezpvw6CMHrqQ": "設定",
+                "drOQv3KArdsjoozpYvWU": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "usq3ErCcdhjihziVBRAC",
+            "rowNo": 14,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "AI",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "システム代行",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "MeYXfs1wVMkkWK37EIgC",
+            "rowNo": 15,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "JMYvIwJ78fKOAPGbAGtP",
+            "rowNo": 16,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "pwrZ1ZAVEz7QTcazVMWF",
+            "rowNo": 17,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "1Bsoc4w2zyWijddwuI3k",
+            "rowNo": 18,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "2GmO311GJjel0zVFqFtU",
+            "rowNo": 19,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "umfYTqrXk2jVh9dH3A5H",
+            "rowNo": 20,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "s6js4A9p41AsKsWESHKj",
+            "rowNo": 21,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "qomEAP6vrrrBXS8Nt5VD",
+            "rowNo": 22,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "igjkEdP08Ibq5WS3bZN5",
+            "rowNo": 23,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "kUVzT9FdL8YfoPv6m5aN",
+            "rowNo": 24,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "mrHlWMsGpGwNRQ9d51Gt",
+            "rowNo": 25,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "JPrhOykR590TvcBlNLpM",
+            "rowNo": 26,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "NdnaTkl1YsYZAgx72MN7",
+            "rowNo": 27,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "4agZA2swgoPGmocTw7xZ",
+            "rowNo": 28,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "Pr4N97nO7Lg5nAhAxxvt",
+            "rowNo": 29,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "QYs4MCe9dIunwpRcKwo0",
+            "rowNo": 30,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "Ck3wJu8NLTVrzyo2bgQe",
+            "rowNo": 31,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "SaafdOAhdrm1rQWLrJyO",
+            "rowNo": 32,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            },
+            {
+            "id": "V3vBxR6lQT4ir2R25HQA",
+            "rowNo": 33,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "IIFhjaY0NFs1WzCY0dKL": "",
+                "drOQv3KArdsjoozpYvWU": "",
+                "fenq5Noxezpvw6CMHrqQ": "",
+                "qMSHy4SQqhs2km3Px0AI": ""
+            }
+            }
+        ]
+        },
+        {
+        "ID": "IdCoT1gFXYrGh6I1EXRI",
+        "TITLE": "テストページ2",
+        "COLUMNS": [
+            {
+            "id": "7KDNUApcZjsQ87wS9L9j",
+            "sortNo": 1,
+            "name": "テスト項目１"
+            },
+            {
+            "id": "8SDpOscmcJoeP1qwlgYp",
+            "sortNo": 2,
+            "name": "テスト項目２"
+            }
+        ],
+        "ROWS": [
+            {
+            "id": "77MUjxATDtSJesRRzJjj",
+            "rowNo": 1,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "7KDNUApcZjsQ87wS9L9j": "階層",
+                "8SDpOscmcJoeP1qwlgYp": "ＰＧ"
+            }
+            },
+            {
+            "id": "9fj1A61QlFrPdHn6GAfu",
+            "rowNo": 2,
+            "CONFIG": {
+                "WIDTH": "",
+                "HEIGHT": ""
+            },
+            "VALUES": {
+                "7KDNUApcZjsQ87wS9L9j": "階層２",
+                "8SDpOscmcJoeP1qwlgYp": "ＰＧ２"
+            }
+            }
+        ]
+        }
+    ],
+    "ACTIVEPAGE": 1,
+    "CONFIG": {
+        "WIDTH": "1184px",
+        "HEIGHT": "496px"
+    }
+    }
+
+}
+// ============================
+// テスト実行用
+// ============================
+function executeTestAction(){
+    
+    // リストコンポーネントテスト用
+    document.body.appendChild(QuickListComponent(testObj_listComponent));
+
 }
